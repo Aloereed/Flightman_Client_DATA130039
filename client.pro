@@ -52,6 +52,8 @@ FORMS += \
 
 TRANSLATIONS += \
     client_zh_CN.ts
+RESOURCES += \
+    client_zh_CN.qm
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
