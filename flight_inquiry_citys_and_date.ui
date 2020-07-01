@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>flight_inquiry_citys_and_date</class>
+ <widget class="QWidget" name="flight_inquiry_citys_and_date">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1314</width>
+    <height>611</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>1291</width>
+     <height>581</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="2" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_4"/>
+      </item>
+      <item row="3" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Flight Infomation</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTableView" name="Flights"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2"/>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Departure City</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Arrival City</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Dearture Date</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QLineEdit" name="DepatureCity"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="ArrivalCity"/>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="DepartureDate"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Confirm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>Back</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>Cancel</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="UserStatus">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
