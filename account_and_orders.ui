@@ -76,7 +76,7 @@
         <item>
          <widget class="QTabWidget" name="orders">
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="finished_tab">
            <attribute name="title">
@@ -130,7 +130,7 @@
         <item>
          <widget class="QPushButton" name="buyticket_pushButton">
           <property name="text">
-           <string>Pay for Flighs</string>
+           <string>Buy Tickets</string>
           </property>
          </widget>
         </item>

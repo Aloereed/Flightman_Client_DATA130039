@@ -63,6 +63,7 @@ void recharge::on_Ok_pushButton_clicked()
     QByteArray bytePwd = Pwd.toLatin1(); //trasnform Password for safety.
     QByteArray bytePwdMd5 = QCryptographicHash::hash(bytePwd, QCryptographicHash::Md5);
     Pwd = bytePwdMd5.toHex();
+    qDebug()<<Pwd<<endl;
 
     if(ID != acct->getUserID()){
         QMessageBox::critical(this,"Hint","You can't recharge another account!");

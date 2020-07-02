@@ -82,8 +82,8 @@ void registration::on_buttonBox_clicked(QAbstractButton *button)
         dialog.setValue(30000);
 
         QString sql; //默认非会员状态，且初始账户余额为0
-        sql = QString("INSERT INTO user (ID,name,membership,account,password)"
-                      "VALUES('%1','%2',%3,'%4','%5')")
+        sql = QString("INSERT INTO user (ID,name,membership,account,password) "
+                      "VALUES('%1','%2',%3,%4,'%5')")
                 .arg(tran.ID).arg(tran.name).arg(0).arg(0).arg(tran.passwordmd5);
         QSqlQuery query;
         bool ok = query.exec(sql);
