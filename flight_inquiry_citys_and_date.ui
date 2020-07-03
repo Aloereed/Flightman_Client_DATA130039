@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Flight Query</string>
   </property>
   <widget class="QPushButton" name="pushButton_4">
    <property name="geometry">
