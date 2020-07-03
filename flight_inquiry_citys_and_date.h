@@ -27,6 +27,8 @@ private slots:
 
     void on_Flights_clicked(const QModelIndex &index);
 
+    void on_pushButton_4_clicked();
+
 private:
     Ui::flight_inquiry_citys_and_date *ui;
     QString UserID;

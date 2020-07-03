@@ -1,6 +1,8 @@
 #include "flight_inquiry_flightid.h"
 #include "ui_flight_inquiry_flightid.h"
 #include "flight_inquiry.h"
+#include "account_and_orders.h"
+#include "login.h"
 #include <QDebug>
 #include <QApplication>
 #include <QSqlDatabase>
@@ -10,6 +12,8 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QFile>
+
+extern account_and_orders * acct; //只有当用户进入到账户界面后，也即UserID!=""时，可以有效使用
 
 flight_inquiry_flightID::flight_inquiry_flightID(QWidget *parent,QString UserID,QString Password,QString Name) :
     QWidget(parent),
@@ -37,6 +41,7 @@ flight_inquiry_flightID::flight_inquiry_flightID(QWidget *parent,QString UserID,
     }
     else{
         ui->UserStatus->setText("User Information: "+Name);
+        ui->login_pushButton->hide();
     }
 }
 
@@ -126,6 +131,18 @@ void flight_inquiry_flightID::on_tableView_clicked(const QModelIndex &index)
         //如果没有登陆，则提示登陆账户后再买票，并结束该界面，进入到登陆界面
         //如果登陆了，则打开购票信息框
         qDebug()<<"你刚刚点击了订票按钮"<<endl;
-        qDebug()<<"你可以试试先登陆账户！"<<endl;
+        if(this->UserID==""){
+            //说明是以游客形式登陆的，提示其先进行账户登陆
+            QMessageBox::information(this,tr("Hint:"),tr("Before booking, You need to log in first."));
+            return;
+        }
     }
+}
+
+void flight_inquiry_flightID::on_login_pushButton_clicked()
+{
+    login *lgin = new login();
+    lgin->show();
+    QApplication::processEvents();
+    this->close();
 }

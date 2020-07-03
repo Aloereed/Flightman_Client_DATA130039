@@ -26,6 +26,8 @@ private slots:
 
     void on_tableView_clicked(const QModelIndex &index);
 
+    void on_login_pushButton_clicked();
+
 private:
     Ui::flight_inquiry_flightID *ui;
     QString UserID;

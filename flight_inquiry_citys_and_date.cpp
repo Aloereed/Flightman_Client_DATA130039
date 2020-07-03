@@ -2,6 +2,8 @@
 #include "ui_flight_inquiry_citys_and_date.h"
 #include "flight_inquiry.h"
 #include "mainclientwindow.h"
+#include "account_and_orders.h"
+#include "login.h"
 #include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -11,6 +13,8 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QFile>
+
+extern account_and_orders * acct; //只有当用户进入到账户界面后，也即UserID!=""时，可以有效使用
 
 flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
         QWidget *parent,QString UserID,QString Password, QString Mode,QString Name)
@@ -32,6 +36,7 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     }
     else{
         ui->UserStatus->setText("User Information: "+this->Name);
+        ui->pushButton_4->hide();
     }
 
     //只查询起降城市，不需要起飞日期
@@ -55,7 +60,7 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     ui->pushButton_2->setText(tr("Back"));
     ui->pushButton_3->setText(tr("Cancel"));
     ui->label_4->setText(tr("Flight Information:"));
-
+    ui->pushButton_4->setText(tr("Log In"));
     //layout()->setSizeConstraint(QLayout::SetFixedSize);
 
 }
@@ -170,5 +175,19 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         //如果没有登陆，则提示登陆账户后再买票，并结束该界面，进入到登陆界面
         //如果登陆了，则打开购票信息框
         qDebug()<<"你刚刚点击了订票按钮"<<endl;
+        if(this->UserID==""){
+            //说明是以游客形式登陆的，提示其先进行账户登陆
+            QMessageBox::information(this,tr("Hint:"),tr("Before booking, You need to log in first."));
+            return;
+        }
     }
+}
+
+//Btn: log in
+void flight_inquiry_citys_and_date::on_pushButton_4_clicked()
+{
+    login *lgin = new login();
+    lgin->show();
+    QApplication::processEvents();
+    this->close();
 }
