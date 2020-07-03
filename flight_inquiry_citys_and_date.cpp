@@ -47,7 +47,7 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
 
     ui->label->setText(tr("Departure City"));
     ui->DepatureCity->setEchoMode(QLineEdit::Normal);
-    ui->DepatureCity->setPlaceholderText(tr("Please Enter Your Depature City."));
+    ui->DepatureCity->setPlaceholderText(tr("Please Enter Your Departure City."));
 
     ui->label_2->setText(tr("Arrival City"));
     ui->ArrivalCity->setEchoMode(QLineEdit::Normal);
@@ -138,7 +138,6 @@ void flight_inquiry_citys_and_date::on_pushButton_clicked()
     model->setHeaderData(13,Qt::Horizontal,QString::fromUtf8(tr("Booking").toUtf8()));
     ui->Flights->setModel(model);
     ui->Flights->resizeColumnsToContents();
-
 
     //还需要实现每一行的"购票"的按钮；
 

@@ -11,15 +11,15 @@ flight_inquiry::flight_inquiry(QWidget *parent,QString UserID,QString Pwd,QStrin
     ui(new Ui::flight_inquiry)
 {
     ui->setupUi(this);
-    ui->groupBox->setTitle(tr("Query Mode:"));
-    ui->hint_label->setText(tr("Welcome to query."));
+    //ui->groupBox->setTitle(tr("Query Mode:"));
+    ui->hint_label->setText(tr("Please choose the way of inquery."));
     ui->QuerypushButton->setText(tr("Query"));
     ui->BackpushButton->setText(tr("Back"));
     ui->CancelpushButton->setText(tr("Cancel"));
     ui->CitysDate_radioButton->setText(tr("Citys and Date"));
     ui->CitysradioButton->setText(tr("Citys"));
     ui->FlightIDradioButton->setText(tr("Flight ID"));
-    ui->label->setText("");
+    //ui->label->setText("");
 
     ui->CitysDate_radioButton->click();
 
@@ -47,7 +47,7 @@ void flight_inquiry::greeting(QString ID, QString Password)
             if(query->next()){
                 //若查询成功，该账户和密码有效，提供欢迎语
                 QString gretting_words = "Hello "+this->Name+" !";
-                this->ui->label->setText(gretting_words);
+                //this->ui->label->setText(gretting_words);
             }
             else{
                 //查询失败，则认为是游客登陆
