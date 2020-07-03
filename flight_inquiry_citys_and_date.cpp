@@ -37,17 +37,24 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     //只查询起降城市，不需要起飞日期
     if(Mode == 'C'){
         ui->label_3->hide();
-        ui->DepartureDate->hide();
+        ui->dateEdit->hide();
     }
 
+    ui->label->setText(tr("Departure City"));
     ui->DepatureCity->setEchoMode(QLineEdit::Normal);
     ui->DepatureCity->setPlaceholderText(tr("Please Enter Your Depature City."));
 
+    ui->label_2->setText(tr("Arrival City"));
     ui->ArrivalCity->setEchoMode(QLineEdit::Normal);
     ui->ArrivalCity->setPlaceholderText(tr("Please Enter Your Arrival City."));
 
-    ui->DepartureDate->setEchoMode(QLineEdit::Normal);
-    ui->DepartureDate->setPlaceholderText(tr("Please Enter Your Depature Date. E.g. YY-MM-DD."));
+    ui->label_3->setText(tr("Departure Date"));
+    ui->dateEdit->setDate(QDate::currentDate());
+
+    ui->pushButton->setText(tr("Confirm"));
+    ui->pushButton_2->setText(tr("Back"));
+    ui->pushButton_3->setText(tr("Cancel"));
+    ui->label_4->setText(tr("Flight Information:"));
 
     //layout()->setSizeConstraint(QLayout::SetFixedSize);
 
@@ -79,7 +86,7 @@ void flight_inquiry_citys_and_date::on_pushButton_clicked()
     qDebug()<<Mode<<endl;
     QString dep_city = ui->DepatureCity->text();
     QString arv_city = ui->ArrivalCity->text();
-    QString dep_date = ui->DepartureDate->text();
+    QString dep_date = ui->dateEdit->text();
 
     //允许只按照起降城市查询；
     if (dep_city == ""||arv_city == ""){
