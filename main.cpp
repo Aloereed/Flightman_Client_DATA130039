@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
-    QString style_sheet = readTextFile(settings.value("theme",":/qss/ElegantDark.qss").toString());
+    QString style_sheet = readTextFile(settings.value("theme",":/qss/Aqua.qss").toString());
     a.setStyleSheet(style_sheet);
     MainWindow w;
     w.show();

@@ -26,7 +26,8 @@ SOURCES += \
     mainclientwindow.cpp \
     mainwindow.cpp \
     recharge.cpp \
-    registration.cpp
+    registration.cpp \
+    ticket_purchase.cpp
 
 HEADERS += \
     account_and_orders.h \
@@ -37,7 +38,8 @@ HEADERS += \
     mainclientwindow.h \
     mainwindow.h \
     recharge.h \
-    registration.h
+    registration.h \
+    ticket_purchase.h
 
 RESOURCES += \
     style.qss
@@ -51,7 +53,8 @@ FORMS += \
     mainclientwindow.ui \
     mainwindow.ui \
     recharge.ui \
-    registration.ui
+    registration.ui \
+    ticket_purchase.ui
 
 TRANSLATIONS += \
     client_zh_CN.ts

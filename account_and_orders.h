@@ -30,6 +30,8 @@ public:
 
     void BalanceRefresh();
 
+    int getMembership();
+
 private slots:
     void on_Buymem_pushButton_clicked();
 

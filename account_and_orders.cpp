@@ -106,6 +106,11 @@ void account_and_orders::BalanceRefresh()
     ui->account_label->setText(tr("Account Balance: ") + money_string + tr("￥"));
 }
 
+int account_and_orders::getMembership()
+{
+    return this->Membership;
+}
+
 void account_and_orders::on_Buymem_pushButton_clicked()
 {
     if (this->Money < 100){
