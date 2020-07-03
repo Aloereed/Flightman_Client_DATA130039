@@ -30,7 +30,7 @@ void MainClientWindow::on_pushButton_clicked()
     QApplication::processEvents();
     this->hide();
     */
-    flight_inquiry * flt_in = new flight_inquiry();
+    flight_inquiry * flt_in = new flight_inquiry(nullptr,"","","");
     flt_in->show();
     QApplication::processEvents();
     this->close();

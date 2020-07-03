@@ -23,6 +23,16 @@ login::login(QWidget *parent) :
 
     ui->Password->setEchoMode(QLineEdit::Password);
     ui->Password->setPlaceholderText(tr("Please Enter Your Password."));
+
+    ui->label->setText(tr("ID"));
+    ui->label_2->setText(tr("password"));
+    ui->label_5->setText(tr("No account yet?"));
+    ui->label_6->setText(tr("Want to go back?"));
+    ui->label_7->setText(tr("Want to quit?"));
+    ui->pushButton->setText(tr("Log In"));
+    ui->pushButton_2->setText(tr("Register Now"));
+    ui->pushButton_4->setText(tr("Back"));
+    ui->pushButton_5->setText(tr("Cancel"));
 }
 
 login::~login()
@@ -53,7 +63,7 @@ void login::on_pushButton_4_clicked()
 void login::on_pushButton_5_clicked()
 {
     qDebug()<<"You decide to quit."<<endl;
-    QApplication::quit();
+    this->close();
 }
 
 void login::on_pushButton_clicked()
@@ -84,7 +94,7 @@ void login::on_pushButton_clicked()
     }
     else
     {
-    QMessageBox::critical(this,"critical","The account doesn't exist.");
+    QMessageBox::critical(this,tr("critical"),tr("The account doesn't exist."));
     return;
     }
 }

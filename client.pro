@@ -39,6 +39,9 @@ HEADERS += \
     recharge.h \
     registration.h
 
+RESOURCES += \
+    style.qss
+
 FORMS += \
     account_and_orders.ui \
     flight_inquiry.ui \
