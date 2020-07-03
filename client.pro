@@ -55,6 +55,8 @@ FORMS += \
 
 TRANSLATIONS += \
     client_zh_CN.ts
+RESOURCES += \
+    client_zh_CN.qm
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -63,3 +65,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 ANDROID_EXTRA_LIBS +=    \ # modify the path
         $$PWD/libmariadb.so
+
+DISTFILES += \
+    android_sources/AndroidManifest.xml \
+    android_sources/png/icon.png
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android_sources
