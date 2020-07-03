@@ -4,6 +4,7 @@
 #include "mainclientwindow.h"
 #include "account_and_orders.h"
 #include "login.h"
+#include "ticket_purchase.h"
 #include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -188,6 +189,15 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         QString order_start = model->data(model->index(row,7)).toString();
         QString order_end = model->data(model->index(row,12)).toString();
 
+
+        if(order_start=="始发站") order_start="0";
+        else if(order_start=="终点站") order_start="-1";
+        else order_start=order_start.mid(1,1);
+
+        if(order_end=="始发站") order_end="0";
+        else if(order_end=="终点站") order_end="-1";
+        else order_end=order_end.mid(1,1);
+
         //检查该用户是否已经购买过同一趟航班。如果是，则提示用户不能重复购买，并取消预定操作
         QString sql_check_doublebooking = QString("SELECT COUNT(*) FROM ticket WHERE flight_id='%1' "
                 "AND ( CAST(departure_datetime AS date)='%2' "
@@ -196,10 +206,10 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         qDebug()<<sql_check_doublebooking<<endl;
         QSqlQuery *query_check_doublebooking = new QSqlQuery();
         query_check_doublebooking->exec(sql_check_doublebooking);
-        if(query_check_doublebooking->next()){ //查询成功，则表明此用户此前曾购买过同一趟的飞机，则此时提示已购买同一趟飞机，并禁止购买
+        query_check_doublebooking->next();//查询成功，则表明此用户此前曾购买过同一趟的飞机，则此时提示已购买同一趟飞机，并禁止购买
+        if(query_check_doublebooking->value(0).toInt())
             QMessageBox::information(this,tr("Hint:"),tr("You have already booked this flight. Please choose another flight."));
-            return;
-        }
+
 
 
         //根据所截取的信息来查询该趟航班是否有余票（在确认购买时仍需要查询是否有余票，以保持数据的一致性）
@@ -223,10 +233,8 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
             economy_remaining_num = query_remaining_tickets_econuomy->value(0).toInt();
         }
 
-     //   int business_remaining_num = query_remaining_tickets_business->value(0).toInt();
-     //   int economy_remaining_num  = query_remaining_tickets_econuomy->value(0).toInt();
-        qDebug()<<business_remaining_num<<endl;
-        qDebug()<<economy_remaining_num<<endl;
+        qDebug()<<"公务舱剩余座位数:"<<business_remaining_num<<endl;
+        qDebug()<<"经济舱剩余座位数:"<<economy_remaining_num<<endl;
 
         if (business_remaining_num==0 && economy_remaining_num==0){
             QMessageBox::information(this,tr("Hint:"),tr("There are no tickets left on this flight. Please choose another flight."));
