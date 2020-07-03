@@ -180,6 +180,16 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
             QMessageBox::information(this,tr("Hint:"),tr("Before booking, You need to log in first."));
             return;
         }
+
+        int row = index.row(); // 返回点击单元格的所在行数，从而根据行来提取相关航班的信息。
+        QAbstractItemModel* model = ui->Flights->model();
+        QString dep_date = model->data(model->index(row,0)).toString();
+        QString fligh_id = model->data(model->index(row,1)).toString();
+        QString order_start = model->data(model->index(row,7)).toString();
+        QString order_end = model->data(model->index(row,12)).toString();
+
+        //根据所截取的信息来查询该趟航班是否有余票（在确认购买时仍需要查询是否有余票，以保持数据的一致性）
+
     }
 }
 

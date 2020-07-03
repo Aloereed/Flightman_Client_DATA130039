@@ -35,6 +35,7 @@ flight_inquiry_flightID::flight_inquiry_flightID(QWidget *parent,QString UserID,
     ui->flightInfo_label->setText(tr("Flight Information:"));
     ui->Confirm_pushButton->setText(tr("Confirm"));
     ui->Cancel_pushButton->setText(tr("Cancel"));
+    ui->login_pushButton->setText(tr("Log In"));
 
     if (UserID==""){
         ui->UserStatus->setText(tr("User Information: Not logged in"));
@@ -132,10 +133,12 @@ void flight_inquiry_flightID::on_tableView_clicked(const QModelIndex &index)
         //如果登陆了，则打开购票信息框
         qDebug()<<"你刚刚点击了订票按钮"<<endl;
         if(this->UserID==""){
-            //说明是以游客形式登陆的，提示其先进行账户登陆
+            //说明是以游客形式预定的，提示其先进行账户登陆
             QMessageBox::information(this,tr("Hint:"),tr("Before booking, You need to log in first."));
             return;
         }
+        //如果是非游客形式的预定，则先根据点击的内容获取该行的航班信息
+
     }
 }
 
