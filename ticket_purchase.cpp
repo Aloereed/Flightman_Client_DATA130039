@@ -52,12 +52,14 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent, QString dep_date, QString flig
     ui->label_Price->setText(tr("Price"));
     QString PrimalPrice = this->PrimalPriceQuery(flightID,"1",orderstart,orderend);//经济舱的原价
     QString TotalDiscount = this->DiscountQuery(flightID,dep_date,"1");//经济舱的折扣
+    ui->label_DiscountEcon->setText(TotalDiscount);
     float price = PrimalPrice.toFloat()*TotalDiscount.toFloat();
     QString PriceStr = QString("%1").arg(price);
     ui->label_PriceEcon->setText(PriceStr);
 
     PrimalPrice = this->PrimalPriceQuery(flightID,"0",orderstart,orderend);//公务舱的原价
     TotalDiscount = this->DiscountQuery(flightID,dep_date,"0");//公务舱的折扣
+    ui->label_DiscountBusi->setText(TotalDiscount);
     price = PrimalPrice.toFloat()*TotalDiscount.toFloat();
     PriceStr = QString("%1").arg(price);
     ui->label_PriceBusi->setText(PriceStr);
