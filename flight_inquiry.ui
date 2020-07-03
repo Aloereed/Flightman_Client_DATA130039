@@ -86,7 +86,8 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">QRadioButton{color:white}</string>
+    <string notr="true">QRadioButton{color: rgb(0, 170, 255);}
+</string>
    </property>
    <property name="text">
     <string>RadioButton</string>
@@ -108,7 +109,8 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">QRadioButton{color:white}</string>
+    <string notr="true">QRadioButton{color: rgb(0, 170, 255);}
+</string>
    </property>
    <property name="text">
     <string>RadioButton</string>
@@ -130,7 +132,8 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">QRadioButton{color:white}</string>
+    <string notr="true">QRadioButton{color: rgb(0, 170, 255);}
+</string>
    </property>
    <property name="text">
     <string>RadioButton</string>
@@ -155,6 +158,7 @@
     <string>How do you want to query?</string>
    </property>
   </widget>
+  <zorder>hint_label</zorder>
   <zorder>QuerypushButton</zorder>
   <zorder>CancelpushButton</zorder>
   <zorder>BackpushButton</zorder>
