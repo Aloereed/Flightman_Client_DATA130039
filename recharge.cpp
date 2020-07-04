@@ -96,10 +96,10 @@ void recharge::on_Ok_pushButton_clicked()
     if (ok){
         acct->setMoney(amount);
         acct->BalanceRefresh(); //用于更新账户界面的余额信息
-        QMessageBox::information(this,"Hint","Recharge successfull.");
+        QMessageBox::information(this,"Hint","Recharge successfully.");
         this->close();
     }else{
-        QMessageBox::critical(this,"Hint","Something wrong with your recharging.");
+        QMessageBox::critical(this,"Hint","Something is wrong with your account recharging.");
     }
 
 }

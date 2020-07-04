@@ -35,7 +35,7 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     QSqlQuery * query_user = new QSqlQuery();
     query_user->exec(sql_user);
     QString money_string = QString("");
-    int money = 0;
+    float money = 0;
     int membership = 0;
     QString name = QString("");
     if(query_user->next()){
@@ -54,12 +54,12 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     ui->account_label->setText(tr("Account Balance: ") + money_string + tr("￥"));
 
     if(membership == 1){
-        ui->memInfo_label->setText(tr("Membership: √"));
+        ui->memInfo_label->setText(tr("Membership: Yes"));
         ui->Buymem_pushButton->setDisabled(true);
         //成为会员之后不需要再购买会员
     }
     else{
-        ui->memInfo_label->setText(tr("Membership: ×"));
+        ui->memInfo_label->setText(tr("Membership: No"));
     }
 
     ui->Buymem_pushButton->setText(tr("Pay for Membership (100￥)"));
@@ -85,12 +85,12 @@ account_and_orders::~account_and_orders()
     delete ui;
 }
 
-void account_and_orders::setMoney(int Money)
+void account_and_orders::setMoney(float Money)
 {
     this->Money = Money;
 }
 
-int account_and_orders::getMoney()
+float account_and_orders::getMoney()
 {
     return this->Money;
 }
@@ -118,7 +118,7 @@ void account_and_orders::on_Buymem_pushButton_clicked()
         return;
     }
 
-    int money = this->Money - 100;
+    float money = this->Money - 100;
 
     //更新数据库中的信息
     QString sql_user = QString("UPDATE user "
@@ -134,7 +134,7 @@ void account_and_orders::on_Buymem_pushButton_clicked()
     if(ok){
         this->Money -= 100;  //扣除会员费
         this->BalanceRefresh();
-        ui->memInfo_label->setText(tr("Membership: √"));
+        ui->memInfo_label->setText(tr("Membership: Yes"));
         ui->Buymem_pushButton->setDisabled(true);
 
         QMessageBox::information(this,tr("Hint:"),tr("Your payment has been done."));

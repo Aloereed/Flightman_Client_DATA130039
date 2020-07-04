@@ -22,12 +22,24 @@ public:
     QString DiscountQuery(QString flightID,QString depDate,QString classType);
     QString CompanyQuery(QString flightID);
     QString TicketsLeftQuery(QString flightID,QString depDate,QString order_start,QString order_end,QString classType);
+    QString getRandomString(int length);
+
     void TicketsLeftRefresh();
     void BalanceRefresh();
+
+    // 这四个函数用于更新数据库中与购票相关连的表信息
+    void Payment(QString UserID,QString balance,QString price,
+                 QString flightID,QString,QString dep_date,QString dep_time,QString order_start,QString order_end,
+                 QString classType,QString companyID); //支付机票价格，余额更新
+//    void TicketsRecordInsertion();
+//    void TicketsPurchaseRecordInsertion();
+//    void TicketsLeftNumRefresh();
 
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_pushButton_Refresh_clicked();
 
 private:
     Ui::Ticket_Purchase *ui;

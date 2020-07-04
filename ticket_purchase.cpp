@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QDateTime>
 
 extern account_and_orders * acct;
 
@@ -69,11 +70,17 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent, QString dep_date, QString flig
     PriceStr = QString("%1").arg(price);
     ui->label_PriceBusi->setText(PriceStr);
 
+    QString companyID = flightID.mid(0,2); //航班号的前两位为航空公司的代码
+
 
     this->BalanceRefresh();
 
     ui->pushButton->setText(tr("Purchase"));
+    ui->pushButton_Refresh->setText(tr("Refresh"));
 
+    qDebug()<<dep_date<<endl;
+    qDebug()<<dep_time<<endl;
+    qDebug()<<dep_date+" "+dep_time<<endl;
 }
 
 
@@ -150,6 +157,28 @@ QString Ticket_Purchase::TicketsLeftQuery(QString flightID, QString depDate, QSt
         return TicketsLeft;
 }
 
+QString Ticket_Purchase::getRandomString(int length)
+{
+    qsrand(QDateTime::currentMSecsSinceEpoch());//为随机值设定一个seed
+
+    //const char chrs[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const char chrs[] = "0123456789";
+    int chrs_size = sizeof(chrs);
+
+    char* ch = new char[length + 1];
+    memset(ch, 0, length + 1);
+    int randomx = 0;
+    for (int i = 0; i < length; ++i)
+    {
+        randomx= rand() % (chrs_size - 1);
+        ch[i] = chrs[randomx];
+    }
+
+    QString ret(ch);
+    delete[] ch;
+    return ret;
+}
+
 void Ticket_Purchase::TicketsLeftRefresh() //更新一下界面的ticketLeft
 {
     ui->label_remainEcon->setText(this->TicketsLeftQuery(this->flightID,this->depature_date,this->orderstart,this->orderend,"1"));//显示经济舱票价
@@ -158,22 +187,48 @@ void Ticket_Purchase::TicketsLeftRefresh() //更新一下界面的ticketLeft
 
 void Ticket_Purchase::BalanceRefresh()
 {
-    int balance = acct->getMoney();
+    float balance = acct->getMoney();
     QString money_string = QString("%1").arg(balance);
     ui->label_Balance->setText(tr("Balance:"));
     ui->label_BalanceMoney->setText(money_string);//设置账户余额
 }
 
+void Ticket_Purchase::Payment(QString UserID, QString balance, QString price, QString flightID,
+                              QString, QString dep_date, QString dep_time,
+                              QString order_start, QString order_end, QString classType,QString companyID)
+{
+    //能进入则说明机票价一定小于等于用户账户余额
+    float newBalance = balance.toFloat()-price.toFloat(); //计算支付票价后的账户余额
+    QString ticketID = companyID+this->getRandomString(11); //生成合法的 ticket_id
+    QString sql = QString("SELECT ticket_id FROM ticket WHERE ticket_id='%1'").arg(ticketID);
+    QSqlQuery *query = new QSqlQuery();
+    query->exec(sql);
+    while (query->next()) {//只要有重复，就继续生成随机数，直至无重复
+        ticketID = companyID+this->getRandomString(11);
+        sql = QString("SELECT ticket_id FROM ticket WHERE ticket_id='%1'").arg(ticketID);
+        query->clear();
+        query->exec(sql);
+    }
+    //接下来写一个SQL语句，用事务表示，执行4个已经写好的存储过程，确保数据库中数据的一致性
+    //4个存储过程分别位：balanceRefresh、 TicketsRecordInsertion、TicketsPurchaseRecordInsertion、TicketsLeftNumRefresh
+
+}
+
+
+
+void Ticket_Purchase::on_pushButton_Refresh_clicked()
+{
+    this->BalanceRefresh();
+    this->TicketsLeftRefresh();
+}
+
+
+
 //Btn: purchase
 void Ticket_Purchase::on_pushButton_clicked()
 {
     qDebug()<<"你刚刚点击了购买按钮！"<<endl;
-    //检查此时能否购票，即查询一遍有无余票剩余
-    //若可以购票，则相应的有如下的结果：（如下结果按照事务来处理！）
-    //用户自身的余额要扣除相应对等的数额（如果数额不够，则提示“余额不足，无法购票”）
-    //ticket里面增加相应记录，ticket_purchase里面也要增加相应记录
-    //余票数目减一，也即是相应航程覆盖的区间的剩余票数都减一
-    //由于购票只算人头，那么值机的部分与此独立
+    //检查此时能否购票，即查询一遍有无余票剩余，以及相关属性是否正常
     if(ui->radioButton_econ->isChecked()){//用户选择购买经济舱
         if(ui->label_PriceEcon->text()=="-1"){
             QMessageBox::information(this,tr("Hint:"),tr("This flight is NOT available now."));
@@ -192,6 +247,12 @@ void Ticket_Purchase::on_pushButton_clicked()
         }
         // 购票标准成立，则接下进行具体的后续改动
         qDebug()<<"正在进行购票处理，请稍等..."<<endl;
+
+        //若可以购票，则相应的有如下的结果：（如下结果按照事务来处理！）
+        //用户自身的余额要扣除相应对等的数额（如果数额不够，则提示“余额不足，无法购票”）
+        //ticket里面增加相应记录，ticket_purchase里面也要增加相应记录
+        //余票数目减一，也即是相应航程覆盖的区间的剩余票数都减一
+        //由于购票只算人头，那么值机的部分与此独立
 
 
     }else{//用户选择公务舱

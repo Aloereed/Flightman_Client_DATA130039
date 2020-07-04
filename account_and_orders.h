@@ -23,9 +23,9 @@ public:
 
     void setUserID(QString ID);
     void setPassword(QString Pwd);
-    void setMoney(int Money);
+    void setMoney(float Money);
 
-    int getMoney();
+    float getMoney();
     QString getUserID();
 
     void BalanceRefresh();
@@ -48,7 +48,7 @@ private:
 
     QString UserID;
     QString Password;
-    int Money;
+    float Money;
     int Membership;
     QString Name;
 };
