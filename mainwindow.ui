@@ -286,8 +286,13 @@
      <string>Connect</string>
     </property>
     <property name="icon">
-     <iconset resource="../build-client-Desktop_Qt_5_14_2_MinGW_64_bit-Debug/debug/qmake_qmake_immediate.qrc">
-      <normaloff>:/qss/Aqua.qss</normaloff>:/qss/Aqua.qss</iconset>
+     <iconset>
+      <normaloff>:/new/loginbtn/loginbtn.png</normaloff>
+      <normalon>:/new/loginbtn/loginbtn.png</normalon>
+      <activeoff>:/new/loginbtn/loginbtn.png</activeoff>
+      <activeon>:/new/loginbtn/loginbtn.png</activeon>
+      <selectedoff>:/new/loginbtn/loginbtn.png</selectedoff>
+      <selectedon>:/new/loginbtn/loginbtn.png</selectedon>:/new/loginbtn/loginbtn.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -306,14 +311,12 @@
      <x>0</x>
      <y>0</y>
      <width>423</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="../build-client-Desktop_Qt_5_14_2_MinGW_64_bit-Debug/debug/qmake_qmake_immediate.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

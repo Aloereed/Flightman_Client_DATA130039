@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/new/loginbtn">
+        <file>loginbtn.png</file>
+    </qresource>
+</RCC>

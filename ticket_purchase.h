@@ -22,6 +22,8 @@ public:
     QString DiscountQuery(QString flightID,QString depDate,QString classType);
     QString CompanyQuery(QString flightID);
     QString TicketsLeftQuery(QString flightID,QString depDate,QString order_start,QString order_end,QString classType);
+    void TicketsLeftRefresh();
+    void BalanceRefresh();
 
 
 private slots:

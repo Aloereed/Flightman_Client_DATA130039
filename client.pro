@@ -42,6 +42,7 @@ HEADERS += \
     ticket_purchase.h
 
 RESOURCES += \
+    loginbtn.qrc \
     style.qss
 
 FORMS += \

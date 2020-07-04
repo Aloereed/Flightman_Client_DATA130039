@@ -3,6 +3,7 @@
 #include "account_and_orders.h"
 #include <QDebug>
 #include <QSqlQuery>
+#include <QMessageBox>
 
 extern account_and_orders * acct;
 
@@ -47,9 +48,13 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent, QString dep_date, QString flig
     ui->label_type->setText(tr("Class Type"));
     //自行查询余票数
     ui->label_remainingTickets->setText(tr("Tickets Left"));
+    this->TicketsLeftRefresh();
+//    ui->label_remainEcon->setText(this->TicketsLeftQuery(flightID,dep_date,orderstart,orderend,"1"));//显示经济舱余票
+//    ui->label_reaminingBusi->setText(this->TicketsLeftQuery(flightID,dep_date,orderstart,orderend,"0"));//显示公务舱余票
 
-    //自行查询价格
+    //自行查询价格与折扣
     ui->label_Price->setText(tr("Price"));
+    ui->label_Discount->setText(tr("Discount"));
     QString PrimalPrice = this->PrimalPriceQuery(flightID,"1",orderstart,orderend);//经济舱的原价
     QString TotalDiscount = this->DiscountQuery(flightID,dep_date,"1");//经济舱的折扣
     ui->label_DiscountEcon->setText(TotalDiscount);
@@ -64,13 +69,8 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent, QString dep_date, QString flig
     PriceStr = QString("%1").arg(price);
     ui->label_PriceBusi->setText(PriceStr);
 
-    //自行查询折扣
-    ui->label_Discount->setText(tr("Discount"));
 
-    int balance = acct->getMoney();
-    QString money_string = QString("%1").arg(balance);
-    ui->label_Balance->setText(tr("Balance:"));
-    ui->label_BalanceMoney->setText(money_string);//设置账户余额
+    this->BalanceRefresh();
 
     ui->pushButton->setText(tr("Purchase"));
 
@@ -135,6 +135,35 @@ QString Ticket_Purchase::CompanyQuery(QString flightID)
     return company;
 }
 
+//用于查询对应日期的航班的对应区间的座位存留量
+QString Ticket_Purchase::TicketsLeftQuery(QString flightID, QString depDate, QString order_start, QString order_end, QString classType)
+{
+        QString sql_remaining_tickets = QString("CALL remaining_tickets_num('%1','%2',%3,%4,%5)"
+                                                ).arg(flightID).arg(depDate).arg(order_start).arg(order_end).arg(classType);
+
+        QSqlQuery * query_ticketsLeft = new QSqlQuery();
+        query_ticketsLeft->exec(sql_remaining_tickets);
+        QString TicketsLeft = "0";//如果查询无结果，默认为0，无余票！
+        if(query_ticketsLeft->next()){
+            TicketsLeft = query_ticketsLeft->value(0).toString();
+        }
+        return TicketsLeft;
+}
+
+void Ticket_Purchase::TicketsLeftRefresh() //更新一下界面的ticketLeft
+{
+    ui->label_remainEcon->setText(this->TicketsLeftQuery(this->flightID,this->depature_date,this->orderstart,this->orderend,"1"));//显示经济舱票价
+    ui->label_reaminingBusi->setText(this->TicketsLeftQuery(this->flightID,this->depature_date,this->orderstart,this->orderend,"0"));//显示公务舱余票
+}
+
+void Ticket_Purchase::BalanceRefresh()
+{
+    int balance = acct->getMoney();
+    QString money_string = QString("%1").arg(balance);
+    ui->label_Balance->setText(tr("Balance:"));
+    ui->label_BalanceMoney->setText(money_string);//设置账户余额
+}
+
 //Btn: purchase
 void Ticket_Purchase::on_pushButton_clicked()
 {
@@ -145,4 +174,44 @@ void Ticket_Purchase::on_pushButton_clicked()
     //ticket里面增加相应记录，ticket_purchase里面也要增加相应记录
     //余票数目减一，也即是相应航程覆盖的区间的剩余票数都减一
     //由于购票只算人头，那么值机的部分与此独立
+    if(ui->radioButton_econ->isChecked()){//用户选择购买经济舱
+        if(ui->label_PriceEcon->text()=="-1"){
+            QMessageBox::information(this,tr("Hint:"),tr("This flight is NOT available now."));
+            return;
+        }
+        this->TicketsLeftRefresh();
+        if(ui->label_remainEcon->text()=="0"){
+            QMessageBox::information(this,tr("Hint:"),tr("There are no tickets LEFT for economy class!"));
+            return;
+        }
+        //具体的买票细节
+        if(ui->label_BalanceMoney->text().toFloat()<ui->label_PriceEcon->text().toFloat()){
+            //账户余额不足，提示充值
+            QMessageBox::information(this,tr("Hint:"),tr("Your account balance is not enough. Please recharge your account."));
+            return;
+        }
+        // 购票标准成立，则接下进行具体的后续改动
+        qDebug()<<"正在进行购票处理，请稍等..."<<endl;
+
+
+    }else{//用户选择公务舱
+        if(ui->label_PriceBusi->text()=="-1"){
+            QMessageBox::information(this,tr("Hint:"),tr("This flight is NOT available now."));
+            return;
+        }
+        this->TicketsLeftRefresh();
+        if(ui->label_reaminingBusi ->text()=="0"){
+            QMessageBox::information(this,tr("Hint:"),tr("There are no tickets LEFT for business class!"));
+            return;
+         }
+        //具体的买票细节
+        if(ui->label_BalanceMoney->text().toFloat()<ui->label_PriceBusi->text().toFloat()){
+            //账户余额不足，提示充值
+            QMessageBox::information(this,tr("Hint:"),tr("Your account balance is not enough. Please recharge your account."));
+            return;
+        }
+        // 购票标准成立，则接下进行具体的后续改动
+        qDebug()<<"正在进行购票处理，请稍等..."<<endl;
+
+   }
 }
