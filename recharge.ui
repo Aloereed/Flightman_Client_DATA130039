@@ -10,14 +10,26 @@
     <height>220</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Yu Gothic UI Semilight</family>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Recharge</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="Hint_label">
+       <property name="font">
+        <font>
+         <family>Yu Gothic UI Semilight</family>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>TextLabel</string>
        </property>
@@ -29,6 +41,12 @@
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
           <widget class="QLabel" name="ID_label">
+           <property name="font">
+            <font>
+             <family>Yu Gothic UI Semilight</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
@@ -36,6 +54,12 @@
          </item>
          <item>
           <widget class="QLabel" name="Pwd_label">
+           <property name="font">
+            <font>
+             <family>Yu Gothic UI Semilight</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
@@ -43,6 +67,12 @@
          </item>
          <item>
           <widget class="QLabel" name="Amount_label">
+           <property name="font">
+            <font>
+             <family>Yu Gothic UI Semilight</family>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
@@ -68,19 +98,6 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QPushButton" name="Ok_pushButton">
          <property name="text">
           <string>PushButton</string>
@@ -88,37 +105,11 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>78</width>
-           <height>18</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <widget class="QPushButton" name="Back_pushButton">
          <property name="text">
           <string>PushButton</string>
          </property>
         </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </item>

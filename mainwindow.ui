@@ -242,6 +242,9 @@
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true">CommandLinkButton{text-align:center}</string>
+      </property>
       <property name="text">
        <string>                 Connect</string>
       </property>
@@ -274,6 +277,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../build-client-Desktop_Qt_5_14_2_MinGW_64_bit-Debug/debug/qmake_qmake_immediate.qrc"/>
+ </resources>
  <connections/>
 </ui>
