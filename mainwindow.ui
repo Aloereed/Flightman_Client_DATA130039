@@ -9,12 +9,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>423</width>
-    <height>432</height>
+    <width>316</width>
+    <height>294</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -29,289 +29,255 @@
    <string>Login</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="connGroupBox">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>30</y>
-      <width>421</width>
-      <height>291</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Yu Gothic UI Semilight</family>
-     </font>
-    </property>
-    <property name="title">
-     <string>Connection settings</string>
-    </property>
-    <widget class="QLabel" name="textLabel5_2">
-     <property name="geometry">
-      <rect>
-       <x>12</x>
-       <y>201</y>
-       <width>33</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Yu Gothic UI Semilight</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>P&amp;ort:</string>
-     </property>
-     <property name="buddy">
-      <cstring>portSpinBox</cstring>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="editPassword">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>120</y>
-       <width>180</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="echoMode">
-      <enum>QLineEdit::Password</enum>
-     </property>
-    </widget>
-    <widget class="QSpinBox" name="portSpinBox">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>200</y>
-       <width>180</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Yu Gothic UI Semilight</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="specialValueText">
-      <string>Default</string>
-     </property>
-     <property name="minimum">
-      <number>-1</number>
-     </property>
-     <property name="maximum">
-      <number>65535</number>
-     </property>
-     <property name="value">
-      <number>-1</number>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="editHostname">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>160</y>
-       <width>180</width>
-       <height>30</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="editUsername">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>80</y>
-       <width>180</width>
-       <height>30</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="textLabel3">
-     <property name="geometry">
-      <rect>
-       <x>12</x>
-       <y>41</y>
-       <width>109</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Yu Gothic UI Semilight</family>
-       <pointsize>11</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Database Name:</string>
-     </property>
-     <property name="buddy">
-      <cstring>editDatabase</cstring>
-     </property>
-    </widget>
-    <widget class="QLabel" name="textLabel5">
-     <property name="geometry">
-      <rect>
-       <x>12</x>
-       <y>161</y>
-       <width>76</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Yu Gothic UI Semilight</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>&amp;Hostname:</string>
-     </property>
-     <property name="buddy">
-      <cstring>editHostname</cstring>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="editDatabase">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>40</y>
-       <width>180</width>
-       <height>30</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="textLabel4">
-     <property name="geometry">
-      <rect>
-       <x>12</x>
-       <y>81</y>
-       <width>75</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Yu Gothic UI Semilight</family>
-       <pointsize>12</pointsize>
-       <underline>false</underline>
-      </font>
-     </property>
-     <property name="text">
-      <string>&amp;Username:</string>
-     </property>
-     <property name="buddy">
-      <cstring>editUsername</cstring>
-     </property>
-    </widget>
-    <widget class="QLabel" name="textLabel4_2">
-     <property name="geometry">
-      <rect>
-       <x>12</x>
-       <y>121</y>
-       <width>70</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Yu Gothic UI Semilight</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>&amp;Password:</string>
-     </property>
-     <property name="buddy">
-      <cstring>editPassword</cstring>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBox">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>250</y>
-       <width>211</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Yu Gothic UI Semilight</family>
-       <pointsize>10</pointsize>
-      </font>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::LeftToRight</enum>
-     </property>
-     <property name="text">
-      <string>Connect to the default Database</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QCommandLinkButton" name="commandLinkButton">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>330</y>
-      <width>101</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Yu Gothic UI Semilight</family>
-      <pointsize>16</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::RightToLeft</enum>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QCommandLinkButton{qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));border:1px,solid,rgb(179, 179, 179)}
+   <layout class="QFormLayout" name="formLayout">
+    <item row="1" column="0">
+     <layout class="QGridLayout" name="gridLayout_2"/>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLineEdit" name="editDatabase"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="editUsername"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="editPassword">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="editHostname"/>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="portSpinBox">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI Semilight</family>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="specialValueText">
+           <string>Default</string>
+          </property>
+          <property name="minimum">
+           <number>-1</number>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>-1</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI Semilight</family>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Connect to the default Database</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="textLabel3">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI Semilight</family>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Database Name:</string>
+          </property>
+          <property name="buddy">
+           <cstring>editDatabase</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel4">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI Semilight</family>
+            <pointsize>12</pointsize>
+            <underline>false</underline>
+           </font>
+          </property>
+          <property name="text">
+           <string>&amp;Username:</string>
+          </property>
+          <property name="buddy">
+           <cstring>editUsername</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel4_2">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI Semilight</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>&amp;Password:</string>
+          </property>
+          <property name="buddy">
+           <cstring>editPassword</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel5">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI Semilight</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>&amp;Hostname:</string>
+          </property>
+          <property name="buddy">
+           <cstring>editHostname</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="textLabel5_2">
+          <property name="font">
+           <font>
+            <family>Yu Gothic UI Semilight</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>P&amp;ort:</string>
+          </property>
+          <property name="buddy">
+           <cstring>portSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item row="1" column="1">
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="1">
+       <widget class="QCommandLinkButton" name="commandLinkButton">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="font">
+         <font>
+          <family>Yu Gothic UI Semilight</family>
+          <pointsize>16</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QCommandLinkButton{text-align:center}
 
 </string>
-    </property>
-    <property name="text">
-     <string>Connect</string>
-    </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>:/new/loginbtn/loginbtn.png</normaloff>
-      <normalon>:/new/loginbtn/loginbtn.png</normalon>
-      <activeoff>:/new/loginbtn/loginbtn.png</activeoff>
-      <activeon>:/new/loginbtn/loginbtn.png</activeon>
-      <selectedoff>:/new/loginbtn/loginbtn.png</selectedoff>
-      <selectedon>:/new/loginbtn/loginbtn.png</selectedon>:/new/loginbtn/loginbtn.png</iconset>
-    </property>
-    <property name="iconSize">
-     <size>
-      <width>50</width>
-      <height>50</height>
-     </size>
-    </property>
-    <property name="autoExclusive">
-     <bool>false</bool>
-    </property>
-   </widget>
+        </property>
+        <property name="text">
+         <string>      Connect</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../build-client-Desktop_Qt_5_14_2_MinGW_64_bit-Debug/debug/qmake_qmake_immediate.qrc">
+          <normaloff>:/qss/Aqua.qss</normaloff>:/qss/Aqua.qss</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>50</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>423</width>
-     <height>25</height>
+     <width>316</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
