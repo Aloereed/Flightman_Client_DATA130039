@@ -185,6 +185,13 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         QAbstractItemModel* model = ui->Flights->model();
         QString dep_date = model->data(model->index(row,0)).toString();
         QString fligh_id = model->data(model->index(row,1)).toString();
+        QString schedule = model->data(model->index(row,2)).toString();
+        QString dep_airportName = model->data(model->index(row,4)).toString();
+        QString dep_city = model->data(model->index(row,5)).toString();
+        QString dep_time = model->data(model->index(row,6)).toString();
+        QString arv_airportName = model->data(model->index(row,9)).toString();
+        QString arv_city = model->data(model->index(row,10)).toString();
+        QString arv_time = model->data(model->index(row,11)).toString();
         QString order_start = model->data(model->index(row,7)).toString();
         QString order_end = model->data(model->index(row,12)).toString();
 
@@ -242,7 +249,9 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         qDebug()<<"仍有余票，允许购买"<<endl;
         //否则，还剩余有机票可以购买，则进入到购票界面。
 
-
+        Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
+                                                                  arv_airportName,arv_city,arv_time,order_start,order_end);
+        purchase_interface->show();
     }
 }
 

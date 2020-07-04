@@ -274,8 +274,6 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="../build-client-Desktop_Qt_5_14_2_MinGW_64_bit-Debug/debug/qmake_qmake_immediate.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
