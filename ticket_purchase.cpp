@@ -70,9 +70,6 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent, QString dep_date, QString flig
     PriceStr = QString("%1").arg(price);
     ui->label_PriceBusi->setText(PriceStr);
 
-    QString companyID = flightID.mid(0,2); //航班号的前两位为航空公司的代码
-
-
     this->BalanceRefresh();
 
     ui->pushButton->setText(tr("Purchase"));
@@ -194,12 +191,13 @@ void Ticket_Purchase::BalanceRefresh()
 }
 
 void Ticket_Purchase::Payment(QString UserID, QString balance, QString price, QString flightID,
-                              QString, QString dep_date, QString dep_time,
+                              QString dep_date, QString dep_time,
                               QString order_start, QString order_end, QString classType,QString companyID)
 {
     //能进入则说明机票价一定小于等于用户账户余额
     float newBalance = balance.toFloat()-price.toFloat(); //计算支付票价后的账户余额
     QString ticketID = companyID+this->getRandomString(11); //生成合法的 ticket_id
+    QString dep_datetime = dep_date+" "+dep_time;
     QString sql = QString("SELECT ticket_id FROM ticket WHERE ticket_id='%1'").arg(ticketID);
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
@@ -212,6 +210,38 @@ void Ticket_Purchase::Payment(QString UserID, QString balance, QString price, QS
     //接下来写一个SQL语句，用事务表示，执行4个已经写好的存储过程，确保数据库中数据的一致性
     //4个存储过程分别位：balanceRefresh、 TicketsRecordInsertion、TicketsPurchaseRecordInsertion、TicketsLeftNumRefresh
 
+    this->TicketsLeftRefresh();
+    if(classType==1){
+        if(ui->label_remainEcon->text().toInt()==0){
+            QMessageBox::information(this,tr("Hint:"),tr("There are no tickets LEFT for economy class!"));
+            return;
+        }
+    }else{
+        if(ui->label_reaminingBusi->text().toInt()==0){
+            QMessageBox::information(this,tr("Hint:"),tr("There are no tickets LEFT for business class!"));
+            return;
+        }
+    }
+    //执行一次事务，保持数据一致性
+    sql = QString("BEGIN; "
+                  "CALL balanceRefresh('%1',%2); "
+                  "CALL TicketsRecordInsertion('%3','%4','%5','%6',%7,%8,%9); "
+                  "CALL TicketsPurchaseRecordInsertion('%10','%11',%12); "
+                  "CALL TicketsLeftNumRefresh('%13','%14',%15,%16,%17); "
+                  "COMMIT;").arg(UserID).arg(newBalance).arg(ticketID).arg(UserID).arg(flightID)
+            .arg(dep_datetime).arg(order_start).arg(order_end).arg(classType).arg(UserID).arg(ticketID)
+            .arg(price).arg(flightID).arg(dep_date).arg(order_start).arg(order_end).arg(classType);
+    query->clear();
+    qDebug()<<sql<<endl;
+    bool ok = query->exec(sql);
+    if(ok){//说明订票操作成功，提醒用户查看其账户记录
+        QMessageBox::information(this,tr("Hint:"),tr("Successful! "
+                                                     "Please remember to check your orders in your account."));
+        return;
+    }else{//说明本次事务执行出现了异常，提示卖家再试一次
+        QMessageBox::information(this,tr("Hint:"),tr("Failed. Please try again."));
+        return;
+    }
 }
 
 
@@ -253,7 +283,10 @@ void Ticket_Purchase::on_pushButton_clicked()
         //ticket里面增加相应记录，ticket_purchase里面也要增加相应记录
         //余票数目减一，也即是相应航程覆盖的区间的剩余票数都减一
         //由于购票只算人头，那么值机的部分与此独立
-
+        QString moneyStr = QString("%1").arg(acct->getMoney());
+        this->Payment(acct->getUserID(),moneyStr,ui->label_PriceEcon->text(),this->flightID,this->depature_date
+                      ,this->departure_time,this->orderstart,this->orderend,"1",this->flightID.mid(0,2));//航班号的前两位为航空公司的代码
+        return;
 
     }else{//用户选择公务舱
         if(ui->label_PriceBusi->text()=="-1"){
@@ -273,6 +306,10 @@ void Ticket_Purchase::on_pushButton_clicked()
         }
         // 购票标准成立，则接下进行具体的后续改动
         qDebug()<<"正在进行购票处理，请稍等..."<<endl;
+        QString moneyStr = QString("%1").arg(acct->getMoney());
+        this->Payment(acct->getUserID(),moneyStr,ui->label_PriceEcon->text(),this->flightID,this->depature_date
+                      ,this->departure_time,this->orderstart,this->orderend,"0",this->flightID.mid(0,2));//航班号的前两位为航空公司的代码
+        return;
 
    }
 }

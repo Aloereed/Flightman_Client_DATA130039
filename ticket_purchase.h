@@ -29,7 +29,7 @@ public:
 
     // 这四个函数用于更新数据库中与购票相关连的表信息
     void Payment(QString UserID,QString balance,QString price,
-                 QString flightID,QString,QString dep_date,QString dep_time,QString order_start,QString order_end,
+                 QString flightID,QString dep_date,QString dep_time,QString order_start,QString order_end,
                  QString classType,QString companyID); //支付机票价格，余额更新
 //    void TicketsRecordInsertion();
 //    void TicketsPurchaseRecordInsertion();
