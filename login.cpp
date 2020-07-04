@@ -27,7 +27,7 @@ login::login(QWidget *parent) :
     ui->label->setText(tr("ID"));
     ui->label_2->setText(tr("password"));
     ui->label_5->setText(tr("No account yet?"));
-    ui->label_6->setText(tr("Want to go back to MainWindow?"));
+    ui->label_6->setText(tr("back to MainWindow?"));
     ui->label_7->setText(tr("Want to quit?"));
     ui->pushButton->setText(tr("Log In"));
     ui->pushButton_2->setText(tr("Register Now"));
