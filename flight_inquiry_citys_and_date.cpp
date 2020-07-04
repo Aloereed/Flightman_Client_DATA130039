@@ -206,15 +206,18 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
 
         //检查该用户是否已经购买过同一趟航班。如果是，则提示用户不能重复购买，并取消预定操作
         QString sql_check_doublebooking = QString("SELECT COUNT(*) FROM ticket WHERE flight_id='%1' "
-                "AND ( CAST(departure_datetime AS date)='%2' "
-                "OR  DATEDIFF(CAST(departure_datetime AS date),CAST('%3' AS date))=1 )").arg(fligh_id).arg(dep_date).arg(dep_date);
+                "AND ID='%2' AND ( CAST(departure_datetime AS date)='%3' "
+                "OR  DATEDIFF(CAST(departure_datetime AS date),CAST('%4' AS date))=1 ) ")
+                .arg(fligh_id).arg(acct->getUserID()).arg(dep_date).arg(dep_date);
 
         qDebug()<<sql_check_doublebooking<<endl;
         QSqlQuery *query_check_doublebooking = new QSqlQuery();
         query_check_doublebooking->exec(sql_check_doublebooking);
         query_check_doublebooking->next();//查询成功，则表明此用户此前曾购买过同一趟的飞机，则此时提示已购买同一趟飞机，并禁止购买
-        if(query_check_doublebooking->value(0).toInt())
+        if(query_check_doublebooking->value(0).toInt()){
             QMessageBox::information(this,tr("Hint:"),tr("You have already booked this flight. Please choose another flight."));
+            return;
+        }
 
 
 

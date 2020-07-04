@@ -237,6 +237,8 @@ void Ticket_Purchase::Payment(QString UserID, QString balance, QString price, QS
     if(ok){//说明订票操作成功，提醒用户查看其账户记录
         QMessageBox::information(this,tr("Hint:"),tr("Successful! "
                                                      "Please remember to check your orders in your account."));
+        //并且更新账户里面的余额
+        acct->setMoney(newBalance);
         return;
     }else{//说明本次事务执行出现了异常，提示卖家再试一次
         QMessageBox::information(this,tr("Hint:"),tr("Failed. Please try again."));
