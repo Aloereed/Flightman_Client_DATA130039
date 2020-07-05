@@ -58,6 +58,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QLabel" name="Hint_label">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="2" column="0">
@@ -80,6 +87,13 @@
       <widget class="QPushButton" name="Refresh_pushButton">
        <property name="text">
         <string>Refresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="MessageBox_pushButton">
+       <property name="text">
+        <string>PushButton</string>
        </property>
       </widget>
      </item>

@@ -1,6 +1,8 @@
 #ifndef TICKET_PURCHASE_H
 #define TICKET_PURCHASE_H
 
+#include "flight_inquiry_citys_and_date.h"
+#include "flight_inquiry_flightid.h"
 #include <QWidget>
 
 namespace Ui {
@@ -12,7 +14,9 @@ class Ticket_Purchase : public QWidget
     Q_OBJECT
 
 public:
-    explicit Ticket_Purchase(QWidget *parent = nullptr,QString dep_date="",QString flightID="",QString schedule=""
+    explicit Ticket_Purchase(QWidget *parent = nullptr
+            ,flight_inquiry_citys_and_date *parent1=nullptr,flight_inquiry_flightID *parent2=nullptr
+            ,QString dep_date="",QString flightID="",QString schedule=""
             ,QString dep_airportName="",QString dep_city="",QString dep_time="",QString arv_airportName=""
             ,QString arv_city="",QString arv_time="",QString orderstart="",QString orderend="");
     ~Ticket_Purchase();
@@ -28,7 +32,8 @@ public:
     void BalanceRefresh();
 
     // 这四个函数用于更新数据库中与购票相关连的表信息
-    void Payment(QString UserID,QString balance,QString price,
+    void Payment(flight_inquiry_citys_and_date *parent1,flight_inquiry_flightID *parent2,
+                 QString UserID,QString balance,QString price,
                  QString flightID,QString dep_date,QString dep_time,QString order_start,QString order_end,
                  QString classType,QString companyID); //支付机票价格，余额更新
 //    void TicketsRecordInsertion();
@@ -54,6 +59,8 @@ private:
     QString arrival_time;
     QString orderstart;
     QString orderend;
+    flight_inquiry_citys_and_date *ptr_CD;
+    flight_inquiry_flightID *ptr_flightID;
 };
 
 #endif // TICKET_PURCHASE_H

@@ -8,7 +8,8 @@
 
 extern account_and_orders * acct;
 
-Ticket_Purchase::Ticket_Purchase(QWidget *parent, QString dep_date, QString flightID,
+Ticket_Purchase::Ticket_Purchase(QWidget *parent,flight_inquiry_citys_and_date *parent1,flight_inquiry_flightID *parent2,
+                                 QString dep_date, QString flightID,
                                  QString schedule, QString dep_airportName,
                                  QString dep_city, QString dep_time, QString arv_airportName, QString arv_city, QString arv_time,
                                  QString orderstart,QString orderend) :
@@ -41,6 +42,8 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent, QString dep_date, QString flig
 
     this->orderstart=orderstart;
     this->orderend=orderend;
+    this->ptr_CD = parent1;
+    this->ptr_flightID = parent2;
 
     ui->Price_groupBox->setTitle(tr("Flights Price"));
     ui->radioButton_econ->setText(tr("Economy Class"));
@@ -190,7 +193,8 @@ void Ticket_Purchase::BalanceRefresh()
     ui->label_BalanceMoney->setText(money_string);//设置账户余额
 }
 
-void Ticket_Purchase::Payment(QString UserID, QString balance, QString price, QString flightID,
+void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inquiry_flightID *parent2,
+                              QString UserID, QString balance, QString price, QString flightID,
                               QString dep_date, QString dep_time,
                               QString order_start, QString order_end, QString classType,QString companyID)
 {
@@ -239,6 +243,12 @@ void Ticket_Purchase::Payment(QString UserID, QString balance, QString price, QS
                                                      "Please remember to check your orders in your account."));
         //并且更新账户里面的余额
         acct->setMoney(newBalance);
+        if(parent2 == nullptr){ //购票成功后直接返回到用户的账户界面
+            parent1->close();
+        }else{
+            parent2->close();
+        }
+        this->close();
         return;
     }else{//说明本次事务执行出现了异常，提示卖家再试一次
         QMessageBox::information(this,tr("Hint:"),tr("Failed. Please try again."));
@@ -261,6 +271,11 @@ void Ticket_Purchase::on_pushButton_clicked()
 {
     qDebug()<<"你刚刚点击了购买按钮！"<<endl;
     //检查此时能否购票，即查询一遍有无余票剩余，以及相关属性是否正常
+    //若可以购票，则相应的有如下的结果：（如下结果按照事务来处理！）
+    //用户自身的余额要扣除相应对等的数额（如果数额不够，则提示“余额不足，无法购票”）
+    //ticket里面增加相应记录，ticket_purchase里面也要增加相应记录
+    //余票数目减一，也即是相应航程覆盖的区间的剩余票数都减一
+    //由于购票只算人头，那么值机的部分与此独立
     if(ui->radioButton_econ->isChecked()){//用户选择购买经济舱
         if(ui->label_PriceEcon->text()=="-1"){
             QMessageBox::information(this,tr("Hint:"),tr("This flight is NOT available now."));
@@ -280,13 +295,9 @@ void Ticket_Purchase::on_pushButton_clicked()
         // 购票标准成立，则接下进行具体的后续改动
         qDebug()<<"正在进行购票处理，请稍等..."<<endl;
 
-        //若可以购票，则相应的有如下的结果：（如下结果按照事务来处理！）
-        //用户自身的余额要扣除相应对等的数额（如果数额不够，则提示“余额不足，无法购票”）
-        //ticket里面增加相应记录，ticket_purchase里面也要增加相应记录
-        //余票数目减一，也即是相应航程覆盖的区间的剩余票数都减一
-        //由于购票只算人头，那么值机的部分与此独立
         QString moneyStr = QString("%1").arg(acct->getMoney());
-        this->Payment(acct->getUserID(),moneyStr,ui->label_PriceEcon->text(),this->flightID,this->depature_date
+        //完成支付
+        this->Payment(this->ptr_CD,this->ptr_flightID,acct->getUserID(),moneyStr,ui->label_PriceEcon->text(),this->flightID,this->depature_date
                       ,this->departure_time,this->orderstart,this->orderend,"1",this->flightID.mid(0,2));//航班号的前两位为航空公司的代码
         return;
 
@@ -309,7 +320,8 @@ void Ticket_Purchase::on_pushButton_clicked()
         // 购票标准成立，则接下进行具体的后续改动
         qDebug()<<"正在进行购票处理，请稍等..."<<endl;
         QString moneyStr = QString("%1").arg(acct->getMoney());
-        this->Payment(acct->getUserID(),moneyStr,ui->label_PriceEcon->text(),this->flightID,this->depature_date
+        //完成支付
+        this->Payment(this->ptr_CD,this->ptr_flightID,acct->getUserID(),moneyStr,ui->label_PriceBusi->text(),this->flightID,this->depature_date
                       ,this->departure_time,this->orderstart,this->orderend,"0",this->flightID.mid(0,2));//航班号的前两位为航空公司的代码
         return;
 

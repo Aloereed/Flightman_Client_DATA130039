@@ -27,6 +27,9 @@ public:
 
     float getMoney();
     QString getUserID();
+    QString seatIDQuery(QString flightID,QString dep_date, QString order_start,QString order_end,QString passengerID);
+    QString ticketOrderStartQuery(QString ticketID);
+    QString ticketOrderEndQuery(QString ticketID);
 
     void BalanceRefresh();
 
@@ -43,6 +46,7 @@ private slots:
 
     void on_buyticket_pushButton_clicked();
 
+
 private:
     Ui::account_and_orders *ui;
 
@@ -51,6 +55,7 @@ private:
     float Money;
     int Membership;
     QString Name;
+    QString seatID;
 };
 
 class FinishedOrderModel:public QSqlQueryModel{

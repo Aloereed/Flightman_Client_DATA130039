@@ -252,7 +252,7 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         qDebug()<<"仍有余票，允许购买"<<endl;
         //否则，还剩余有机票可以购买，则进入到购票界面。
 
-        Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
+        Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,this,nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
                                                                   arv_airportName,arv_city,arv_time,order_start,order_end);
         purchase_interface->show();
     }

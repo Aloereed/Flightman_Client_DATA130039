@@ -163,16 +163,18 @@ void flight_inquiry_flightID::on_tableView_clicked(const QModelIndex &index)
 
         //检查该用户是否已经购买过同一趟航班。如果是，则提示用户不能重复购买，并取消预定操作
         QString sql_check_doublebooking = QString("SELECT COUNT(*) FROM ticket WHERE flight_id='%1' "
-                "AND ( CAST(departure_datetime AS date)='%2' "
-                "OR  DATEDIFF(CAST(departure_datetime AS date),CAST('%3' AS date))=1 )").arg(fligh_id).arg(dep_date).arg(dep_date);
+                "AND ID='%2' AND ( CAST(departure_datetime AS date)='%2' "
+                "OR  DATEDIFF(CAST(departure_datetime AS date),CAST('%3' AS date))=1 )")
+                .arg(fligh_id).arg(acct->getUserID()).arg(dep_date).arg(dep_date);
 
         qDebug()<<sql_check_doublebooking<<endl;
         QSqlQuery *query_check_doublebooking = new QSqlQuery();
         query_check_doublebooking->exec(sql_check_doublebooking);
         query_check_doublebooking->next();//查询成功，则表明此用户此前曾购买过同一趟的飞机，则此时提示已购买同一趟飞机，并禁止购买
-        if(query_check_doublebooking->value(0).toInt())
+        if(query_check_doublebooking->value(0).toInt()){
             QMessageBox::information(this,tr("Hint:"),tr("You have already booked this flight. Please choose another flight."));
-
+            return;
+        }
 
 
         //根据所截取的信息来查询该趟航班是否有余票（在确认购买时仍需要查询是否有余票，以保持数据的一致性）
@@ -206,7 +208,7 @@ void flight_inquiry_flightID::on_tableView_clicked(const QModelIndex &index)
         qDebug()<<"仍有余票，允许购买"<<endl;
         //否则，还剩余有机票可以购买，则进入到购票界面。
 
-        Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
+        Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,nullptr,this,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
                                                                   arv_airportName,arv_city,arv_time,order_start,order_end);
         purchase_interface->show();
 

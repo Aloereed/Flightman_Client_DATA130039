@@ -72,7 +72,7 @@ void login::on_pushButton_clicked()
     QString Password = ui->Password->text();
 
     if (UserID==""||Password==""){
-        QMessageBox::critical(this,"incomplete input.","critical");
+        QMessageBox::critical(this,tr("critical"),tr("incomplete input."));
         return;
     }
 
