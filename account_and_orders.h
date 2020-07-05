@@ -26,10 +26,12 @@ public:
     void setMoney(float Money);
 
     float getMoney();
+    float ticketActualRefundQuery(float actualPay,QString dep_datetime);
     QString getUserID();
     QString seatIDQuery(QString flightID,QString dep_date, QString order_start,QString order_end,QString passengerID);
     QString ticketOrderStartQuery(QString ticketID);
     QString ticketOrderEndQuery(QString ticketID);
+    QString ticketActualPayQuery(QString ticketID);
 
     void BalanceRefresh();
 

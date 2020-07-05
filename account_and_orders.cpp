@@ -98,6 +98,25 @@ float account_and_orders::getMoney()
     return this->Money;
 }
 
+float account_and_orders::ticketActualRefundQuery(float actualPay,QString dep_datetime)
+{
+    float actualRefund = actualPay;
+    int TimeDistance = 0;
+    QString sql = QString("SELECT UNIX_TIMESTAMP(CAST('%1' AS DATETIME)) - UNIX_TIMESTAMP(NOW())").arg(dep_datetime);
+    QSqlQuery *query = new QSqlQuery();
+    query->exec();
+    query->first();
+    TimeDistance = query->value(0).toInt();
+    if(TimeDistance>=86400){ //距离起飞还有24小时以及更久
+        actualRefund *= 0.90;
+    }else if(TimeDistance>=7200){//距离起飞还有2-24小时
+        actualRefund *= 0.80;
+    }else{
+        actualRefund *= 0.65;
+    }
+    return actualRefund;
+}
+
 QString account_and_orders::getUserID()
 {
     return this->UserID;
@@ -154,6 +173,19 @@ QString account_and_orders::ticketOrderEndQuery(QString ticketID)
         arvID = query->value(0).toString();
     }
     return arvID;
+}
+
+QString account_and_orders::ticketActualPayQuery(QString ticketID)
+{
+    QString actualPay = "0";
+    QString sql = QString("SELECT actual_payment FROM ticket_purchase WHERE ticket_id='%1'").arg(ticketID);
+    QSqlQuery *query = new QSqlQuery();
+    query->exec(sql);
+    if(query->next()){
+        actualPay = query->value(0).toString();
+    }
+    return actualPay;
+
 }
 
 void account_and_orders::BalanceRefresh()
@@ -277,21 +309,54 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
         QAbstractItemModel *model = ui->coming_tableView->model();
         QString seatID =  model->data(model->index(row,7)).toString();
         QString dep_datetime = model->data(model->index(row,2)).toString();
+        dep_datetime = dep_datetime.mid(0,10)+" "+dep_datetime.mid(11,8);
+        this->on_Refresh_pushButton_clicked();
         if(seatID != ""){ //如果完成了值机，则不允许退票
             QMessageBox::information(this,tr("Hint:"),tr("You have checked in. So you cannot refund your ticket."));
             return;
         }
         int TimeDistance = 0;
         QString sql = QString("SELECT UNIX_TIMESTAMP(CAST('%1' AS DATETIME)) - UNIX_TIMESTAMP(NOW())").arg(dep_datetime);
+        qDebug()<<sql<<endl;
         QSqlQuery *query = new QSqlQuery();
-        query->exec(); query->next();
+        query->exec(sql);
+        query->first();
         TimeDistance = query->value(0).toInt();
-        if(TimeDistance <= 10800){ //退票时间距离起飞还有3小时
+        if(TimeDistance <= 1800){ //退票时间距离起飞还有0.5小时
             QMessageBox::information(this,tr("Hint:"),tr("The flight is going to take off soon.So you cannot refund your ticket."));
             return;
         }
         //通过检验标准，可以进行退票操作
+        //还是执行一个事务：
+        //首先，需要将ticket中的相关票的信息插入到退票表中
+        //然后，相应票对应的舱位剩余座位数+1
+        //最后根据退票时间和起飞时间之间的差距，返回相应票价百分比的数额到用户
+        QString ticketID = model->data(model->index(row,0)).toString();
+        QString flightID = model->data(model->index(row,1)).toString();
+        QString order_start = this->ticketOrderStartQuery(ticketID);
+        QString order_end = this->ticketOrderEndQuery(ticketID);
+        QString classType = model->data(model->index(row,5)).toString();
+        classType = classType=="Economy"?"1":"0";
+        float actualPay = this->ticketActualPayQuery(ticketID).toFloat();
+        float refundMoney = this->ticketActualRefundQuery(actualPay,dep_datetime);
+        float newBalance = this->Money + refundMoney;
+        acct->setMoney(newBalance);
 
+        sql = QString("BEGIN; "
+                      "CALL balanceRefresh('%1',%2); "
+                      "CALL TicketsRefundInsertion('%3',%4); "
+                      "TicketsRefundLeftNumRefresh('%5','%6',%7,%8,%9); "
+                      "END; ").arg(this->UserID).arg(newBalance).arg(ticketID).arg(refundMoney).arg(flightID).arg(dep_datetime.mid(0,10))
+                .arg(order_start).arg(order_end).arg(classType);
+        query->clear();
+        if(query->exec(sql)){ //上述退票过程执行成功
+            QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
+            this->on_Refresh_pushButton_clicked();
+        }
+        else{//上述退票过程出现问题，更新撤回
+            QMessageBox::information(this,tr("Hint:"),tr("Something is wrong. Please try again..."));
+            this->setMoney(this->Money-refundMoney);
+        }
     }
     else if (index.isValid()&&index.column()==9){ //点击值机，进行值机操作
         //
