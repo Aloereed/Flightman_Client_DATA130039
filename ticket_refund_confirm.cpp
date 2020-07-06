@@ -5,8 +5,10 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QSqlError>
 
 extern account_and_orders * acct;
+extern QSqlDatabase db;
 
 ticket_refund_confirm::ticket_refund_confirm(QWidget *parent,QString UserID,float newBalance,
                                              QString ticketID,float refundMoney,
@@ -66,22 +68,34 @@ void ticket_refund_confirm::on_pushButton_confirm_clicked()
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
     if(query->next()){//账户存在，执行购买操作
-        sql = QString("BEGIN; "
-//                      "CALL balanceRefresh('%1',%2); "
-                      "CALL TicketsRefundInsertion('%3',%4); "
-                      "CALL TicketsRefundLeftNumRefresh('%5','%6',%7,%8,%9); "
-                      "COMMIT; ").arg(this->ticketID)  //.arg(this->UserID).arg(this->newBalance).
-                .arg(this->refundMoney).arg(this->flightID).arg(this->dep_datetime)
-                .arg(this->order_start).arg(this->order_end).arg(this->classType);
-        query->clear();
-        qDebug()<<sql<<endl;
-        if(query->exec(sql)){ //上述退票过程执行成功
-            QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
-            this->close();
-        }
-        else{//上述退票过程出现问题，更新撤回
-            QMessageBox::information(this,tr("Hint:"),tr("Something is wrong. Please try again..."));
-            acct->setMoney(acct->getMoney()-refundMoney);
+        if(db.transaction()){
+            bool sql_ok= true;
+            QSqlQuery q;
+            QString sql = QString("BEGIN; "
+//                          "CALL balanceRefresh('%1',%2); "
+                          "CALL TicketsRefundInsertion('%3',%4); "
+                          "CALL TicketsRefundLeftNumRefresh('%5','%6',%7,%8,%9); "
+                          "COMMIT; ").arg(this->ticketID)  //.arg(this->UserID).arg(this->newBalance).
+                    .arg(this->refundMoney).arg(this->flightID).arg(this->dep_datetime)
+                    .arg(this->order_start).arg(this->order_end).arg(this->classType);
+            qDebug()<<sql<<endl;
+            QStringList sqlList = sql.split(";",QString::SkipEmptyParts);
+            for (int i=0; i<sql.count(); i++)
+            {
+                sql_ok &= q.exec(sqlList[i]);
+            }
+            q.clear();
+            if(sql_ok){
+                sql_ok = db.commit();
+            }
+            if(!sql_ok){//上述退票过程出现问题，更新撤回
+                acct->setMoney(acct->getMoney()-refundMoney);
+                QMessageBox::critical(0, "Error", q.lastError().text());
+                db.rollback();
+            }else{ //上述退票过程执行成功
+                QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
+                this->close();
+            }
         }
     }
 }

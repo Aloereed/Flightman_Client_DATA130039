@@ -6,8 +6,11 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QMessageBox>
+#include <QSqlError>
 
 extern account_and_orders * acct;
+extern QSqlDatabase db;
 
 Ticket_Purchase::Ticket_Purchase(QWidget *parent,flight_inquiry_citys_and_date *parent1,flight_inquiry_flightID *parent2,
                                  QString dep_date, QString flightID,
@@ -227,34 +230,46 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
             return;
         }
     }
-    //执行一次事务，保持数据一致性
-    sql = QString("BEGIN; "
-                  "CALL balanceRefresh('%1',%2); "
-                  "CALL TicketsRecordInsertion('%3','%4','%5','%6',%7,%8,%9); "
-                  "CALL TicketsPurchaseRecordInsertion('%10','%11',%12); "
-                  "CALL TicketsLeftNumRefresh('%13','%14',%15,%16,%17); "
-                  "COMMIT;").arg(UserID).arg(newBalance).arg(ticketID).arg(UserID).arg(flightID)
-            .arg(dep_datetime).arg(order_start).arg(order_end).arg(classType).arg(UserID).arg(ticketID)
-            .arg(price).arg(flightID).arg(dep_date).arg(order_start).arg(order_end).arg(classType);
-    query->clear();
-    qDebug()<<sql<<endl;
-    bool ok = query->exec(sql);
-    if(ok){//说明订票操作成功，提醒用户查看其账户记录
-        QMessageBox::information(this,tr("Hint:"),tr("Successful! "
-                                                     "Please remember to check your orders in your account."));
-        qDebug()<<"购买操作执行成功！请返回个人账户查看订单信息！"<<endl;
-        //并且更新账户里面的余额
-        acct->setMoney(newBalance);
-        if(parent2 == nullptr){ //购票成功后直接返回到用户的账户界面
-            parent1->close();
-        }else{
-            parent2->close();
+    qDebug()<<"即将进入到购票事务"<<endl;
+    qDebug()<<db.transaction()<<endl;
+    if(db.transaction()){
+        //执行一次事务，保持数据一致性
+        bool sql_ok= true;
+        QSqlQuery q;
+        QString sql = QString("BEGIN; "
+                      "CALL balanceRefresh('%1',%2); "
+                      "CALL TicketsRecordInsertion('%3','%4','%5','%6',%7,%8,%9); "
+                      "CALL TicketsPurchaseRecordInsertion('%10',%11); "
+                      "CALL TicketsLeftNumRefresh('%12','%13',%14,%15,%16); "
+                      "COMMIT;").arg(UserID).arg(newBalance).arg(ticketID).arg(UserID).arg(flightID)
+                .arg(dep_datetime).arg(order_start).arg(order_end).arg(classType).arg(ticketID)
+                .arg(price).arg(flightID).arg(dep_date).arg(order_start).arg(order_end).arg(classType);
+        qDebug()<<sql<<endl;
+        QStringList sqlList = sql.split(";",QString::SkipEmptyParts);
+        for (int i=0; i<sql.count(); i++)
+        {
+            sql_ok &= q.exec(sqlList[i]);
         }
-        this->close();
-        return;
-    }else{//说明本次事务执行出现了异常，提示卖家再试一次
-        QMessageBox::information(this,tr("Hint:"),tr("Failed. Please try again."));
-        return;
+        q.clear();
+        if(sql_ok){
+            sql_ok = db.commit();
+        }
+        if(!sql_ok){
+            QMessageBox::critical(0, "Error", q.lastError().text());
+            db.rollback();
+        }else{
+            QMessageBox::information(this,tr("Hint:"),tr("Successful! "
+                                                         "Please remember to check your orders in your account."));
+            qDebug()<<"购买操作执行成功！请返回个人账户查看订单信息！"<<endl;
+            //并且更新账户里面的余额
+            acct->setMoney(newBalance);
+            if(parent2 == nullptr){ //购票成功后直接返回到用户的账户界面
+                parent1->close();
+            }else{
+                parent2->close();
+            }
+            this->close();
+        }
     }
 }
 

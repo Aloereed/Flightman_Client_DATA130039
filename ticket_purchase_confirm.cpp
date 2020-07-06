@@ -1,6 +1,7 @@
 #include "ticket_purchase_confirm.h"
 #include "ui_ticket_purchase_confirm.h"
 #include "account_and_orders.h"
+#include <QDebug>
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QCryptographicHash>
@@ -63,6 +64,7 @@ void ticket_purchase_confirm::on_pushButton_confirm_clicked()
                                      ,this->parent_ticket->get_flightID(),this->parent_ticket->get_depDate()
                                      ,this->parent_ticket->get_depTime(),this->parent_ticket->get_orderStart(),
                                      this->parent_ticket->get_orderEnd(),this->classType,companyID);
+    qDebug()<<"完成支付！"<<endl;
     this->close();
 
     }else{//说明账户不存在

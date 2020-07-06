@@ -22,6 +22,8 @@ public:
     QString flightTypeQuery(QString flightID);
     QString businessNoQuery(QString flightID);
     QString economyNoQuery(QString flightID);
+    QString ComputeSeatID(int row,int col,QString flightType);
+    bool IsSeatInUsage(QString flightID,QString start_order,QString dep_date,QString seatID);
 
 
 private slots:

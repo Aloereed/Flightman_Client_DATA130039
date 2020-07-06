@@ -392,6 +392,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
             return;
         }
         //满足值机条件，进入值机界面
+        qDebug()<<"满足条件，您即将进入值机页面"<<endl;
         seat_selection *checkIn_interface = new seat_selection(nullptr,model->data(model->index(row,1)).toString(),classType
                                                                ,dep_datetime.mid(0,10),acct->getUserID(),order_start,order_end);
         checkIn_interface->show();
