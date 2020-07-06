@@ -27,6 +27,7 @@ SOURCES += \
     mainwindow.cpp \
     recharge.cpp \
     registration.cpp \
+    seat_selection.cpp \
     ticket_purchase.cpp \
     ticket_purchase_confirm.cpp \
     ticket_refund_confirm.cpp
@@ -41,6 +42,7 @@ HEADERS += \
     mainwindow.h \
     recharge.h \
     registration.h \
+    seat_selection.h \
     ticket_purchase.h \
     ticket_purchase_confirm.h \
     ticket_refund_confirm.h
@@ -59,6 +61,7 @@ FORMS += \
     mainwindow.ui \
     recharge.ui \
     registration.ui \
+    seat_selection.ui \
     ticket_purchase.ui \
     ticket_purchase_confirm.ui \
     ticket_refund_confirm.ui

@@ -67,10 +67,10 @@ void ticket_refund_confirm::on_pushButton_confirm_clicked()
     query->exec(sql);
     if(query->next()){//账户存在，执行购买操作
         sql = QString("BEGIN; "
-                      "CALL balanceRefresh('%1',%2); "
+//                      "CALL balanceRefresh('%1',%2); "
                       "CALL TicketsRefundInsertion('%3',%4); "
                       "CALL TicketsRefundLeftNumRefresh('%5','%6',%7,%8,%9); "
-                      "COMMIT; ").arg(this->UserID).arg(this->newBalance).arg(this->ticketID)
+                      "COMMIT; ").arg(this->ticketID)  //.arg(this->UserID).arg(this->newBalance).
                 .arg(this->refundMoney).arg(this->flightID).arg(this->dep_datetime)
                 .arg(this->order_start).arg(this->order_end).arg(this->classType);
         query->clear();

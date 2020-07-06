@@ -242,6 +242,7 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
     if(ok){//说明订票操作成功，提醒用户查看其账户记录
         QMessageBox::information(this,tr("Hint:"),tr("Successful! "
                                                      "Please remember to check your orders in your account."));
+        qDebug()<<"购买操作执行成功！请返回个人账户查看订单信息！"<<endl;
         //并且更新账户里面的余额
         acct->setMoney(newBalance);
         if(parent2 == nullptr){ //购票成功后直接返回到用户的账户界面

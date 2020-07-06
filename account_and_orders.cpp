@@ -3,6 +3,7 @@
 #include "recharge.h"
 #include "flight_inquiry.h"
 #include "ticket_refund_confirm.h"
+#include "seat_selection.h"
 #include <QDebug>
 #include <QWidget>
 #include <QMessageBox>
@@ -360,11 +361,40 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
                                                                             ,refundMoney,flightID,dep_datetime
                                                                             ,order_start,order_end,classType);
         refund_interface->show();
-        this->on_Refresh_pushButton_clicked();
     }
     else if (index.isValid()&&index.column()==9){ //点击值机，进行值机操作
         //
         qDebug()<<"你刚刚点击了值机按钮"<<endl; //选择座位等()
+        int row = index.row(); //获取点击的行数
+        QAbstractItemModel *model = ui->coming_tableView->model();
+        QString seatID =  model->data(model->index(row,7)).toString();
+        QString dep_datetime = model->data(model->index(row,2)).toString();
+        dep_datetime = dep_datetime.mid(0,10)+" "+dep_datetime.mid(11,8);
+        QString classType = model->data(model->index(row,5)).toString();
+        classType = classType=="Business"?"0":"1";
+        QString ticketID = model->data(model->index(row,0)).toString();
+        QString order_start = this->ticketOrderStartQuery(ticketID);
+        QString order_end = this->ticketOrderEndQuery(ticketID);
+        this->on_Refresh_pushButton_clicked();
+        if(seatID != ""){ //如果完成了值机，则不允许退票
+            QMessageBox::information(this,tr("Hint:"),tr("You have checked in. So you cannot Check In AGAIN."));
+            return;
+        }
+        int TimeDistance = 0;
+        QString sql = QString("SELECT UNIX_TIMESTAMP(CAST('%1' AS DATETIME)) - UNIX_TIMESTAMP(NOW())").arg(dep_datetime);
+        qDebug()<<sql<<endl;
+        QSqlQuery *query = new QSqlQuery();
+        query->exec(sql);
+        query->first();
+        TimeDistance = query->value(0).toInt();
+        if(TimeDistance <= 900){ //起飞时间距离起飞还有15分钟
+            QMessageBox::information(this,tr("Hint:"),tr("The flight is going to take off soon. Check In service have been closed."));
+            return;
+        }
+        //满足值机条件，进入值机界面
+        seat_selection *checkIn_interface = new seat_selection(nullptr,model->data(model->index(row,1)).toString(),classType
+                                                               ,dep_datetime.mid(0,10),acct->getUserID(),order_start,order_end);
+        checkIn_interface->show();
     }
     else if (index.isValid()&&index.column()==10){ //点击值机，进行值机操作
         //
