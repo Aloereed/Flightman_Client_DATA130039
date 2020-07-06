@@ -27,7 +27,9 @@ SOURCES += \
     mainwindow.cpp \
     recharge.cpp \
     registration.cpp \
-    ticket_purchase.cpp
+    ticket_purchase.cpp \
+    ticket_purchase_confirm.cpp \
+    ticket_refund_confirm.cpp
 
 HEADERS += \
     account_and_orders.h \
@@ -39,7 +41,9 @@ HEADERS += \
     mainwindow.h \
     recharge.h \
     registration.h \
-    ticket_purchase.h
+    ticket_purchase.h \
+    ticket_purchase_confirm.h \
+    ticket_refund_confirm.h
 
 RESOURCES += \
     loginbtn.qrc \
@@ -55,7 +59,9 @@ FORMS += \
     mainwindow.ui \
     recharge.ui \
     registration.ui \
-    ticket_purchase.ui
+    ticket_purchase.ui \
+    ticket_purchase_confirm.ui \
+    ticket_refund_confirm.ui
 
 TRANSLATIONS += \
     client_zh_CN.ts

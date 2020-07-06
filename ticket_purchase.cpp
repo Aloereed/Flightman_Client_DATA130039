@@ -1,6 +1,7 @@
 #include "ticket_purchase.h"
 #include "ui_ticket_purchase.h"
 #include "account_and_orders.h"
+#include "ticket_purchase_confirm.h"
 #include <QDebug>
 #include <QSqlQuery>
 #include <QMessageBox>
@@ -297,8 +298,8 @@ void Ticket_Purchase::on_pushButton_clicked()
 
         QString moneyStr = QString("%1").arg(acct->getMoney());
         //完成支付
-        this->Payment(this->ptr_CD,this->ptr_flightID,acct->getUserID(),moneyStr,ui->label_PriceEcon->text(),this->flightID,this->depature_date
-                      ,this->departure_time,this->orderstart,this->orderend,"1",this->flightID.mid(0,2));//航班号的前两位为航空公司的代码
+        ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceEcon->text(),"1");
+        confirm_interface->show();
         return;
 
     }else{//用户选择公务舱
@@ -321,9 +322,8 @@ void Ticket_Purchase::on_pushButton_clicked()
         qDebug()<<"正在进行购票处理，请稍等..."<<endl;
         QString moneyStr = QString("%1").arg(acct->getMoney());
         //完成支付
-        this->Payment(this->ptr_CD,this->ptr_flightID,acct->getUserID(),moneyStr,ui->label_PriceBusi->text(),this->flightID,this->depature_date
-                      ,this->departure_time,this->orderstart,this->orderend,"0",this->flightID.mid(0,2));//航班号的前两位为航空公司的代码
+        ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0");
+        confirm_interface->show();
         return;
-
    }
 }

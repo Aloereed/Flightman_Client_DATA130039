@@ -24,6 +24,7 @@ public:
     void setUserID(QString ID);
     void setPassword(QString Pwd);
     void setMoney(float Money);
+    void setStatus(int status);
 
     float getMoney();
     float ticketActualRefundQuery(float actualPay,QString dep_datetime);
@@ -36,6 +37,7 @@ public:
     void BalanceRefresh();
 
     int getMembership();
+    int getStatus();
 
 private slots:
     void on_Buymem_pushButton_clicked();
@@ -58,6 +60,7 @@ private:
     int Membership;
     QString Name;
     QString seatID;
+    int status;
 };
 
 class FinishedOrderModel:public QSqlQueryModel{

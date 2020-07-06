@@ -2,6 +2,7 @@
 #include "ui_account_and_orders.h"
 #include "recharge.h"
 #include "flight_inquiry.h"
+#include "ticket_refund_confirm.h"
 #include <QDebug>
 #include <QWidget>
 #include <QMessageBox>
@@ -48,6 +49,7 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     this->Name = name;
     this->Money = money;
     this->Membership = membership;
+    this->status = 0;
 
     QString greeting = QString("Hello, %1").arg(this->Name);
     ui->User_label->setText(greeting);
@@ -104,7 +106,7 @@ float account_and_orders::ticketActualRefundQuery(float actualPay,QString dep_da
     int TimeDistance = 0;
     QString sql = QString("SELECT UNIX_TIMESTAMP(CAST('%1' AS DATETIME)) - UNIX_TIMESTAMP(NOW())").arg(dep_datetime);
     QSqlQuery *query = new QSqlQuery();
-    query->exec();
+    query->exec(sql);
     query->first();
     TimeDistance = query->value(0).toInt();
     if(TimeDistance>=86400){ //距离起飞还有24小时以及更久
@@ -179,10 +181,12 @@ QString account_and_orders::ticketActualPayQuery(QString ticketID)
 {
     QString actualPay = "0";
     QString sql = QString("SELECT actual_payment FROM ticket_purchase WHERE ticket_id='%1'").arg(ticketID);
+    qDebug()<<sql<<endl;
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
     if(query->next()){
         actualPay = query->value(0).toString();
+        qDebug()<<actualPay<<endl;
     }
     return actualPay;
 
@@ -197,6 +201,16 @@ void account_and_orders::BalanceRefresh()
 int account_and_orders::getMembership()
 {
     return this->Membership;
+}
+
+int account_and_orders::getStatus()
+{
+    return this->status;
+}
+
+void account_and_orders::setStatus(int status)
+{
+    this->status = status;
 }
 
 void account_and_orders::on_Buymem_pushButton_clicked()
@@ -342,21 +356,11 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
         float newBalance = this->Money + refundMoney;
         acct->setMoney(newBalance);
 
-        sql = QString("BEGIN; "
-                      "CALL balanceRefresh('%1',%2); "
-                      "CALL TicketsRefundInsertion('%3',%4); "
-                      "TicketsRefundLeftNumRefresh('%5','%6',%7,%8,%9); "
-                      "END; ").arg(this->UserID).arg(newBalance).arg(ticketID).arg(refundMoney).arg(flightID).arg(dep_datetime.mid(0,10))
-                .arg(order_start).arg(order_end).arg(classType);
-        query->clear();
-        if(query->exec(sql)){ //上述退票过程执行成功
-            QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
-            this->on_Refresh_pushButton_clicked();
-        }
-        else{//上述退票过程出现问题，更新撤回
-            QMessageBox::information(this,tr("Hint:"),tr("Something is wrong. Please try again..."));
-            this->setMoney(this->Money-refundMoney);
-        }
+        ticket_refund_confirm *refund_interface = new ticket_refund_confirm(nullptr,this->UserID,newBalance,ticketID
+                                                                            ,refundMoney,flightID,dep_datetime
+                                                                            ,order_start,order_end,classType);
+        refund_interface->show();
+        this->on_Refresh_pushButton_clicked();
     }
     else if (index.isValid()&&index.column()==9){ //点击值机，进行值机操作
         //
@@ -401,21 +405,21 @@ QVariant ComingOrderModel::data(const QModelIndex &item, int role) const{
                 return QVariant::fromValue(QString(tr("Economy")));
         }
         if(item.column()==7){//座位列显示的相关操作
-            int row = item.row();
-            QString ticket_id = this->data(this->index(row,0)).toString();     //ticketid
-            QString flight_id = this->data(this->index(row,1)).toString();
-            QString dep_date = this->data(this->index(row,2)).toString().mid(0,10);
-            QString order_start = acct->ticketOrderStartQuery(ticket_id);
-            QString order_end = acct->ticketOrderEndQuery(ticket_id);
-            QString passengerID = "";
-            QString sql = QString("SELECT ID FROM ticket WHERE ticket_id='%1'").arg(ticket_id);
-            QSqlQuery *query = new QSqlQuery();
-            query->exec(sql);
-            if(query->next()){//说明该票的信息有效，记录UserID
-                passengerID = query->value(0).toString();
-            }
-            QString seatID = acct->seatIDQuery(flight_id,dep_date,order_start,order_end,passengerID);
-            return QVariant::fromValue(seatID);
+//            int row = item.row();
+//            QString ticket_id = this->data(this->index(row,0)).toString();     //ticketid
+//            QString flight_id = this->data(this->index(row,1)).toString();
+//            QString dep_date = this->data(this->index(row,2)).toString().mid(0,10);
+//            QString order_start = acct->ticketOrderStartQuery(ticket_id);
+//            QString order_end = acct->ticketOrderEndQuery(ticket_id);
+//            QString passengerID = "";
+//            QString sql = QString("SELECT ID FROM ticket WHERE ticket_id='%1'").arg(ticket_id);
+//            QSqlQuery *query = new QSqlQuery();
+//            query->exec(sql);
+//            if(query->next()){//说明该票的信息有效，记录UserID
+//                passengerID = query->value(0).toString();
+//            }
+//            QString seatID = acct->seatIDQuery(flight_id,dep_date,order_start,order_end,passengerID);
+//            return QVariant::fromValue(seatID);
         }
         if(item.column()==8)
             return QVariant::fromValue(tr("Refund"));

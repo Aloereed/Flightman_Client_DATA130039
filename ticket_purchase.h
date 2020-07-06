@@ -40,6 +40,14 @@ public:
 //    void TicketsPurchaseRecordInsertion();
 //    void TicketsLeftNumRefresh();
 
+    QString get_flightID(){ return this->flightID; }
+    QString get_depDate(){ return this->depature_date;}
+    QString get_depTime(){ return this->departure_time;}
+    QString get_orderStart(){return this->orderstart;}
+    QString get_orderEnd(){return  this->orderend;}
+    flight_inquiry_citys_and_date* get_ptr_CD(){return this->ptr_CD;}
+    flight_inquiry_flightID* get_ptr_flightID(){return this->ptr_flightID;}
+
 
 private slots:
     void on_pushButton_clicked();
