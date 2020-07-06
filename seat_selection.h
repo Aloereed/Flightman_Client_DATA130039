@@ -5,6 +5,7 @@
 #include <QTabWidget>
 #include <QTableWidgetItem>
 #include <QHeaderView>
+#include <QHash>
 
 namespace Ui {
 class seat_selection;
@@ -24,10 +25,18 @@ public:
     QString economyNoQuery(QString flightID);
     QString ComputeSeatID(int row,int col,QString flightType);
     bool IsSeatInUsage(QString flightID,QString start_order,QString dep_date,QString seatID);
+    QHash<QString,QString> SeatsInfo(QString flightID,QString order_start,QString dep_date);
+
+    QString getflightID(){return this->flightID;}
+    QString getorder_start(){return this->order_start;}
+    QString getorder_end(){return this->order_end;}
+    QString getdep_date(){return this->dep_date;}
 
 
 private slots:
     void on_pushButton_Cancel_clicked();
+
+    void on_tableWidget_seats_itemClicked(QTableWidgetItem *item);
 
 private:
     Ui::seat_selection *ui;

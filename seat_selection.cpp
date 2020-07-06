@@ -1,6 +1,12 @@
 #include "seat_selection.h"
 #include "ui_seat_selection.h"
+#include "account_and_orders.h"
+#include "seat_selection_confirm.h"
 #include <QSqlQuery>
+#include <QDebug>
+#include <QMessageBox>
+
+extern account_and_orders * acct;
 
 seat_selection::seat_selection(QWidget *parent,QString flightID,QString classType,QString dep_date
         ,QString UserID,QString order_start,QString order_end) :
@@ -42,6 +48,8 @@ seat_selection::seat_selection(QWidget *parent,QString flightID,QString classTyp
 
     this->tableHeadersSet(this->flightType);
     this->tableContentsSet(this->flightType,MaxBuisRows,MaxEconRows,this->classType);
+
+    this->ui->tableWidget_seats->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 
 //    QTableWidgetItem *columnHeaderItem0 = ui->tableWidget_seats->horizontalHeaderItem(0);
@@ -155,6 +163,22 @@ bool seat_selection::IsSeatInUsage(QString flightID, QString start_order, QStrin
     return true;
 }
 
+QHash<QString, QString> seat_selection::SeatsInfo(QString flightID, QString order_start, QString dep_date)
+{
+    QHash<QString,QString> hash_seatidTopassengerid;
+    hash_seatidTopassengerid.insert("0","0");//默认存量
+    QString sql = QString("SELECT seat_id,passengerID FROM seat_arrangement WHERE flight_ID='%1' AND `order`=%2 AND "
+                          "departure_date='%3'")
+            .arg(flightID).arg(order_start).arg(dep_date);
+    QSqlQuery *query = new QSqlQuery();
+    if(query->exec()){ //成功执行
+        while(query->next()){
+            hash_seatidTopassengerid.insert(query->value(0).toString(),query->value(1).toString());
+        }
+    }
+    return hash_seatidTopassengerid;
+}
+
 void seat_selection::on_pushButton_Cancel_clicked()
 {
     this->close();
@@ -182,7 +206,8 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
     int rows = busiNo + econNo;
     int classTypeInt = classType.toUInt();
     QString seatID = "";
-
+    QString seatUser = "";
+    QHash<QString,QString> hash_seatidTopassengerid = this->SeatsInfo(this->flightID,this->order_start,this->dep_date);
     if(cols==7){ //说明本次航班是单通道的
             if(classTypeInt == 0){ //说明用户要选择单通道的公务舱
                 for(int i=0;i<rows;i++){
@@ -190,10 +215,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(j==3) continue; //位于过道
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
+                        seatUser = hash_seatidTopassengerid.find(seatID).value();
                         ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                        if(i>=business_No){ //|| (this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID))){
+                        if(i>=business_No || (seatUser!="")){
                             QTableWidgetItem *item = new QTableWidgetItem();
-                            item->setBackground(QColor(225,225,225));
+                            item->setBackground(QBrush(Qt::Dense4Pattern));
                             ui->tableWidget_seats->setItem(i,j,item);
                         }
                     }
@@ -204,10 +230,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(j==3) continue; //位于过道
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
+                        seatUser = hash_seatidTopassengerid.find(seatID).value();
                         ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                        if(i<business_No){ //|| (this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID))){
+                        if(i<business_No || seatUser!=""){
                             QTableWidgetItem *item = new QTableWidgetItem();
-                            item->setBackground(QColor(225,225,225));
+                            item->setBackground(QBrush(Qt::Dense4Pattern));
                             ui->tableWidget_seats->setItem(i,j,item);
                         }
                     }
@@ -220,10 +247,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(j==3 || j==7) continue;
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
+                    seatUser = hash_seatidTopassengerid.find(seatID).value();
                     ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                    if(i>=business_No){ // || (this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID))){
+                    if(i>=business_No || seatUser!=""){
                         QTableWidgetItem *item = new QTableWidgetItem();
-                        item->setBackgroundColor(QColor(225,225,225));
+                        item->setBackground(QBrush(Qt::Dense4Pattern));
                         ui->tableWidget_seats->setItem(i,j,item);
                     }
                 }
@@ -234,15 +262,45 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(j==3 || j==7) continue;
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
-                    ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                    if(i>=business_No  ){//|| (this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID))){
-                        QTableWidgetItem *item = new QTableWidgetItem();
-                        item->setBackgroundColor(QColor(200,111,100));
-                        ui->tableWidget_seats->setItem(i,j,item);
+                    qDebug()<<"i="<<i<<" "<<"j="<<j<<endl;
+                    seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
+                    if(i>=business_No || seatID!=""){//该座位被人使用或者该座位不属于用户对应的舱位
+                        item->setBackground(QBrush(QColor(Qt::lightGray)));
                     }
+                    ui->tableWidget_seats->setItem(i,j,item);
                 }
             }
         }
     }
     //tableWidget->setItem(0,1,new QTableWidgetItem(QIcon(":/Image/IED.png"), "Jan's month"));
+}
+
+void seat_selection::on_tableWidget_seats_itemClicked(QTableWidgetItem *item)
+{
+    int row = item->row();
+    if(this->classType=="1"){ //说明座位应该选经济舱，所以前排的位置不能选
+        if(row < this->business_No.toInt()){ //说明选到公务舱去了，选的位置不对，本次不允许选择
+            QMessageBox::information(this,tr("Hint:"),tr("You can only choose the economy class seat. Please choose another one."));
+            return;
+        }
+    }else{ //说明座位应该选经济舱，所以后排的位置不能选
+        if(row >= this->business_No.toInt()){ //说明选到经济舱去了，选的位置不对，本次不允许选择
+            QMessageBox::information(this,tr("Hint:"),tr("You can only choose the business class seat. Please choose another one."));
+            return;
+        }
+    }
+    //通过则说明，舱位没有选错，现在检查选择的位置是否已被其他人所选择了
+    QStringList strList = item->text().split(" ");
+    int size = strList.length();
+    QString seatID = strList[size-1];
+    if(this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID)){
+        //说明座位正在被使用，此次选位非法
+        QMessageBox::information(this,tr("Hint:"),tr("The seat has been selected. Please choose another one."));
+        return;
+    }
+    seat_selection_confirm *confirm_interface = new seat_selection_confirm(nullptr,this,seatID);
+    confirm_interface->show();
+    qDebug()<<"座位选择完毕"<<endl;
+    return;
 }

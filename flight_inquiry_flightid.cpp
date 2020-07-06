@@ -74,7 +74,7 @@ void flight_inquiry_flightID::on_Confirm_pushButton_clicked()
         QMessageBox::critical(this,tr("Critical"),tr("Incomplete input."));
         return;
     }
-    QString sql = QString("CALL flight_query_ID('%1')").arg(flightID);
+    QString sql = QString("CALL flight_query_ID('%1')").arg(flightID+"%");
 
     qDebug()<<sql<<endl;
 

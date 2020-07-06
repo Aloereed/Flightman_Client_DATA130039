@@ -51,6 +51,10 @@ void ticket_purchase_confirm::on_pushButton_confirm_clicked()
         QMessageBox::critical(this,tr("WRONG"),tr("Your input is not complete."));
         return;
     }
+    if(UserID != acct->getUserID()){
+        QMessageBox::critical(this,tr("WRONG"),tr("You can only buy for yourself."));
+        return;
+    }
     QByteArray bytePwd = Pwd.toLatin1(); //trasnform Password for safety.
     QByteArray bytePwdMd5 = QCryptographicHash::hash(bytePwd, QCryptographicHash::Md5);
     Pwd = bytePwdMd5.toHex();
