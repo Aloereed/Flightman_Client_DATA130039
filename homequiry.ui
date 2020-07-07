@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>443</width>
+    <width>604</width>
     <height>700</height>
    </rect>
   </property>
@@ -16,6 +16,12 @@
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="font">
+      <font>
+       <family>Yu Gothic UI Semilight</family>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">QTabWidget:pane{
 background: transparent;
@@ -43,8 +49,8 @@ background: transparent;
             </property>
             <property name="font">
              <font>
-              <family>.PingFang SC</family>
-              <pointsize>36</pointsize>
+              <family>Constantia</family>
+              <pointsize>30</pointsize>
              </font>
             </property>
             <property name="text">
@@ -82,8 +88,8 @@ background: transparent;
             </property>
             <property name="font">
              <font>
-              <family>.PingFang SC</family>
-              <pointsize>36</pointsize>
+              <family>Constantia</family>
+              <pointsize>30</pointsize>
              </font>
             </property>
             <property name="text">
@@ -105,14 +111,40 @@ background: transparent;
         <widget class="QWidget" name="widget_2" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QDateEdit" name="dateEdit"/>
+           <widget class="QDateEdit" name="dateEdit">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -128,12 +160,25 @@ background: transparent;
         <widget class="QPushButton" name="pushButton_2">
          <property name="font">
           <font>
-           <family>.PingFang SC</family>
-           <pointsize>22</pointsize>
+           <family>Yu Gothic UI Semilight</family>
+           <pointsize>24</pointsize>
           </font>
          </property>
          <property name="text">
           <string>Search</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_6">
+         <property name="font">
+          <font>
+           <family>Yu Gothic UI Semilight</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Advanced Search</string>
          </property>
         </widget>
        </item>
@@ -157,8 +202,8 @@ background: transparent;
             </property>
             <property name="font">
              <font>
-              <family>.PingFang SC</family>
-              <pointsize>36</pointsize>
+              <family>Constantia</family>
+              <pointsize>30</pointsize>
              </font>
             </property>
             <property name="text">
@@ -196,8 +241,8 @@ background: transparent;
             </property>
             <property name="font">
              <font>
-              <family>.PingFang SC</family>
-              <pointsize>36</pointsize>
+              <family>Constantia</family>
+              <pointsize>30</pointsize>
              </font>
             </property>
             <property name="text">
@@ -219,20 +264,46 @@ background: transparent;
         <widget class="QWidget" name="widget_4" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QDateEdit" name="dateEdit_2"/>
+           <widget class="QDateEdit" name="dateEdit_2">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QDateEdit" name="dateEdit_3"/>
+           <widget class="QDateEdit" name="dateEdit_3">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_4">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -252,8 +323,8 @@ background: transparent;
         <widget class="QPushButton" name="pushButton_3">
          <property name="font">
           <font>
-           <family>.PingFang SC</family>
-           <pointsize>22</pointsize>
+           <family>Yu Gothic UI Semilight</family>
+           <pointsize>24</pointsize>
           </font>
          </property>
          <property name="text">
@@ -263,13 +334,6 @@ background: transparent;
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="pushButton_6">
-     <property name="text">
-      <string>Advanced Search</string>
-     </property>
     </widget>
    </item>
    <item>
