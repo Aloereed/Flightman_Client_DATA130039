@@ -10,9 +10,10 @@
 #include <QSqlQuery>
 #include <QCryptographicHash>
 #include<QStackedWidget>
+#include<QSettings>
 extern QStackedWidget* mainstack;
 account_and_orders *acct;
-
+extern QSettings settings;
 login::login(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::login) {
@@ -23,7 +24,13 @@ login::login(QWidget *parent) :
 
     ui->Password->setEchoMode(QLineEdit::Password);
     ui->Password->setPlaceholderText(tr("Please Enter Your Password."));
+    ui->UserID->setText(settings.value("User/UserID","").toString());
 
+    if(settings.value("User/isRem",false).toBool()) {
+        ui->checkBox_2->setChecked(settings.value("User/isAuto").toBool());
+        ui->Password->setText(settings.value("User/UserPWD").toString());
+        ui->checkBox->setChecked(true);
+    }
     ui->label->setText(tr("ID"));
     ui->label_2->setText(tr("password"));
     ui->label_5->setText(tr("No account yet?"));
@@ -33,6 +40,8 @@ login::login(QWidget *parent) :
     ui->pushButton_2->setText(tr("Register Now"));
     ui->pushButton_4->setText(tr("Back"));
     ui->pushButton_5->setText(tr("Cancel"));
+    if(ui->checkBox_2->isChecked())
+        on_pushButton_clicked();
 }
 
 login::~login() {
@@ -73,6 +82,7 @@ void login::on_pushButton_clicked() {
 
     QByteArray bytePwd = Password.toLatin1(); //trasnform Password for safety.
     QByteArray bytePwdMd5 = QCryptographicHash::hash(bytePwd, QCryptographicHash::Md5);
+    QString PasswordBack=Password;
     Password = bytePwdMd5.toHex();
 
     QString sql = QString("SELECT * FROM user WHERE ID='%1' "
@@ -82,7 +92,17 @@ void login::on_pushButton_clicked() {
     query->exec(sql);
 
     if(query->next()) {
+
+        settings.setValue("User/UserID",UserID);
+        settings.setValue("User/isRem",ui->checkBox->isChecked());
+        settings.setValue("User/isAuto",ui->checkBox_2->isChecked());
         //若查询成功，则进入到相应的用户界面
+        if(ui->checkBox->isChecked()) {
+
+            settings.setValue("User/UserPWD",PasswordBack);
+
+        }
+        settings.sync();
         acct = new account_and_orders(nullptr,UserID,Password);
         mainstack->addWidget(acct);
         mainstack->setCurrentWidget(acct);
@@ -91,4 +111,20 @@ void login::on_pushButton_clicked() {
         QMessageBox::critical(this,tr("critical"),tr("The account doesn't exist."));
         return;
     }
+}
+void login::hideforhome() {
+    ui->pushButton_4->hide();
+    ui->pushButton_5->hide();
+    ui->label_6->hide();
+    ui->label_7->hide();
+}
+
+void login::on_checkBox_2_clicked() {
+    if(ui->checkBox_2->isChecked())
+        ui->checkBox->setChecked(true);
+}
+
+void login::on_checkBox_clicked() {
+    if(ui->checkBox_2->isChecked())
+        ui->checkBox->setChecked(true);
 }
