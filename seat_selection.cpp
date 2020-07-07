@@ -171,8 +171,9 @@ QHash<QString, QString> seat_selection::SeatsInfo(QString flightID, QString orde
                           "departure_date='%3'")
             .arg(flightID).arg(order_start).arg(dep_date);
     QSqlQuery *query = new QSqlQuery();
-    if(query->exec()){ //成功执行
+    if(query->exec(sql)){ //成功执行
         while(query->next()){
+            qDebug()<<query->value(0).toString()<<"||"<<query->value(1).toString()<<endl;
             hash_seatidTopassengerid.insert(query->value(0).toString(),query->value(1).toString());
         }
     }
@@ -216,12 +217,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
                       //  seatUser = hash_seatidTopassengerid.find(seatID).value();
-                        ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                        if(i>=business_No){ //|| (seatUser!="")){
-                            QTableWidgetItem *item = new QTableWidgetItem();
+                        QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
+                        if(i>=business_No.toInt()){ //|| (seatUser!="")){
                             item->setBackground(QBrush(Qt::Dense4Pattern));
-                            ui->tableWidget_seats->setItem(i,j,item);
                         }
+                        ui->tableWidget_seats->setItem(i,j,item);
                     }
                 }
             }else{//说明用户要选择单通道的经济舱
@@ -231,12 +231,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
                        // seatUser = hash_seatidTopassengerid.find(seatID).value();
-                        ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                        if(i<business_No){// || seatUser!=""){
-                            QTableWidgetItem *item = new QTableWidgetItem();
-                            item->setBackground(QBrush(Qt::Dense4Pattern));
-                            ui->tableWidget_seats->setItem(i,j,item);
+                        QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
+                        if(i<business_No.toInt()){// || seatUser!=""){
+                            item->setBackgroundColor(QColor(Qt::lightGray));
                         }
+                         ui->tableWidget_seats->setItem(i,j, item);
                     }
                 }
             }
@@ -247,11 +246,10 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(j==3 || j==7) continue;
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
-                  //  seatUser = hash_seatidTopassengerid.find(seatID).value();
-                    QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID+"**");
-                    if(i>=business_No){// || seatUser!=""){
-                        qDebug()<< "进入到不可选区域"<<endl;
-                        item->setBackground(QBrush(QColor(Qt::lightGray)));
+                    seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
+                    if(i>=business_No.toInt() || seatUser!=""){
+                        item->setBackgroundColor(QColor(Qt::lightGray));
                     }
                     ui->tableWidget_seats->setItem(i,j, item);
                 }
@@ -262,11 +260,10 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(j==3 || j==7) continue;
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
-                    qDebug()<<"i="<<i<<" "<<"j="<<j<<endl;
                     //seatUser = hash_seatidTopassengerid.find(seatID).value();
                     QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
-                    if(i>=business_No){ //|| seatID!=""){//该座位被人使用或者该座位不属于用户对应的舱位
-                        item->setBackground(QBrush(QColor(Qt::lightGray)));
+                    if(i<business_No.toInt()){ //|| seatID!=""){//该座位被人使用或者该座位不属于用户对应的舱位
+                        item->setBackgroundColor(QColor(Qt::lightGray));
                     }
                     ui->tableWidget_seats->setItem(i,j,item);
                 }
@@ -294,11 +291,16 @@ void seat_selection::on_tableWidget_seats_itemClicked(QTableWidgetItem *item)
     QStringList strList = item->text().split(" ");
     int size = strList.length();
     QString seatID = strList[size-1];
-    if(this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID)){
+    if(item->backgroundColor()==QColor(Qt::lightGray)){
         //说明座位正在被使用，此次选位非法
         QMessageBox::information(this,tr("Hint:"),tr("The seat has been selected. Please choose another one."));
         return;
     }
+//    if(this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID)){
+//        //说明座位正在被使用，此次选位非法
+//        QMessageBox::information(this,tr("Hint:"),tr("The seat has been selected. Please choose another one."));
+//        return;
+//    }
     seat_selection_confirm *confirm_interface = new seat_selection_confirm(nullptr,this,seatID);
     confirm_interface->show();
     qDebug()<<"座位选择完毕"<<endl;
