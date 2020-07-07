@@ -101,6 +101,7 @@ void MainWindow::on_commandLinkButton_clicked() {
 
     if (db.open()) {
         w = new MainClientWindow();
+        w->setWindowIcon(QIcon(":/png/icon.png"));
         w->show();
         this->hide();
     } else {

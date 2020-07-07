@@ -14,6 +14,7 @@
 extern QStackedWidget* mainstack;
 account_and_orders *acct;
 extern QSettings settings;
+extern MainClientWindow *w;
 login::login(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::login) {
@@ -106,7 +107,10 @@ void login::on_pushButton_clicked() {
         acct = new account_and_orders(nullptr,UserID,Password);
         mainstack->addWidget(acct);
         mainstack->setCurrentWidget(acct);
+
+        qDebug()<<"test";
         this->close();
+
     } else {
         QMessageBox::critical(this,tr("critical"),tr("The account doesn't exist."));
         return;
