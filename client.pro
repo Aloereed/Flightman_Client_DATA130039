@@ -21,6 +21,7 @@ SOURCES += \
     flight_inquiry.cpp \
     flight_inquiry_citys_and_date.cpp \
     flight_inquiry_flightid.cpp \
+    homequiry.cpp \
     login.cpp \
     main.cpp \
     mainclientwindow.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     flight_inquiry.h \
     flight_inquiry_citys_and_date.h \
     flight_inquiry_flightid.h \
+    homequiry.h \
     login.h \
     mainclientwindow.h \
     mainwindow.h \
@@ -59,6 +61,7 @@ FORMS += \
     flight_inquiry.ui \
     flight_inquiry_citys_and_date.ui \
     flight_inquiry_flightid.ui \
+    homequiry.ui \
     login.ui \
     mainclientwindow.ui \
     mainwindow.ui \
@@ -89,6 +92,7 @@ DISTFILES += \
     android_sources/AndroidManifest.xml \
     android_sources/png/icon.png  \
     png/air.png \
+    png/airreplace.png \
     png/background.jpg \
     png/logout.png \
     png/mine.png \

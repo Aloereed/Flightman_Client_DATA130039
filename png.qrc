@@ -6,5 +6,6 @@
         <file>png/background.jpg</file>
         <file>png/logout.png</file>
         <file>png/msg.png</file>
+        <file>png/airreplace.png</file>
     </qresource>
 </RCC>

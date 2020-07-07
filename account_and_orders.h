@@ -7,6 +7,7 @@
 #include <QModelIndex>
 #include <QVariant>
 #include <QHash>
+#include "homequiry.h"
 
 
 
@@ -14,11 +15,10 @@ namespace Ui {
 class account_and_orders;
 }
 
-class account_and_orders : public QWidget
-{
+class account_and_orders : public QWidget {
     Q_OBJECT
-
-public:
+    friend class HomeQuiry;
+  public:
     explicit account_and_orders(QWidget *parent = nullptr, QString ID = "", QString Pwd = "");
     ~account_and_orders();
 
@@ -40,8 +40,10 @@ public:
 
     int getMembership();
     int getStatus();
+  public slots:
+    void on_buyticket_pushButton_clicked();
 
-private slots:
+  private slots:
     void on_Buymem_pushButton_clicked();
 
     void on_Recharge_pushButton_clicked();
@@ -50,10 +52,10 @@ private slots:
 
     void on_coming_tableView_clicked(const QModelIndex &index);
 
-    void on_buyticket_pushButton_clicked();
+    // void on_buyticket_pushButton_clicked();
 
 
-private:
+  private:
     Ui::account_and_orders *ui;
 
     QString UserID;
@@ -65,18 +67,18 @@ private:
     int status;
 };
 
-class FinishedOrderModel:public QSqlQueryModel{
-public:
+class FinishedOrderModel:public QSqlQueryModel {
+  public:
     QVariant data(const QModelIndex &item, int role=Qt::DisplayRole) const;
 };
 
-class ComingOrderModel:public QSqlQueryModel{
-public:
+class ComingOrderModel:public QSqlQueryModel {
+  public:
     QVariant data(const QModelIndex &item, int role=Qt::DisplayRole) const;
 };
 
-class CancelledOrderModel:public QSqlQueryModel{
-public:
+class CancelledOrderModel:public QSqlQueryModel {
+  public:
     QVariant data(const QModelIndex &item, int role=Qt::DisplayRole) const;
 };
 

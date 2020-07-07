@@ -18,9 +18,8 @@
 extern account_and_orders * acct; //只有当用户进入到账户界面后，也即UserID!=""时，可以有效使用
 
 flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
-        QWidget *parent,QString UserID,QString Password, QString Mode,QString Name)
-    : QWidget(parent), ui(new Ui::flight_inquiry_citys_and_date)
-{
+    QWidget *parent,QString UserID,QString Password, QString Mode,QString Name)
+    : QWidget(parent), ui(new Ui::flight_inquiry_citys_and_date) {
     ui->setupUi(this);
     QFile styleFile(":/style.qss");//使用qss文件
     styleFile.open(QIODevice::ReadOnly);//只读
@@ -32,16 +31,15 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     this->Mode = Mode;
     this->Name = Name;
 
-    if (UserID == ""){ //在之前的flight_inquiry已经对账户信息进行了筛选，此处不再重复
+    if (UserID == "") { //在之前的flight_inquiry已经对账户信息进行了筛选，此处不再重复
         ui->UserStatus->setText(tr("User Information: Not logged in"));
-    }
-    else{
+    } else {
         ui->UserStatus->setText("User Information: "+this->Name);
         ui->pushButton_4->hide();
     }
 
     //只查询起降城市，不需要起飞日期
-    if(Mode == 'C'){
+    if(Mode == 'C') {
         ui->label_3->hide();
         ui->dateEdit->hide();
     }
@@ -66,54 +64,48 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
 
 }
 
-flight_inquiry_citys_and_date::~flight_inquiry_citys_and_date()
-{
+flight_inquiry_citys_and_date::~flight_inquiry_citys_and_date() {
     delete ui;
 }
 
 //Btn: Back
-void flight_inquiry_citys_and_date::on_pushButton_2_clicked()
-{
+void flight_inquiry_citys_and_date::on_pushButton_2_clicked() {
     flight_inquiry * flt_inq = new flight_inquiry(nullptr,this->UserID,this->Password,this->Name);
     flt_inq->show();
     this->close();
 }
 
 //Btn:Cancel
-void flight_inquiry_citys_and_date::on_pushButton_3_clicked()
-{
+void flight_inquiry_citys_and_date::on_pushButton_3_clicked() {
     qDebug()<<"You decide to quit."<<endl;
     this->close();
 }
 
 //Btn:Confirm- for searching
-void flight_inquiry_citys_and_date::on_pushButton_clicked()
-{
+void flight_inquiry_citys_and_date::on_pushButton_clicked() {
     qDebug()<<Mode<<endl;
     QString dep_city = ui->DepatureCity->text();
     QString arv_city = ui->ArrivalCity->text();
     QString dep_date = ui->dateEdit->text();
 
     //允许只按照起降城市查询；
-    if (dep_city == ""||arv_city == ""){
-            QMessageBox::critical(this,tr("Critical"),tr("Incomplete input."));
-            return;
+    if (dep_city == ""||arv_city == "") {
+        QMessageBox::critical(this,tr("Critical"),tr("Incomplete input."));
+        return;
     }
 
-    if (this->Mode == "CD" && dep_date==""){
+    if (this->Mode == "CD" && dep_date=="") {
         QMessageBox::critical(this,tr("Critical"),tr("Incomplete input."));
         return;
     }
 
     //航班查询
     QString sql;
-    if (this->Mode == "CD")
-    {
+    if (this->Mode == "CD") {
         sql = QString("CALL flight_query_CD('%1','%2'"
                       ",'%3')").arg(dep_city).arg(arv_city).arg(dep_date);
 
-    }
-    else{
+    } else {
         sql = QString("CALL flight_query_C('%1','%2')").arg(dep_city).arg(arv_city);
     }
     // 查询结果的日期和时间是在NOW()的之后十分钟以及以后
@@ -144,19 +136,19 @@ void flight_inquiry_citys_and_date::on_pushButton_clicked()
 
 }
 
-QVariant MyQueryMode::data(const QModelIndex &item, int role) const{
+QVariant MyQueryMode::data(const QModelIndex &item, int role) const {
     QVariant value = QSqlQueryModel::data(item,role);
-    if (role == Qt::BackgroundColorRole){
+    if (role == Qt::BackgroundColorRole) {
         if(item.column()==13)
             return QVariant::fromValue(QColor(225,225,225));
     }
-    if (role == Qt::DisplayRole){
-        if(item.column()==7 || item.column()==12){
+    if (role == Qt::DisplayRole) {
+        if(item.column()==7 || item.column()==12) {
             if(QSqlQueryModel::data(item).toInt()==0)
                 return QVariant::fromValue(QString(tr("始发站")));
             else if(QSqlQueryModel::data(item).toInt()==-1)
                 return QVariant::fromValue(QString(tr("终点站")));
-            else{
+            else {
                 QString order = QSqlQueryModel::data(item).toString();
                 QString info = "第" + order + "中转站";
                 return QVariant::fromValue(info);
@@ -164,22 +156,21 @@ QVariant MyQueryMode::data(const QModelIndex &item, int role) const{
         }
         if(item.column()==13)
             return QVariant::fromValue(tr("Booking"));
-        }
-        return value;
+    }
+    return value;
 }
 
 
-void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
-{
-    if (index.isValid()&&index.column()==13){ //点击订票键，打开相关的UI界面，显示价格并进行购票操作
+void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index) {
+    if (index.isValid()&&index.column()==13) { //点击订票键，打开相关的UI界面，显示价格并进行购票操作
         //如果没有登陆，则提示登陆账户后再买票，并结束该界面，进入到登陆界面
         //如果登陆了，则打开购票信息框
         qDebug()<<"你刚刚点击了订票按钮"<<endl;
-        if(this->UserID==""){
+        if(this->UserID=="") {
             //说明是以游客形式登陆的，提示其先进行账户登陆
             QMessageBox::information(this,tr("Hint:"),tr("Before booking, You need to log in first."));
             return;
-        }     
+        }
 
         int row = index.row(); // 返回点击单元格的所在行数，从而根据行来提取相关航班的信息。
         QAbstractItemModel* model = ui->Flights->model();
@@ -206,15 +197,15 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
 
         //检查该用户是否已经购买过同一趟航班。如果是，则提示用户不能重复购买，并取消预定操作
         QString sql_check_doublebooking = QString("SELECT COUNT(*) FROM ticket WHERE flight_id='%1' "
-                                                  "AND ID='%2' AND CAST(departure_datetime AS date)='%3' AND ticket_id NOT IN "
-                                                  "(SELECT ticket_id FROM ticket_refund ) ")
-                                                  .arg(fligh_id).arg(acct->getUserID()).arg(dep_date);
+                                          "AND ID='%2' AND CAST(departure_datetime AS date)='%3' AND ticket_id NOT IN "
+                                          "(SELECT ticket_id FROM ticket_refund ) ")
+                                          .arg(fligh_id).arg(acct->getUserID()).arg(dep_date);
 
         qDebug()<<sql_check_doublebooking<<endl;
         QSqlQuery *query_check_doublebooking = new QSqlQuery();
         query_check_doublebooking->exec(sql_check_doublebooking);
         query_check_doublebooking->next();//查询成功，则表明此用户此前曾购买过同一趟的飞机，则此时提示已购买同一趟飞机，并禁止购买
-        if(query_check_doublebooking->value(0).toInt()){
+        if(query_check_doublebooking->value(0).toInt()) {
             QMessageBox::information(this,tr("Hint:"),tr("You have already booked this flight. Please choose another flight."));
             return;
         }
@@ -223,7 +214,7 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
 
         //根据所截取的信息来查询该趟航班是否有余票（在确认购买时仍需要查询是否有余票，以保持数据的一致性）
         QString sql_remaining_tickets_business = QString("CALL remaining_tickets_num("
-                                                "'%1','%2',%3,%4,0)").arg(fligh_id).arg(dep_date).arg(order_start).arg(order_end);
+                "'%1','%2',%3,%4,0)").arg(fligh_id).arg(dep_date).arg(order_start).arg(order_end);
         QString sql_remaining_tickets_economy = QString("CALL remaining_tickets_num("
                                                 "'%1','%2',%3,%4,1)").arg(fligh_id).arg(dep_date).arg(order_start).arg(order_end);
         qDebug()<<sql_remaining_tickets_business<<endl;
@@ -232,20 +223,20 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         int business_remaining_num=0;
         QSqlQuery *query_remaining_tickets_business = new QSqlQuery();
         query_remaining_tickets_business->exec(sql_remaining_tickets_business);
-        if(query_remaining_tickets_business->next()){
+        if(query_remaining_tickets_business->next()) {
             business_remaining_num = query_remaining_tickets_business->value(0).toInt();
         }
         int economy_remaining_num=0;
         QSqlQuery *query_remaining_tickets_econuomy = new QSqlQuery();
         query_remaining_tickets_econuomy->exec(sql_remaining_tickets_economy);
-        if(query_remaining_tickets_econuomy->next()){
+        if(query_remaining_tickets_econuomy->next()) {
             economy_remaining_num = query_remaining_tickets_econuomy->value(0).toInt();
         }
 
         qDebug()<<"公务舱剩余座位数:"<<business_remaining_num<<endl;
         qDebug()<<"经济舱剩余座位数:"<<economy_remaining_num<<endl;
 
-        if (business_remaining_num==0 && economy_remaining_num==0){
+        if (business_remaining_num==0 && economy_remaining_num==0) {
             QMessageBox::information(this,tr("Hint:"),tr("There are no tickets left on this flight. Please choose another flight."));
             return;
         }
@@ -253,16 +244,24 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         //否则，还剩余有机票可以购买，则进入到购票界面。
 
         Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,this,nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
-                                                                  arv_airportName,arv_city,arv_time,order_start,order_end);
+                arv_airportName,arv_city,arv_time,order_start,order_end);
         purchase_interface->show();
     }
 }
 
 //Btn: log in
-void flight_inquiry_citys_and_date::on_pushButton_4_clicked()
-{
+void flight_inquiry_citys_and_date::on_pushButton_4_clicked() {
     login *lgin = new login();
     lgin->show();
     QApplication::processEvents();
     this->close();
+}
+void flight_inquiry_citys_and_date::setDepartureCity(QString dep) {
+    ui->DepatureCity->setText(dep);
+}
+void flight_inquiry_citys_and_date::setArrivalCity(QString arr) {
+    ui->ArrivalCity->setText(arr);
+}
+void flight_inquiry_citys_and_date::setDate(QDate dat) {
+    ui->dateEdit->setDate(dat);
 }

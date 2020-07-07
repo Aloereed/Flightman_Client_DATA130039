@@ -4,6 +4,7 @@
 #include "flight_inquiry.h"
 #include "login.h"
 #include "account_and_orders.h"
+#include "homequiry.h"
 #include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -14,7 +15,8 @@
 #include<QStackedWidget>
 QStackedWidget* mainstack;
 extern QSqlDatabase db;
-flight_inquiry * flt_in;
+//flight_inquiry * flt_in;
+HomeQuiry *hq;
 login *lgin;
 extern account_and_orders *acct;
 extern MainWindow *startwindow;
@@ -28,11 +30,12 @@ MainClientWindow::MainClientWindow(QWidget *parent) : QMainWindow(parent), ui(ne
     ui->pushButton_3->setIconSize(ui->pushButton_3->rect().size());
     ui->pushButton->setIconSize(ui->pushButton->rect().size());
     ui->pushButton_2->setIconSize(ui->pushButton_2->rect().size());
-    flt_in=new flight_inquiry(nullptr,"","","");
+    //flt_in=new flight_inquiry(nullptr,"","","");
+    hq=new HomeQuiry();
     lgin = new login();
-    ui->stackedWidget->addWidget(flt_in);
+    ui->stackedWidget->addWidget(hq);
     ui->stackedWidget->addWidget(lgin);
-    ui->stackedWidget->setCurrentWidget(flt_in);
+    ui->stackedWidget->setCurrentWidget(hq);
     //lgin->hide();
     //QMessageBox::information(this,db.databaseName(),"Connected.");
 }
@@ -49,7 +52,7 @@ void MainClientWindow::on_pushButton_clicked() {
     this->hide();
     */
     //flight_inquiry * flt_in = new flight_inquiry(nullptr,"","","");
-    ui->stackedWidget->setCurrentWidget(flt_in);
+    ui->stackedWidget->setCurrentWidget(hq);
     QApplication::processEvents();
     //this->close();
 
