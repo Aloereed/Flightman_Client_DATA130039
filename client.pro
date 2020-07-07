@@ -30,6 +30,7 @@ SOURCES += \
     main.cpp \
     mainclientwindow.cpp \
     mainwindow.cpp \
+    messagebox.cpp \
     recharge.cpp \
     registration.cpp \
     seat_selection.cpp \
@@ -51,6 +52,7 @@ HEADERS += \
     login.h \
     mainclientwindow.h \
     mainwindow.h \
+    messagebox.h \
     recharge.h \
     registration.h \
     seat_selection.h \
@@ -76,6 +78,7 @@ FORMS += \
     login.ui \
     mainclientwindow.ui \
     mainwindow.ui \
+    messagebox.ui \
     recharge.ui \
     registration.ui \
     seat_selection.ui \
