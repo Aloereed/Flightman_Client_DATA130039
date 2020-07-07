@@ -7,15 +7,15 @@ namespace Ui {
 class login;
 }
 
-class login : public QWidget
-{
+class login : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     explicit login(QWidget *parent = nullptr);
     ~login();
+    void hideforhome();
 
-private slots:
+  private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_4_clicked();
@@ -24,7 +24,11 @@ private slots:
 
     void on_pushButton_clicked();
 
-private:
+    void on_checkBox_2_clicked();
+
+    void on_checkBox_clicked();
+
+  private:
     Ui::login *ui;
 };
 

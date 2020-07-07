@@ -1,6 +1,9 @@
 QT       += core gui
 QT       += sql
-
+android{
+    QT += androidextras
+}
+QT += core-private
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -18,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     account_and_orders.cpp \
+    chineseletterhelper.cpp \
     flight_inquiry.cpp \
     flight_inquiry_citys_and_date.cpp \
     flight_inquiry_flightid.cpp \
@@ -30,6 +34,7 @@ SOURCES += \
     registration.cpp \
     seat_selection.cpp \
     seat_selection_confirm.cpp \
+    settings.cpp \
     ticket_purchase.cpp \
     ticket_purchase_confirm.cpp \
     ticket_refund_confirm.cpp \
@@ -37,6 +42,7 @@ SOURCES += \
 
 HEADERS += \
     account_and_orders.h \
+    chineseletterhelper.h \
     flight_inquiry.h \
     flight_inquiry_citys_and_date.h \
     flight_inquiry_flightid.h \
@@ -48,6 +54,7 @@ HEADERS += \
     registration.h \
     seat_selection.h \
     seat_selection_confirm.h \
+    settings.h \
     ticket_purchase.h \
     ticket_purchase_confirm.h \
     ticket_refund_confirm.h \
@@ -71,6 +78,7 @@ FORMS += \
     registration.ui \
     seat_selection.ui \
     seat_selection_confirm.ui \
+    settings.ui \
     ticket_purchase.ui \
     ticket_purchase_confirm.ui \
     ticket_refund_confirm.ui \
@@ -100,7 +108,8 @@ DISTFILES += \
     png/logout.png \
     png/mine.png \
     png/msg.png \
-    png/return.png
+    png/return.png \
+    png/settings.png
 
 
 

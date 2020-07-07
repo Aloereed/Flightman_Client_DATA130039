@@ -9,18 +9,39 @@
 #include <QDebug>
 #include<QMessageBox>
 #include<QTranslator>
-QTranslator cn;
+QTranslator translator;
 //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
 QSqlDatabase db;
 MainClientWindow *w;
 MainWindow *startwindow;
+extern QSettings settings;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    cn.load("./client_zh_CN.qm");
+    switch(settings.value("Client/Langcase",2).toInt()) {
+    case 0: {
+        break;
+    }
 
-    qApp->installTranslator(&cn);
+    case 1: {
+        QString langdir = ":/client_zh_CN.qm";
+        translator.load(langdir);
+        qApp->installTranslator(&translator);
+
+        ui->retranslateUi(this);
+        break;
+    }
+
+    default : {
+        QString langdir = ":/client_" + QLocale::system().name() + ".qm";
+        translator.load(langdir);
+        qApp->installTranslator(&translator);
+
+        ui->retranslateUi(this);
+        settings.setValue("Client/Langcase", 2);
+    }
+    }
     startwindow=this;
     ui->retranslateUi(this);
     ui->checkBox->setChecked(true);
@@ -80,6 +101,7 @@ void MainWindow::on_commandLinkButton_clicked() {
 
     if (db.open()) {
         w = new MainClientWindow();
+        w->setWindowIcon(QIcon(":/png/icon.png"));
         w->show();
         this->hide();
     } else {

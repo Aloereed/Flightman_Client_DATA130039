@@ -13,6 +13,7 @@ class MainClientWindow : public QMainWindow {
   public:
     explicit MainClientWindow(QWidget *parent = nullptr);
     ~MainClientWindow();
+    void retranslateme();
 
   private slots:
     void on_pushButton_clicked();
@@ -21,7 +22,9 @@ class MainClientWindow : public QMainWindow {
 
     void on_pushButton_3_clicked();
 
-    void on_toolButton_clicked();
+
+    void on_toolButton_4_clicked();
+
 
   private:
     Ui::MainClientWindow *ui;

@@ -16,7 +16,11 @@
 #include <QSqlError>
 #include <QFile>
 #include <QAbstractItemModel>
+
+#include<QStackedWidget>
+#include<QSettings>
 extern login *lgin;
+extern QStackedWidget* mainstack;
 //构造对象时，必须要给参数：ID 和 Pwd
 //此处传入的Pwd是经过MD5转换后的密码，与数据库中所存储的密码对应
 extern account_and_orders * acct;
@@ -554,4 +558,10 @@ void account_and_orders::on_buyticket_pushButton_clicked() {
     flight_inquiry * flight = new flight_inquiry(nullptr,this->UserID,this->Password,this->Name);
     flight->show();
     //ui->buyticket_pushButton->setDisabled(true); //不允许成功打开查询页面后重复查询.
+}
+
+void account_and_orders::on_logoutButton_clicked() {
+    mainstack->setCurrentWidget(lgin);
+    acct=NULL;
+    delete this;
 }
