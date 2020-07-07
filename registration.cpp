@@ -8,13 +8,16 @@
 #include <QProgressDialog>
 #include <QSqlQuery>
 #include <QCryptographicHash>
+#include <QDebug>
+
+extern QSqlDatabase db;
 
 registration::registration(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::registration)
 {
     ui->setupUi(this);
-
+    qDebug()<<db.transaction()<<endl;
     ui->lineEdit->setEchoMode(QLineEdit::Normal);//ID line
     ui->lineEdit->setPlaceholderText(tr("Please Enter Your ID."));
 

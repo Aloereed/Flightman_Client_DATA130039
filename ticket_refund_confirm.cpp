@@ -72,33 +72,31 @@ void ticket_refund_confirm::on_pushButton_confirm_clicked()
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
     if(query->next()){//账户存在，执行购买操作
-        if(db.transaction()){
+        query->clear();
+        if(query->exec("BEGIN;")){
             bool sql_ok= true;
-            QSqlQuery q;
-            QString sql = QString("BEGIN; "
-//                          "CALL balanceRefresh('%1',%2); "
-                          "CALL TicketsRefundInsertion('%3',%4); "
-                          "CALL TicketsRefundLeftNumRefresh('%5','%6',%7,%8,%9); "
-                          "COMMIT; ").arg(this->ticketID)  //.arg(this->UserID).arg(this->newBalance).
+            //                          "CALL balanceRefresh('%1',%2); "
+            QString sql = QString(
+                          "CALL TicketsRefundInsertion('%1',%2); "
+                          "CALL TicketsRefundLeftNumRefresh('%3','%4',%5,%6,%7);")
+                    .arg(this->ticketID)  //.arg(this->UserID).arg(this->newBalance).
                     .arg(this->refundMoney).arg(this->flightID).arg(this->dep_datetime)
                     .arg(this->order_start).arg(this->order_end).arg(this->classType);
-            qDebug()<<sql<<endl;
             QStringList sqlList = sql.split(";",QString::SkipEmptyParts);
-            for (int i=0; i<sql.count(); i++)
+            for (int i=0; i<sqlList.count() && sql_ok; i++)
             {
-                sql_ok &= q.exec(sqlList[i]);
+                qDebug()<<sqlList[i]<<endl;
+                sql_ok &= query->exec(sqlList[i]);
             }
-            q.clear();
             if(sql_ok){
-                sql_ok = db.commit();
-            }
-            if(!sql_ok){//上述退票过程出现问题，更新撤回
-                acct->setMoney(acct->getMoney()-refundMoney);
-                QMessageBox::critical(0, "Error", q.lastError().text());
-                db.rollback();
-            }else{ //上述退票过程执行成功
+                query->exec("COMMIT;");
                 QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
                 this->close();
+            }
+            if(!sql_ok){//上述退票过程出现问题，更新撤回
+                query->exec("ROLLBACK;");
+                acct->setMoney(acct->getMoney()-refundMoney);
+                QMessageBox::critical(0, "Error", query->lastError().text());
             }
         }
     }

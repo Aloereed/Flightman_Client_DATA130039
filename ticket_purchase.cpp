@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <QSqlError>
+#include <QSqlDriver>
 
 extern account_and_orders * acct;
 extern QSqlDatabase db;
@@ -231,33 +232,30 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
         }
     }
     qDebug()<<"即将进入到购票事务"<<endl;
-    qDebug()<<db.transaction()<<endl;
-    if(db.transaction()){
+    //qDebug()<<db.driver()->hasFeature(QSqlDriver::Transactions)<<endl;
+    //qDebug()<<db.transaction()<<endl;
+    query->clear();
+    if(query->exec("BEGIN;")){
         //执行一次事务，保持数据一致性
         bool sql_ok= true;
-        QSqlQuery q;
-        QString sql = QString("BEGIN; "
+        QString sql = QString(
                       "CALL balanceRefresh('%1',%2); "
                       "CALL TicketsRecordInsertion('%3','%4','%5','%6',%7,%8,%9); "
                       "CALL TicketsPurchaseRecordInsertion('%10',%11); "
-                      "CALL TicketsLeftNumRefresh('%12','%13',%14,%15,%16); "
-                      "COMMIT;").arg(UserID).arg(newBalance).arg(ticketID).arg(UserID).arg(flightID)
+                      "CALL TicketsLeftNumRefresh('%12','%13',%14,%15,%16);"
+                      )
+                .arg(UserID).arg(newBalance).arg(ticketID).arg(UserID).arg(flightID)
                 .arg(dep_datetime).arg(order_start).arg(order_end).arg(classType).arg(ticketID)
                 .arg(price).arg(flightID).arg(dep_date).arg(order_start).arg(order_end).arg(classType);
         qDebug()<<sql<<endl;
         QStringList sqlList = sql.split(";",QString::SkipEmptyParts);
-        for (int i=0; i<sql.count(); i++)
+        for (int i=0; i<sqlList.count() && sql_ok; i++)
         {
-            sql_ok &= q.exec(sqlList[i]);
+            qDebug()<<sqlList[i]<<endl;
+            sql_ok &= query->exec(sqlList[i]);
         }
-        q.clear();
         if(sql_ok){
-            sql_ok = db.commit();
-        }
-        if(!sql_ok){
-            QMessageBox::critical(0, "Error", q.lastError().text());
-            db.rollback();
-        }else{
+            query->exec("COMMIT");
             QMessageBox::information(this,tr("Hint:"),tr("Successful! "
                                                          "Please remember to check your orders in your account."));
             qDebug()<<"购买操作执行成功！请返回个人账户查看订单信息！"<<endl;
@@ -269,6 +267,10 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
                 parent2->close();
             }
             this->close();
+        }
+        if(!sql_ok){
+            QMessageBox::critical(0, "Error", query->lastError().text());
+            query->exec("ROLLBACK");
         }
     }
 }

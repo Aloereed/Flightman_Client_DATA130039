@@ -215,9 +215,9 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(j==3) continue; //位于过道
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
-                        seatUser = hash_seatidTopassengerid.find(seatID).value();
+                      //  seatUser = hash_seatidTopassengerid.find(seatID).value();
                         ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                        if(i>=business_No || (seatUser!="")){
+                        if(i>=business_No){ //|| (seatUser!="")){
                             QTableWidgetItem *item = new QTableWidgetItem();
                             item->setBackground(QBrush(Qt::Dense4Pattern));
                             ui->tableWidget_seats->setItem(i,j,item);
@@ -230,9 +230,9 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(j==3) continue; //位于过道
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
-                        seatUser = hash_seatidTopassengerid.find(seatID).value();
+                       // seatUser = hash_seatidTopassengerid.find(seatID).value();
                         ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                        if(i<business_No || seatUser!=""){
+                        if(i<business_No){// || seatUser!=""){
                             QTableWidgetItem *item = new QTableWidgetItem();
                             item->setBackground(QBrush(Qt::Dense4Pattern));
                             ui->tableWidget_seats->setItem(i,j,item);
@@ -247,13 +247,13 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(j==3 || j==7) continue;
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
-                    seatUser = hash_seatidTopassengerid.find(seatID).value();
-                    ui->tableWidget_seats->setItem(i,j, new QTableWidgetItem("💺 "+seatID));
-                    if(i>=business_No || seatUser!=""){
-                        QTableWidgetItem *item = new QTableWidgetItem();
-                        item->setBackground(QBrush(Qt::Dense4Pattern));
-                        ui->tableWidget_seats->setItem(i,j,item);
+                  //  seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID+"**");
+                    if(i>=business_No){// || seatUser!=""){
+                        qDebug()<< "进入到不可选区域"<<endl;
+                        item->setBackground(QBrush(QColor(Qt::lightGray)));
                     }
+                    ui->tableWidget_seats->setItem(i,j, item);
                 }
             }
         }else{
@@ -263,9 +263,9 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
                     qDebug()<<"i="<<i<<" "<<"j="<<j<<endl;
-                    seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    //seatUser = hash_seatidTopassengerid.find(seatID).value();
                     QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
-                    if(i>=business_No || seatID!=""){//该座位被人使用或者该座位不属于用户对应的舱位
+                    if(i>=business_No){ //|| seatID!=""){//该座位被人使用或者该座位不属于用户对应的舱位
                         item->setBackground(QBrush(QColor(Qt::lightGray)));
                     }
                     ui->tableWidget_seats->setItem(i,j,item);
