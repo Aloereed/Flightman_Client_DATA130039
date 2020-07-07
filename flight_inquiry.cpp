@@ -11,7 +11,7 @@ flight_inquiry::flight_inquiry(QWidget *parent,QString UserID,QString Pwd,QStrin
     ui(new Ui::flight_inquiry) {
     ui->setupUi(this);
     //ui->groupBox->setTitle(tr("Query Mode:"));
-    ui->hint_label->setText(tr("Please choose the way of query."));
+    //ui->hint_label->setText(tr("Please choose the way of query."));
     ui->QuerypushButton->setText(tr("Query"));
     ui->BackpushButton->setText(tr("Back"));
     ui->CancelpushButton->setText(tr("Cancel"));
