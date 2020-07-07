@@ -95,6 +95,7 @@ RESOURCES += \
     client_zh_CN.qm \
     qss/Aqua.qss \
     qss/ElegantDark.qss \
+    png/icon.png
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
