@@ -15,6 +15,9 @@ public:
     explicit ticketANDseat_info_interface(QWidget *parent = nullptr,QString ticketID="",QString price="",QString flightID="",
                                           QString dep_airport="",QString arv_airport="",QString dep_datetime="",
                                           QString classType="",QString seatID="");
+
+    QString airportNameQuery(QString airportID);
+
     ~ticketANDseat_info_interface();
 
 private slots:

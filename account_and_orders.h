@@ -59,7 +59,9 @@ class account_and_orders : public QWidget {
 
     void on_logoutButton_clicked();
 
-  private:
+    void on_MessageBox_pushButton_clicked();
+
+private:
     Ui::account_and_orders *ui;
 
     QString UserID;

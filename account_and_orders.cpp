@@ -6,6 +6,7 @@
 #include "seat_selection.h"
 #include "login.h"
 #include "ticketandseat_info_interface.h"
+#include "messagebox.h"
 #include <QDebug>
 #include <QWidget>
 #include <QMessageBox>
@@ -119,7 +120,7 @@ float account_and_orders::ticketActualRefundQuery(float actualPay,QString dep_da
     } else if(TimeDistance>=7200) { //距离起飞还有2-24小时
         actualRefund *= 0.80;
     } else {
-        actualRefund *= 0.65;
+        actualRefund *= 0.65; //0.5-2小时
     }
     return actualRefund;
 }
@@ -564,4 +565,10 @@ void account_and_orders::on_logoutButton_clicked() {
     mainstack->setCurrentWidget(lgin);
     acct=NULL;
     delete this;
+}
+
+void account_and_orders::on_MessageBox_pushButton_clicked()
+{
+    messagebox *message_interface = new messagebox();
+    message_interface->show();
 }
