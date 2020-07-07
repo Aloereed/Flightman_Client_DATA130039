@@ -33,7 +33,7 @@ login::login(QWidget *parent) :
         ui->checkBox->setChecked(true);
     }
     ui->label->setText(tr("ID"));
-    ui->label_2->setText(tr("password"));
+    ui->label_2->setText(tr("Password"));
     ui->label_5->setText(tr("No account yet?"));
     ui->label_6->setText(tr("Back to MainWindow?"));
     ui->label_7->setText(tr("Want to quit?"));

@@ -10,6 +10,12 @@
     <height>348</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Yu Gothic UI Semilight</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -26,6 +32,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QLabel" name="label_ticketID">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -33,6 +45,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_actualPay">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -57,6 +75,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_flightID">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -81,8 +105,17 @@
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <widget class="QLabel" name="label_depAirport">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -95,6 +128,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_arvAirport">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -119,6 +158,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_depDateTime">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -143,6 +188,12 @@
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QLabel" name="label_class">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -150,6 +201,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_seat">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>TextLabel</string>
             </property>
@@ -174,6 +231,12 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_cancel">
+            <property name="font">
+             <font>
+              <family>Yu Gothic UI Semilight</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string>PushButton</string>
             </property>
