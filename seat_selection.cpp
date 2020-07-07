@@ -48,6 +48,7 @@ seat_selection::seat_selection(QWidget *parent,QString flightID,QString classTyp
 
     this->tableHeadersSet(this->flightType);
     this->tableContentsSet(this->flightType,MaxBuisRows,MaxEconRows,this->classType);
+    ui->tableWidget_seats->resizeColumnsToContents();
 
     this->ui->tableWidget_seats->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -190,11 +191,11 @@ void seat_selection::tableHeadersSet(QString flightType)
     QStringList headers;
     if(flightType=="0"){//表示为单通道
         headers << QStringLiteral("A") << QStringLiteral("B") << QStringLiteral("C")
-                <<QStringLiteral("过道")<<QStringLiteral("J")<<QStringLiteral("K")
+                <<QStringLiteral("——")<<QStringLiteral("J")<<QStringLiteral("K")
                <<QStringLiteral("L");
     }else{  //表示为双通道
-        headers << QStringLiteral("A") << QStringLiteral("B") << QStringLiteral("C")<<QStringLiteral("过道")
-                <<QStringLiteral("D")<<QStringLiteral("E")<<QStringLiteral("G")<<QStringLiteral("过道")
+        headers << QStringLiteral("A") << QStringLiteral("B") << QStringLiteral("C")<<QStringLiteral("——")
+                <<QStringLiteral("D")<<QStringLiteral("E")<<QStringLiteral("G")<<QStringLiteral("——")
                <<QStringLiteral("H")<<QStringLiteral("J")<<QStringLiteral("K");
     }
     ui->tableWidget_seats->setHorizontalHeaderLabels(headers);
@@ -296,11 +297,6 @@ void seat_selection::on_tableWidget_seats_itemClicked(QTableWidgetItem *item)
         QMessageBox::information(this,tr("Hint:"),tr("The seat has been selected. Please choose another one."));
         return;
     }
-//    if(this->IsSeatInUsage(this->flightID,this->order_start,this->dep_date,seatID)){
-//        //说明座位正在被使用，此次选位非法
-//        QMessageBox::information(this,tr("Hint:"),tr("The seat has been selected. Please choose another one."));
-//        return;
-//    }
     seat_selection_confirm *confirm_interface = new seat_selection_confirm(nullptr,this,seatID);
     confirm_interface->show();
     qDebug()<<"座位选择完毕"<<endl;

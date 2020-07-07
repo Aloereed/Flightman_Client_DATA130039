@@ -6,6 +6,7 @@
 #include <QSqlQueryModel>
 #include <QModelIndex>
 #include <QVariant>
+#include <QHash>
 
 
 
@@ -33,6 +34,7 @@ public:
     QString ticketOrderStartQuery(QString ticketID);
     QString ticketOrderEndQuery(QString ticketID);
     QString ticketActualPayQuery(QString ticketID);
+    QHash<QString,QString> SeatsOfUser(QString flightID,QString order_start,QString dep_date);
 
     void BalanceRefresh();
 
