@@ -163,7 +163,8 @@ void flight_inquiry_flightID::on_tableView_clicked(const QModelIndex &index)
 
         //检查该用户是否已经购买过同一趟航班。如果是，则提示用户不能重复购买，并取消预定操作
         QString sql_check_doublebooking = QString("SELECT COUNT(*) FROM ticket WHERE flight_id='%1' "
-                "AND ID='%2' AND CAST(departure_datetime AS date)='%3'")
+                "AND ID='%2' AND CAST(departure_datetime AS date)='%3' AND ticket_id NOT IN "
+                "(SELECT ticket_id FROM ticket_refund ) ")
                 .arg(fligh_id).arg(acct->getUserID()).arg(dep_date);
 //        "AND ID='%2' AND ( CAST(departure_datetime AS date)='%3' "
 //        "OR  DATEDIFF(CAST(departure_datetime AS date),CAST('%4' AS date))=1 )")
