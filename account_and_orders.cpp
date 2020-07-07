@@ -4,6 +4,7 @@
 #include "flight_inquiry.h"
 #include "ticket_refund_confirm.h"
 #include "seat_selection.h"
+#include "login.h"
 #include <QDebug>
 #include <QWidget>
 #include <QMessageBox>
@@ -14,13 +15,12 @@
 #include <QSqlError>
 #include <QFile>
 #include <QAbstractItemModel>
-
+extern login *lgin;
 //构造对象时，必须要给参数：ID 和 Pwd
 //此处传入的Pwd是经过MD5转换后的密码，与数据库中所存储的密码对应
 extern account_and_orders * acct;
 
-account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) : QWidget(parent), ui(new Ui::account_and_orders)
-{
+account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) : QWidget(parent), ui(new Ui::account_and_orders) {
     ui->setupUi(this);
     QFile styleFile(":/style.qss");//使用qss文件
     styleFile.open(QIODevice::ReadOnly);//只读
@@ -40,7 +40,7 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     float money = 0;
     int membership = 0;
     QString name = QString("");
-    if(query_user->next()){
+    if(query_user->next()) {
         money_string = query_user->value(3).toString();
         money = query_user->value(3).toInt();
         membership = query_user->value(2).toInt();
@@ -56,12 +56,11 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     ui->User_label->setText(greeting);
     ui->account_label->setText(tr("Account Balance: ") + money_string + tr("￥"));
 
-    if(membership == 1){
+    if(membership == 1) {
         ui->memInfo_label->setText(tr("Membership: Yes"));
         ui->Buymem_pushButton->setDisabled(true);
         //成为会员之后不需要再购买会员
-    }
-    else{
+    } else {
         ui->memInfo_label->setText(tr("Membership: No"));
     }
 
@@ -78,31 +77,30 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     ui->Buymem_pushButton->setText(tr("Pay for Membership (100￥)"));
     ui->buyticket_pushButton->setText(tr("Pay for Flights"));
     ui->Refresh_pushButton->setText(tr("Refresh"));
-    ui->MessageBox_pushButton->setText(tr("Messages"));
+    //ui->MessageBox_pushButton->setText(tr("Messages"));
     ui->Hint_label->setText(tr("click 'Messages' to check NEW information."));
-
-
+    ui->logoutButton->setMaximumWidth(ui->logoutButton->height());
+    ui->logoutButton->setIconSize(ui->logoutButton->rect().size());
+    ui->MessageBox_pushButton->setMaximumWidth(ui->MessageBox_pushButton->height());
+    ui->MessageBox_pushButton->setIconSize(ui->MessageBox_pushButton->rect().size());
     this->on_Refresh_pushButton_clicked();
 
 }
 
-account_and_orders::~account_and_orders()
-{
+account_and_orders::~account_and_orders() {
     delete ui;
+    acct=NULL;
 }
 
-void account_and_orders::setMoney(float Money)
-{
+void account_and_orders::setMoney(float Money) {
     this->Money = Money;
 }
 
-float account_and_orders::getMoney()
-{
+float account_and_orders::getMoney() {
     return this->Money;
 }
 
-float account_and_orders::ticketActualRefundQuery(float actualPay,QString dep_datetime)
-{
+float account_and_orders::ticketActualRefundQuery(float actualPay,QString dep_datetime) {
     float actualRefund = actualPay;
     int TimeDistance = 0;
     QString sql = QString("SELECT UNIX_TIMESTAMP(CAST('%1' AS DATETIME)) - UNIX_TIMESTAMP(NOW())").arg(dep_datetime);
@@ -110,31 +108,29 @@ float account_and_orders::ticketActualRefundQuery(float actualPay,QString dep_da
     query->exec(sql);
     query->first();
     TimeDistance = query->value(0).toInt();
-    if(TimeDistance>=86400){ //距离起飞还有24小时以及更久
+    if(TimeDistance>=86400) { //距离起飞还有24小时以及更久
         actualRefund *= 0.90;
-    }else if(TimeDistance>=7200){//距离起飞还有2-24小时
+    } else if(TimeDistance>=7200) { //距离起飞还有2-24小时
         actualRefund *= 0.80;
-    }else{
+    } else {
         actualRefund *= 0.65;
     }
     return actualRefund;
 }
 
-QString account_and_orders::getUserID()
-{
+QString account_and_orders::getUserID() {
     return this->UserID;
 }
 
-QString account_and_orders::seatIDQuery(QString flightID, QString dep_date, QString order_start,QString order_end,QString passengerID)
-{
+QString account_and_orders::seatIDQuery(QString flightID, QString dep_date, QString order_start,QString order_end,QString passengerID) {
     QString seatID = ""; //默认无查询结果的话，座位号为空
     QString maxorder = "0";
     QString sql;
     QSqlQuery *query = new QSqlQuery();
-    if(order_end == "-1"){ //对order_end进行修正
+    if(order_end == "-1") { //对order_end进行修正
         sql = QString("SELECT maxorder FROM seat_oneclick_view WHERE flight_id='%1'").arg(flightID);//将order_end调整至正确的数值
         query->exec(sql);
-        if(query->next()){
+        if(query->next()) {
             maxorder = query->value(0).toString();
         }
         int order_end_int = (maxorder.toInt()+1);
@@ -142,50 +138,47 @@ QString account_and_orders::seatIDQuery(QString flightID, QString dep_date, QStr
     }
 
     sql = QString("SELECT seat_id FROM seat_arrangement "
-                          "WHERE flight_id='%1' AND departure_date='%2' AND passengerID='%3' AND "
-                          "`order`>=%4 AND `order`<%5")
-            .arg(flightID).arg(dep_date).arg(passengerID).arg(order_start).arg(order_end);
+                  "WHERE flight_id='%1' AND departure_date='%2' AND passengerID='%3' AND "
+                  "`order`>=%4 AND `order`<%5")
+          .arg(flightID).arg(dep_date).arg(passengerID).arg(order_start).arg(order_end);
     query->clear();
     query->exec(sql);
-    if(query->next()){//说明是查询到了相关用户的座位信息，可以查询该用户在本次航程上的座位号
+    if(query->next()) { //说明是查询到了相关用户的座位信息，可以查询该用户在本次航程上的座位号
         seatID = query->value(0).toString();
     }
     //否则说明没有查询到乘客的座位信息，返回空字符串
     return seatID;
 }
 
-QString account_and_orders::ticketOrderStartQuery(QString ticketID)
-{
+QString account_and_orders::ticketOrderStartQuery(QString ticketID) {
     QString depID = "0";
     QString sql = QString("SELECT departure_id FROM ticket WHERE ticket_id='%1'").arg(ticketID);
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
-    if(query->next()){
+    if(query->next()) {
         depID = query->value(0).toString();
     }
     return depID;
 }
 
-QString account_and_orders::ticketOrderEndQuery(QString ticketID)
-{
+QString account_and_orders::ticketOrderEndQuery(QString ticketID) {
     QString arvID = "-1";
     QString sql = QString("SELECT arrival_id FROM ticket WHERE ticket_id='%1'").arg(ticketID);
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
-    if(query->next()){
+    if(query->next()) {
         arvID = query->value(0).toString();
     }
     return arvID;
 }
 
-QString account_and_orders::ticketActualPayQuery(QString ticketID)
-{
+QString account_and_orders::ticketActualPayQuery(QString ticketID) {
     QString actualPay = "0";
     QString sql = QString("SELECT actual_payment FROM ticket_purchase WHERE ticket_id='%1'").arg(ticketID);
     qDebug()<<sql<<endl;
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
-    if(query->next()){
+    if(query->next()) {
         actualPay = query->value(0).toString();
         qDebug()<<actualPay<<endl;
     }
@@ -193,30 +186,25 @@ QString account_and_orders::ticketActualPayQuery(QString ticketID)
 
 }
 
-void account_and_orders::BalanceRefresh()
-{
+void account_and_orders::BalanceRefresh() {
     QString money_string = QString("%1").arg(this->Money);
     ui->account_label->setText(tr("Account Balance: ") + money_string + tr("￥"));
 }
 
-int account_and_orders::getMembership()
-{
+int account_and_orders::getMembership() {
     return this->Membership;
 }
 
-int account_and_orders::getStatus()
-{
+int account_and_orders::getStatus() {
     return this->status;
 }
 
-void account_and_orders::setStatus(int status)
-{
+void account_and_orders::setStatus(int status) {
     this->status = status;
 }
 
-void account_and_orders::on_Buymem_pushButton_clicked()
-{
-    if (this->Money < 100){
+void account_and_orders::on_Buymem_pushButton_clicked() {
+    if (this->Money < 100) {
         QMessageBox::information(this,tr("Hint"),tr("Sorry, your balance is not enough."));
         return;
     }
@@ -234,29 +222,26 @@ void account_and_orders::on_Buymem_pushButton_clicked()
     qDebug()<<sql_user <<endl;
     //更新界面
     bool ok = query_user->exec(sql_user);
-    if(ok){
+    if(ok) {
         this->Money -= 100;  //扣除会员费
         this->BalanceRefresh();
         ui->memInfo_label->setText(tr("Membership: Yes"));
         ui->Buymem_pushButton->setDisabled(true);
 
         QMessageBox::information(this,tr("Hint:"),tr("Your payment has been done."));
-    }
-    else{
+    } else {
         QMessageBox::information(this,tr("Hint:"),tr("Something wrong with your payment."));
     }
 
 
 }
 
-void account_and_orders::on_Recharge_pushButton_clicked()
-{
+void account_and_orders::on_Recharge_pushButton_clicked() {
     recharge * rec = new recharge();
     rec->show();
 }
 
-void account_and_orders::on_Refresh_pushButton_clicked()
-{
+void account_and_orders::on_Refresh_pushButton_clicked() {
     this->BalanceRefresh();
     QString ID = this->getUserID();
 
@@ -313,9 +298,8 @@ void account_and_orders::on_Refresh_pushButton_clicked()
 }
 
 
-void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
-{
-    if (index.isValid()&&index.column()==8){ //点击退票键，检查退票标准是否成立
+void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
+    if (index.isValid()&&index.column()==8) { //点击退票键，检查退票标准是否成立
         // 如果已值机或者未值机但退票时间Now()距离起飞时间不到3小时，则不能退票；
         // 如果还未值机且时间还未到起飞前3小时，可以退票
         // 根据起飞时间判断返回票价
@@ -326,7 +310,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
         QString dep_datetime = model->data(model->index(row,2)).toString();
         dep_datetime = dep_datetime.mid(0,10)+" "+dep_datetime.mid(11,8);
         this->on_Refresh_pushButton_clicked();
-        if(seatID != ""){ //如果完成了值机，则不允许退票
+        if(seatID != "") { //如果完成了值机，则不允许退票
             QMessageBox::information(this,tr("Hint:"),tr("You have checked in. So you cannot refund your ticket."));
             return;
         }
@@ -337,7 +321,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
         query->exec(sql);
         query->first();
         TimeDistance = query->value(0).toInt();
-        if(TimeDistance <= 1800){ //退票时间距离起飞还有0.5小时
+        if(TimeDistance <= 1800) { //退票时间距离起飞还有0.5小时
             QMessageBox::information(this,tr("Hint:"),tr("The flight is going to take off soon.So you cannot refund your ticket."));
             return;
         }
@@ -358,11 +342,10 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
         acct->setMoney(newBalance);
 
         ticket_refund_confirm *refund_interface = new ticket_refund_confirm(nullptr,this->UserID,newBalance,ticketID
-                                                                            ,refundMoney,flightID,dep_datetime
-                                                                            ,order_start,order_end,classType);
+                ,refundMoney,flightID,dep_datetime
+                ,order_start,order_end,classType);
         refund_interface->show();
-    }
-    else if (index.isValid()&&index.column()==9){ //点击值机，进行值机操作
+    } else if (index.isValid()&&index.column()==9) { //点击值机，进行值机操作
         //
         qDebug()<<"你刚刚点击了值机按钮"<<endl; //选择座位等()
         int row = index.row(); //获取点击的行数
@@ -376,7 +359,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
         QString order_start = this->ticketOrderStartQuery(ticketID);
         QString order_end = this->ticketOrderEndQuery(ticketID);
         this->on_Refresh_pushButton_clicked();
-        if(seatID != ""){ //如果完成了值机，则不允许退票
+        if(seatID != "") { //如果完成了值机，则不允许退票
             QMessageBox::information(this,tr("Hint:"),tr("You have checked in. So you cannot Check In AGAIN."));
             return;
         }
@@ -387,27 +370,26 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index)
         query->exec(sql);
         query->first();
         TimeDistance = query->value(0).toInt();
-        if(TimeDistance <= 900){ //起飞时间距离起飞还有15分钟
+        if(TimeDistance <= 900) { //起飞时间距离起飞还有15分钟
             QMessageBox::information(this,tr("Hint:"),tr("The flight is going to take off soon. Check In service have been closed."));
             return;
         }
         //满足值机条件，进入值机界面
         qDebug()<<"满足条件，您即将进入值机页面"<<endl;
         seat_selection *checkIn_interface = new seat_selection(nullptr,model->data(model->index(row,1)).toString(),classType
-                                                               ,dep_datetime.mid(0,10),acct->getUserID(),order_start,order_end);
+                ,dep_datetime.mid(0,10),acct->getUserID(),order_start,order_end);
         checkIn_interface->show();
-    }
-    else if (index.isValid()&&index.column()==10){ //点击值机，进行值机操作
+    } else if (index.isValid()&&index.column()==10) { //点击值机，进行值机操作
         //
         qDebug()<<"你刚刚点击了改签按钮"<<endl; //选择座位等()
     }
 
 }
 
-QVariant FinishedOrderModel::data(const QModelIndex &item, int role) const{
+QVariant FinishedOrderModel::data(const QModelIndex &item, int role) const {
     QVariant value = QSqlQueryModel::data(item,role);
-    if (role == Qt::DisplayRole){
-        if(item.column()==5){
+    if (role == Qt::DisplayRole) {
+        if(item.column()==5) {
             if(QSqlQueryModel::data(item).toInt()==0)
                 return QVariant::fromValue(QString(tr("Business")));
             else
@@ -418,9 +400,9 @@ QVariant FinishedOrderModel::data(const QModelIndex &item, int role) const{
 }
 
 
-QVariant ComingOrderModel::data(const QModelIndex &item, int role) const{
+QVariant ComingOrderModel::data(const QModelIndex &item, int role) const {
     QVariant value = QSqlQueryModel::data(item,role);
-    if (role == Qt::BackgroundColorRole){
+    if (role == Qt::BackgroundColorRole) {
         if(item.column()==8)
             return QVariant::fromValue(QColor(225,225,225));
         else if(item.column()==9)
@@ -428,14 +410,14 @@ QVariant ComingOrderModel::data(const QModelIndex &item, int role) const{
         else if(item.column()==10)
             return QVariant::fromValue(QColor(225,225,225));
     }
-    if (role == Qt::DisplayRole){
-        if(item.column()==5){
+    if (role == Qt::DisplayRole) {
+        if(item.column()==5) {
             if(QSqlQueryModel::data(item).toInt()==0)
                 return QVariant::fromValue(QString(tr("Business")));
             else
                 return QVariant::fromValue(QString(tr("Economy")));
         }
-        if(item.column()==7){//座位列显示的相关操作
+        if(item.column()==7) { //座位列显示的相关操作
 //            int row = item.row();
 //            QString ticket_id = this->data(this->index(row,0)).toString();     //ticketid
 //            QString flight_id = this->data(this->index(row,1)).toString();
@@ -458,14 +440,14 @@ QVariant ComingOrderModel::data(const QModelIndex &item, int role) const{
             return QVariant::fromValue(tr("Check In"));
         else if(item.column()==10)
             return QVariant::fromValue(tr("Rebooking"));
-        }
-        return value;
+    }
+    return value;
 }
 
-QVariant CancelledOrderModel::data(const QModelIndex &item, int role) const{
+QVariant CancelledOrderModel::data(const QModelIndex &item, int role) const {
     QVariant value = QSqlQueryModel::data(item,role);
-    if (role == Qt::DisplayRole){
-        if(item.column()==5){
+    if (role == Qt::DisplayRole) {
+        if(item.column()==5) {
             if(QSqlQueryModel::data(item).toInt()==0)
                 return QVariant::fromValue(QString(tr("Business")));
             else
@@ -477,8 +459,7 @@ QVariant CancelledOrderModel::data(const QModelIndex &item, int role) const{
 
 
 
-void account_and_orders::on_buyticket_pushButton_clicked()
-{
+void account_and_orders::on_buyticket_pushButton_clicked() {
     flight_inquiry * flight = new flight_inquiry(nullptr,this->UserID,this->Password,this->Name);
     flight->show();
     //ui->buyticket_pushButton->setDisabled(true); //不允许成功打开查询页面后重复查询.

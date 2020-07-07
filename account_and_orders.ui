@@ -22,15 +22,41 @@
   <property name="windowTitle">
    <string>Account and Orders</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="User_label">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="User_label">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="MessageBox_pushButton">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="png.qrc">
+         <normaloff>:/png/msg.png</normaloff>:/png/msg.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="logoutButton">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="png.qrc">
+         <normaloff>:/png/logout.png</normaloff>:/png/logout.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="1" column="0">
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="account_label">
@@ -67,7 +93,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QPushButton" name="Recharge_pushButton">
@@ -90,16 +116,9 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="MessageBox_pushButton">
-       <property name="text">
-        <string>PushButton</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
-   <item row="3" column="0">
+   <item>
     <widget class="QTabWidget" name="orders">
      <property name="currentIndex">
       <number>2</number>
@@ -136,7 +155,7 @@
      </widget>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <spacer name="horizontalSpacer_2">
@@ -181,6 +200,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="png.qrc"/>
+ </resources>
  <connections/>
 </ui>

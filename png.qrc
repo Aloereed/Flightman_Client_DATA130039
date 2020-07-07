@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>png/air.png</file>
+        <file>png/mine.png</file>
+        <file>png/return.png</file>
+        <file>png/background.jpg</file>
+        <file>png/logout.png</file>
+        <file>png/msg.png</file>
+    </qresource>
+</RCC>

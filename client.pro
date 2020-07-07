@@ -51,6 +51,7 @@ HEADERS += \
 
 RESOURCES += \
     loginbtn.qrc \
+    png.qrc \
     style.qss
 
 FORMS += \
@@ -74,7 +75,8 @@ TRANSLATIONS += \
 RESOURCES += \
     client_zh_CN.qm \
     qss/Aqua.qss \
-    qss/ElegantDark.qss
+    qss/ElegantDark.qss \
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
@@ -85,7 +87,13 @@ ANDROID_EXTRA_LIBS +=    \ # modify the path
 
 DISTFILES += \
     android_sources/AndroidManifest.xml \
-    android_sources/png/icon.png
+    android_sources/png/icon.png  \
+    png/air.png \
+    png/background.jpg \
+    png/logout.png \
+    png/mine.png \
+    png/msg.png \
+    png/return.png
 
 
 

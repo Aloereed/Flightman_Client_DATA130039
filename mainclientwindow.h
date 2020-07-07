@@ -7,22 +7,23 @@ namespace Ui {
 class MainClientWindow;
 }
 
-class MainClientWindow : public QMainWindow
-{
+class MainClientWindow : public QMainWindow {
     Q_OBJECT
 
-public:
+  public:
     explicit MainClientWindow(QWidget *parent = nullptr);
     ~MainClientWindow();
 
-private slots:
+  private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
 
     void on_pushButton_3_clicked();
 
-private:
+    void on_toolButton_clicked();
+
+  private:
     Ui::MainClientWindow *ui;
 };
 

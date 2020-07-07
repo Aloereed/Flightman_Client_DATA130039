@@ -9,13 +9,13 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QCryptographicHash>
-
+#include<QStackedWidget>
+extern QStackedWidget* mainstack;
 account_and_orders *acct;
 
 login::login(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::login)
-{
+    ui(new Ui::login) {
     ui->setupUi(this);
     //this->layout()->setSizeConstraint(QLayout::SetFixedSize);
     ui->UserID->setEchoMode(QLineEdit::Normal);
@@ -35,14 +35,12 @@ login::login(QWidget *parent) :
     ui->pushButton_5->setText(tr("Cancel"));
 }
 
-login::~login()
-{
+login::~login() {
     delete ui;
 }
 
 //Btn: Register Now
-void login::on_pushButton_2_clicked()
-{
+void login::on_pushButton_2_clicked() {
     registration * regis = new registration();
     QApplication::processEvents();
     regis->show();
@@ -50,8 +48,7 @@ void login::on_pushButton_2_clicked()
     this->close();
 }
 //Btn: Back
-void login::on_pushButton_4_clicked()
-{
+void login::on_pushButton_4_clicked() {
     MainClientWindow * mainclientwindow = new MainClientWindow();
     QApplication::processEvents();
     mainclientwindow->show();
@@ -60,18 +57,16 @@ void login::on_pushButton_4_clicked()
 
 }
 //Btn: Cancel
-void login::on_pushButton_5_clicked()
-{
+void login::on_pushButton_5_clicked() {
     qDebug()<<"You decide to quit."<<endl;
     this->close();
 }
 
-void login::on_pushButton_clicked()
-{
+void login::on_pushButton_clicked() {
     QString UserID = ui->UserID->text();
     QString Password = ui->Password->text();
 
-    if (UserID==""||Password==""){
+    if (UserID==""||Password=="") {
         QMessageBox::critical(this,tr("critical"),tr("incomplete input."));
         return;
     }
@@ -89,12 +84,11 @@ void login::on_pushButton_clicked()
     if(query->next()) {
         //若查询成功，则进入到相应的用户界面
         acct = new account_and_orders(nullptr,UserID,Password);
-        acct->show();
+        mainstack->addWidget(acct);
+        mainstack->setCurrentWidget(acct);
         this->close();
-    }
-    else
-    {
-    QMessageBox::critical(this,tr("critical"),tr("The account doesn't exist."));
-    return;
+    } else {
+        QMessageBox::critical(this,tr("critical"),tr("The account doesn't exist."));
+        return;
     }
 }

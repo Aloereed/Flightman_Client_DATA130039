@@ -6,97 +6,137 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>454</height>
+    <width>685</width>
+    <height>811</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Flight Information System</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#MainClientWindow{
+	border-image: url(:/png/background.jpg);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>90</y>
-      <width>454</width>
-      <height>205</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="0">
-      <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="0" colspan="2">
+     <widget class="QWidget" name="widget" native="true">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>200</height>
+       </size>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLabel" name="label">
-         <property name="font">
-          <font>
-           <family>Constantia</family>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
+        <widget class="QToolButton" name="pushButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Welcome to Flightman&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;A Query and Ticketing System of Flights&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton">
          <property name="font">
           <font>
            <family>Yu Gothic UI Semilight</family>
-           <pointsize>16</pointsize>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
           <string>Flight Query</string>
          </property>
+         <property name="icon">
+          <iconset resource="png.qrc">
+           <normaloff>:/png/air.png</normaloff>:/png/air.png</iconset>
+         </property>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
+         </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QToolButton" name="pushButton_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="font">
           <font>
            <family>Yu Gothic UI Semilight</family>
-           <pointsize>16</pointsize>
+           <pointsize>12</pointsize>
           </font>
          </property>
          <property name="text">
           <string>My Order</string>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="font">
-          <font>
-           <family>Yu Gothic UI Semilight</family>
-           <pointsize>16</pointsize>
-          </font>
+         <property name="icon">
+          <iconset resource="png.qrc">
+           <normaloff>:/png/mine.png</normaloff>:/png/mine.png</iconset>
          </property>
-         <property name="text">
-          <string>Cancel</string>
+         <property name="toolButtonStyle">
+          <enum>Qt::ToolButtonTextUnderIcon</enum>
          </property>
         </widget>
        </item>
       </layout>
-     </item>
-    </layout>
-   </widget>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QWidget" name="widget_2" native="true"/>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Yu Gothic UI Semilight</family>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="png.qrc">
+        <normaloff>:/png/return.png</normaloff>:/png/return.png</iconset>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="page"/>
+      <widget class="QWidget" name="page_2"/>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>650</width>
-     <height>21</height>
+     <width>685</width>
+     <height>23</height>
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="png.qrc"/>
+ </resources>
  <connections/>
 </ui>
