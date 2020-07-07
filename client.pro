@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     account_and_orders.cpp \
+    chineseletterhelper.cpp \
     flight_inquiry.cpp \
     flight_inquiry_citys_and_date.cpp \
     flight_inquiry_flightid.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
 
 HEADERS += \
     account_and_orders.h \
+    chineseletterhelper.h \
     flight_inquiry.h \
     flight_inquiry_citys_and_date.h \
     flight_inquiry_flightid.h \

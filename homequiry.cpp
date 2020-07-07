@@ -3,6 +3,7 @@
 #include "flight_inquiry.h"
 #include "flight_inquiry_citys_and_date.h"
 #include "account_and_orders.h"
+#include "chineseletterhelper.h"
 extern account_and_orders* acct;
 HomeQuiry::HomeQuiry(QWidget *parent) :
     QWidget(parent),
@@ -71,8 +72,8 @@ void HomeQuiry::on_pushButton_2_clicked() {
                 ,"","CD","");
     }
     //flt_cd->ui->DepartureCity->setText(ui->lineEdit->text());
-    flt_cd->setDepartureCity(ui->lineEdit->text()) ;
-    flt_cd->setArrivalCity(ui->lineEdit_2->text()) ;
+    flt_cd->setDepartureCity(ChineseLetterHelper::GetPinyins(ui->lineEdit->text())) ;
+    flt_cd->setArrivalCity(ChineseLetterHelper::GetPinyins(ui->lineEdit_2->text())) ;
     flt_cd->setDate(ui->dateEdit->date()) ;
     flt_cd->on_pushButton_clicked();
     flt_cd->show();
@@ -91,13 +92,13 @@ void HomeQuiry::on_pushButton_3_clicked() {
                 ,"","CD","");
     }
     //flt_cd->ui->DepartureCity->setText(ui->lineEdit->text());
-    flt_cd->setDepartureCity(ui->lineEdit_5->text()) ;
-    flt_cd->setArrivalCity(ui->lineEdit_6->text()) ;
+    flt_cd->setDepartureCity(ChineseLetterHelper::GetPinyins(ui->lineEdit_5->text())) ;
+    flt_cd->setArrivalCity(ChineseLetterHelper::GetPinyins(ui->lineEdit_6->text())) ;
     flt_cd->setDate(ui->dateEdit_2->date()) ;
     flt_cd->on_pushButton_clicked();
     flt_cd->show();
-    flt_cd2->setDepartureCity(ui->lineEdit_6->text()) ;
-    flt_cd2->setArrivalCity(ui->lineEdit_5->text()) ;
+    flt_cd2->setDepartureCity(ChineseLetterHelper::GetPinyins(ui->lineEdit_6->text())) ;
+    flt_cd2->setArrivalCity(ChineseLetterHelper::GetPinyins(ui->lineEdit_5->text())) ;
     flt_cd2->setDate(ui->dateEdit_3->date()) ;
     flt_cd2->on_pushButton_clicked();
     flt_cd2->show();
