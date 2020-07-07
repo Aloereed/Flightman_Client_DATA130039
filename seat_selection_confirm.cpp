@@ -1,6 +1,7 @@
 #include "seat_selection_confirm.h"
 #include "ui_seat_selection_confirm.h"
 #include "account_and_orders.h"
+#include "seat_selection.h"
 #include <QMessageBox>
 #include <QCryptographicHash>
 #include <QSqlQuery>
@@ -65,6 +66,8 @@ void seat_selection_confirm::on_pushButton_confirm_clicked()
         query->clear();
         if(query->exec(sql)){
             QMessageBox::information(this,tr("Hint"),tr("You have selected your seat. Please check it in your order."));
+            this->parent->close();
+            this->close();
             return;
         }else{
             QMessageBox::critical(this,tr("WRONG"),tr("Something went wrong. Please try again."));

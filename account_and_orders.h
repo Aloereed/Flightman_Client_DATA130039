@@ -30,11 +30,13 @@ class account_and_orders : public QWidget {
     float getMoney();
     float ticketActualRefundQuery(float actualPay,QString dep_datetime);
     QString getUserID();
-    QString seatIDQuery(QString flightID,QString dep_date, QString order_start,QString order_end,QString passengerID);
+    QString seatIDQuery(QString flightID,QString dep_date,QString passengerID);
     QString ticketOrderStartQuery(QString ticketID);
     QString ticketOrderEndQuery(QString ticketID);
     QString ticketActualPayQuery(QString ticketID);
-    QHash<QString,QString> SeatsOfUser(QString flightID,QString order_start,QString dep_date);
+    QHash<QString,QString> HashSeatsOfUser(QString passengerID);
+    QHash<QString,QString> getHashSeatsOfUser();
+    bool IsCheckedIn(QString flightID, QString dep_date,QString passengerID);
 
     void BalanceRefresh();
 
@@ -65,6 +67,7 @@ class account_and_orders : public QWidget {
     QString Name;
     QString seatID;
     int status;
+    QHash<QString,QString> hash_seatsInfoOfUser;
 };
 
 class FinishedOrderModel:public QSqlQueryModel {

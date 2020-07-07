@@ -32,7 +32,8 @@ SOURCES += \
     seat_selection_confirm.cpp \
     ticket_purchase.cpp \
     ticket_purchase_confirm.cpp \
-    ticket_refund_confirm.cpp
+    ticket_refund_confirm.cpp \
+    ticketandseat_info_interface.cpp
 
 HEADERS += \
     account_and_orders.h \
@@ -49,7 +50,8 @@ HEADERS += \
     seat_selection_confirm.h \
     ticket_purchase.h \
     ticket_purchase_confirm.h \
-    ticket_refund_confirm.h
+    ticket_refund_confirm.h \
+    ticketandseat_info_interface.h
 
 RESOURCES += \
     loginbtn.qrc \
@@ -71,7 +73,8 @@ FORMS += \
     seat_selection_confirm.ui \
     ticket_purchase.ui \
     ticket_purchase_confirm.ui \
-    ticket_refund_confirm.ui
+    ticket_refund_confirm.ui \
+    ticketandseat_info_interface.ui
 
 TRANSLATIONS += \
     client_zh_CN.ts

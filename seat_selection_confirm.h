@@ -13,7 +13,8 @@ class seat_selection_confirm : public QWidget
     Q_OBJECT
 
 public:
-    explicit seat_selection_confirm(QWidget *parent = nullptr,seat_selection *parent_true=nullptr,QString seatID="");
+    explicit seat_selection_confirm(QWidget *parent = nullptr,seat_selection *parent_true=nullptr
+            ,QString seatID="");
     ~seat_selection_confirm();
 
 private slots:

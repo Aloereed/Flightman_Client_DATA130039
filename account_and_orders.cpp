@@ -5,6 +5,7 @@
 #include "ticket_refund_confirm.h"
 #include "seat_selection.h"
 #include "login.h"
+#include "ticketandseat_info_interface.h"
 #include <QDebug>
 #include <QWidget>
 #include <QMessageBox>
@@ -51,6 +52,7 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     this->Money = money;
     this->Membership = membership;
     this->status = 0;
+    this->hash_seatsInfoOfUser = this->HashSeatsOfUser(this->UserID);
 
     QString greeting = QString("Hello, %1").arg(this->Name);
     ui->User_label->setText(greeting);
@@ -122,26 +124,12 @@ QString account_and_orders::getUserID() {
     return this->UserID;
 }
 
-QString account_and_orders::seatIDQuery(QString flightID, QString dep_date, QString order_start,QString order_end,QString passengerID) {
+QString account_and_orders::seatIDQuery(QString flightID, QString dep_date,QString passengerID) {
     QString seatID = ""; //默认无查询结果的话，座位号为空
-    QString maxorder = "0";
-    QString sql;
+    QString sql= QString("SELECT seat_id FROM seat_arrangement WHERE flight_id='%1' "
+                         "AND departure_date='%2' AND passengerID='%3'")
+                 .arg(flightID).arg(dep_date).arg(passengerID);
     QSqlQuery *query = new QSqlQuery();
-    if(order_end == "-1") { //对order_end进行修正
-        sql = QString("SELECT maxorder FROM seat_oneclick_view WHERE flight_id='%1'").arg(flightID);//将order_end调整至正确的数值
-        query->exec(sql);
-        if(query->next()) {
-            maxorder = query->value(0).toString();
-        }
-        int order_end_int = (maxorder.toInt()+1);
-        order_end = QString("%1").arg(order_end_int);
-    }
-
-    sql = QString("SELECT seat_id FROM seat_arrangement "
-                  "WHERE flight_id='%1' AND departure_date='%2' AND passengerID='%3' AND "
-                  "`order`>=%4 AND `order`<%5")
-          .arg(flightID).arg(dep_date).arg(passengerID).arg(order_start).arg(order_end);
-    query->clear();
     query->exec(sql);
     if(query->next()) { //说明是查询到了相关用户的座位信息，可以查询该用户在本次航程上的座位号
         seatID = query->value(0).toString();
@@ -184,6 +172,54 @@ QString account_and_orders::ticketActualPayQuery(QString ticketID) {
     }
     return actualPay;
 
+}
+
+QHash<QString, QString> account_and_orders::HashSeatsOfUser(QString passengerID)
+{
+    QHash<QString, QString> hash_flightInfoToseatid;
+    QString sql = QString("SELECT flight_id,departure_date,seat_id FROM seat_arrangement"
+                          " WHERE passengerID='%1'").arg(passengerID);
+    QSqlQuery *query = new QSqlQuery();
+    if(query->exec(sql)){//成功执行
+        while (query->next()) {
+            qDebug()<<query->value(0).toString()<<" || "<<query->value(1).toString()<<" || "<<query->value(2).toString()<<endl;
+            hash_flightInfoToseatid.insert(query->value(0).toString()+" "+query->value(1).toString(),query->value(2).toString());
+        }
+    }
+    hash_flightInfoToseatid.insert("0","-1"); //默认存量
+    return  hash_flightInfoToseatid;
+//    QHash<QString,QString> hash_seatidTopassengerid;
+//    hash_seatidTopassengerid.insert("0","0");//默认存量
+//    QString sql = QString("SELECT seat_id,passengerID FROM seat_arrangement WHERE flight_ID='%1' AND `order`=%2 AND "
+//                          "departure_date='%3'")
+//            .arg(flightID).arg(order_start).arg(dep_date);
+//    QSqlQuery *query = new QSqlQuery();
+//    if(query->exec(sql)){ //成功执行
+//        while(query->next()){
+//            qDebug()<<query->value(0).toString()<<"||"<<query->value(1).toString()<<endl;
+//            hash_seatidTopassengerid.insert(query->value(0).toString(),query->value(1).toString());
+//        }
+//    }
+    //    return hash_seatidTopassengerid;
+}
+
+QHash<QString, QString> account_and_orders::getHashSeatsOfUser()
+{
+    return this->hash_seatsInfoOfUser;
+}
+
+bool account_and_orders::IsCheckedIn(QString flightID, QString dep_date, QString passengerID)
+{
+    QString sql = QString("SELECT COUNT(*) FROM seat_arrangement WHERE flight_id='%1' AND "
+                          "departure_date='%2' AND passengerID='%3' ").arg(flightID).arg(dep_date).arg(passengerID);
+    qDebug()<<sql<<endl;
+    QSqlQuery *query = new QSqlQuery();
+    query->exec(sql);
+    query->next();
+    if(query->value(0).toInt()){//说明该乘客在对应的航班上有座位的记录，表示其已经值机了.
+        return true;
+    }
+    return false;
 }
 
 void account_and_orders::BalanceRefresh() {
@@ -299,6 +335,7 @@ void account_and_orders::on_Refresh_pushButton_clicked() {
 
 
 void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
+
     if (index.isValid()&&index.column()==8) { //点击退票键，检查退票标准是否成立
         // 如果已值机或者未值机但退票时间Now()距离起飞时间不到3小时，则不能退票；
         // 如果还未值机且时间还未到起飞前3小时，可以退票
@@ -306,11 +343,19 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
         qDebug()<<"你刚刚点击了退票按钮"<<endl; //若退票标准成立，则执行退票操作
         int row = index.row(); //获取点击的行数
         QAbstractItemModel *model = ui->coming_tableView->model();
-        QString seatID =  model->data(model->index(row,7)).toString();
+        QString ticketID =  model->data(model->index(row,0)).toString();
+        QString flightID = model->data(model->index(row,1)).toString();
         QString dep_datetime = model->data(model->index(row,2)).toString();
         dep_datetime = dep_datetime.mid(0,10)+" "+dep_datetime.mid(11,8);
+        QString seatID = "";
+        QString sql_pre = QString("SELECT seat_id FROM ticketVSseatid_view WHERE ticket_id='%1'").arg(ticketID);
+        QSqlQuery *query_pre = new QSqlQuery();
+        query_pre->exec(sql_pre);
+        if(query_pre->next()){
+            seatID = query_pre->value(0).toString();
+        }
         this->on_Refresh_pushButton_clicked();
-        if(seatID != "") { //如果完成了值机，则不允许退票
+        if(seatID!="") { //如果完成了值机，则不允许退票
             QMessageBox::information(this,tr("Hint:"),tr("You have checked in. So you cannot refund your ticket."));
             return;
         }
@@ -330,8 +375,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
         //首先，需要将ticket中的相关票的信息插入到退票表中
         //然后，相应票对应的舱位剩余座位数+1
         //最后根据退票时间和起飞时间之间的差距，返回相应票价百分比的数额到用户
-        QString ticketID = model->data(model->index(row,0)).toString();
-        QString flightID = model->data(model->index(row,1)).toString();
+//        QString ticketID = model->data(model->index(row,0)).toString();
         QString order_start = this->ticketOrderStartQuery(ticketID);
         QString order_end = this->ticketOrderEndQuery(ticketID);
         QString classType = model->data(model->index(row,5)).toString();
@@ -350,14 +394,24 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
         qDebug()<<"你刚刚点击了值机按钮"<<endl; //选择座位等()
         int row = index.row(); //获取点击的行数
         QAbstractItemModel *model = ui->coming_tableView->model();
-        QString seatID =  model->data(model->index(row,7)).toString();
+//        QString seatID =  model->data(model->index(row,7)).toString();
         QString dep_datetime = model->data(model->index(row,2)).toString();
+        QString flightID = model->data(model->index(row,1)).toString();
         dep_datetime = dep_datetime.mid(0,10)+" "+dep_datetime.mid(11,8);
         QString classType = model->data(model->index(row,5)).toString();
         classType = classType=="Business"?"0":"1";
         QString ticketID = model->data(model->index(row,0)).toString();
         QString order_start = this->ticketOrderStartQuery(ticketID);
         QString order_end = this->ticketOrderEndQuery(ticketID);
+
+        QString seatID = "";
+        QString sql_pre = QString("SELECT seat_id FROM ticketVSseatid_view WHERE ticket_id='%1'").arg(ticketID);
+        QSqlQuery *query_pre = new QSqlQuery();
+        query_pre->exec(sql_pre);
+        if(query_pre->next()){
+            seatID = query_pre->value(0).toString();
+        }
+
         this->on_Refresh_pushButton_clicked();
         if(seatID != "") { //如果完成了值机，则不允许退票
             QMessageBox::information(this,tr("Hint:"),tr("You have checked in. So you cannot Check In AGAIN."));
@@ -382,6 +436,30 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
     } else if (index.isValid()&&index.column()==10) { //点击值机，进行值机操作
         //
         qDebug()<<"你刚刚点击了改签按钮"<<endl; //选择座位等()
+    }else if(index.isValid()&&index.column()==7){ //点击查看个人的座位信息
+        qDebug()<<"你刚刚点击了座位信息按钮"<<endl; //选择座位等()
+        int row = index.row(); //获取点击的行数
+        QAbstractItemModel *model = ui->coming_tableView->model();
+        QString ticketID = model->data(model->index(row,0)).toString();
+        QString dep_datetime = model->data(model->index(row,2)).toString();
+        QString flightID = model->data(model->index(row,1)).toString();
+        dep_datetime = dep_datetime.mid(0,10)+" "+dep_datetime.mid(11,8);
+
+        QString dep_airport = model->data(model->index(row,3)).toString();
+        QString arv_airport = model->data(model->index(row,4)).toString();
+        QString classType = model->data(model->index(row,5)).toString();
+        QString price = model->data(model->index(row,6)).toString();
+
+        QString seatID = "";
+        QString sql_pre = QString("SELECT seat_id FROM ticketVSseatid_view WHERE ticket_id='%1'").arg(ticketID);
+        QSqlQuery *query_pre = new QSqlQuery();
+        query_pre->exec(sql_pre);
+        if(query_pre->next()){
+            seatID = query_pre->value(0).toString();
+        }
+        ticketANDseat_info_interface *ticket_Interface = new ticketANDseat_info_interface(nullptr,ticketID,price,flightID,dep_airport,arv_airport
+                                                                                          ,dep_datetime,classType,seatID);
+        ticket_Interface->show();
     }
 
 }
@@ -409,6 +487,8 @@ QVariant ComingOrderModel::data(const QModelIndex &item, int role) const {
             return QVariant::fromValue(QColor(225,225,225));//颜色特殊表示，起到类似按钮的作用
         else if(item.column()==10)
             return QVariant::fromValue(QColor(225,225,225));
+        else if(item.column()==7)
+            return QVariant::fromValue(QColor(225,225,225));
     }
     if (role == Qt::DisplayRole) {
         if(item.column()==5) {
@@ -422,8 +502,18 @@ QVariant ComingOrderModel::data(const QModelIndex &item, int role) const {
 //            QString ticket_id = this->data(this->index(row,0)).toString();     //ticketid
 //            QString flight_id = this->data(this->index(row,1)).toString();
 //            QString dep_date = this->data(this->index(row,2)).toString().mid(0,10);
+//            QString key = flight_id+" "+dep_date;
+//            QString seatID = acct->getHashSeatsOfUser().find(acct->getUserID()).value();
+//            qDebug()<<"seat ID : "<<seatID<<endl;
+//            if(seatID=="-1"){//说明该订单还未完成值机
+//                return QVariant::fromValue(tr(""));
+//            }else{//说明该订单已经完成值机，显示对应的座位号
+//                return QVariant::fromValue(tr("1"));
+//            }
+
 //            QString order_start = acct->ticketOrderStartQuery(ticket_id);
 //            QString order_end = acct->ticketOrderEndQuery(ticket_id);
+            //不能直接用acct->getUserID()来获得userID，这样会形成死锁，因为这时acct还没有构建完毕
 //            QString passengerID = "";
 //            QString sql = QString("SELECT ID FROM ticket WHERE ticket_id='%1'").arg(ticket_id);
 //            QSqlQuery *query = new QSqlQuery();
@@ -431,8 +521,9 @@ QVariant ComingOrderModel::data(const QModelIndex &item, int role) const {
 //            if(query->next()){//说明该票的信息有效，记录UserID
 //                passengerID = query->value(0).toString();
 //            }
-//            QString seatID = acct->seatIDQuery(flight_id,dep_date,order_start,order_end,passengerID);
+//            QString seatID = acct->seatIDQuery(flight_id,dep_date,passengerID);
 //            return QVariant::fromValue(seatID);
+            return QVariant::fromValue(tr("Seat Information"));
         }
         if(item.column()==8)
             return QVariant::fromValue(tr("Refund"));
