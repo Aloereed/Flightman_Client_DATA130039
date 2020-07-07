@@ -4,7 +4,10 @@
 #include "flight_inquiry_citys_and_date.h"
 #include "account_and_orders.h"
 #include "chineseletterhelper.h"
+#include "textticker.h"
+#include "QSqlQuery"
 extern account_and_orders* acct;
+extern QSqlDatabase db;
 HomeQuiry::HomeQuiry(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::HomeQuiry) {
@@ -19,6 +22,18 @@ HomeQuiry::HomeQuiry(QWidget *parent) :
     ui->label_3->setText(ui->dateEdit_2->date().toString("ddd"));
     ui->label_4->setText(ui->dateEdit_3->date().toString("ddd"));
     ui->pushButton_5->setIconSize(ui->pushButton->rect().size());
+    QSqlQuery query("SELECT flight_id FROM ticket GROUP BY flight_id order by count(flight_id) desc limit 3" );
+    TextTicker* hot=new TextTicker(tr("Everybody is buying..."),4);
+    query.next();
+    TextTicker* hot1=new TextTicker(query.value(0).toString(),3);
+    query.next();
+    TextTicker* hot2=new TextTicker(query.value(0).toString(),2);
+    query.next();
+    TextTicker* hot3=new TextTicker(query.value(0).toString(),1);
+    ui->verticalLayout_4->addWidget(hot);
+    ui->verticalLayout_4->addWidget(hot1);
+    ui->verticalLayout_4->addWidget(hot2);
+    ui->verticalLayout_4->addWidget(hot3);
 
 }
 

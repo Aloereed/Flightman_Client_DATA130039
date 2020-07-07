@@ -35,6 +35,7 @@ SOURCES += \
     seat_selection.cpp \
     seat_selection_confirm.cpp \
     settings.cpp \
+    textticker.cpp \
     ticket_purchase.cpp \
     ticket_purchase_confirm.cpp \
     ticket_refund_confirm.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     seat_selection.h \
     seat_selection_confirm.h \
     settings.h \
+    textticker.h \
     ticket_purchase.h \
     ticket_purchase_confirm.h \
     ticket_refund_confirm.h \

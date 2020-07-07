@@ -41,9 +41,10 @@ MainClientWindow::MainClientWindow(QWidget *parent) : QMainWindow(parent), ui(ne
     ui->stackedWidget->addWidget(hq);
     ui->stackedWidget->addWidget(lgin);
     ui->stackedWidget->addWidget(st);
+
+    if(lgin->isAuto())
+        lgin->on_pushButton_clicked();
     ui->stackedWidget->setCurrentWidget(hq);
-
-
     //lgin->hide();
     //QMessageBox::information(this,db.databaseName(),"Connected.");
 }

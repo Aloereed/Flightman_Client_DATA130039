@@ -14,6 +14,9 @@ class login : public QWidget {
     explicit login(QWidget *parent = nullptr);
     ~login();
     void hideforhome();
+    bool isAuto();
+  public slots:
+    void on_pushButton_clicked();
 
   private slots:
     void on_pushButton_2_clicked();
@@ -22,7 +25,7 @@ class login : public QWidget {
 
     void on_pushButton_5_clicked();
 
-    void on_pushButton_clicked();
+
 
     void on_checkBox_2_clicked();
 

@@ -41,8 +41,8 @@ login::login(QWidget *parent) :
     ui->pushButton_2->setText(tr("Register Now"));
     ui->pushButton_4->setText(tr("Back"));
     ui->pushButton_5->setText(tr("Cancel"));
-    if(ui->checkBox_2->isChecked())
-        on_pushButton_clicked();
+    //if(ui->checkBox_2->isChecked())
+    //   on_pushButton_clicked();
 }
 
 login::~login() {
@@ -131,4 +131,7 @@ void login::on_checkBox_2_clicked() {
 void login::on_checkBox_clicked() {
     if(ui->checkBox_2->isChecked())
         ui->checkBox->setChecked(true);
+}
+bool login::isAuto() {
+    return ui->checkBox_2->isChecked();
 }
