@@ -7,6 +7,7 @@
 #include <QModelIndex>
 #include <QVariant>
 #include <QHash>
+#include <QTimer>
 #include "homequiry.h"
 
 
@@ -36,6 +37,7 @@ class account_and_orders : public QWidget {
     QString ticketActualPayQuery(QString ticketID);
     QHash<QString,QString> HashSeatsOfUser(QString passengerID);
     QHash<QString,QString> getHashSeatsOfUser();
+    QTimer timer;
     bool IsCheckedIn(QString flightID, QString dep_date,QString passengerID);
 
     void BalanceRefresh();
@@ -44,6 +46,7 @@ class account_and_orders : public QWidget {
     int getStatus();
   public slots:
     void on_buyticket_pushButton_clicked();
+    void checkNewMsg();
 
   private slots:
     void on_Buymem_pushButton_clicked();

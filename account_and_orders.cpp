@@ -20,11 +20,13 @@
 #include<QScroller>
 #include<QStackedWidget>
 #include<QSettings>
+#include<QTimer>
 extern login *lgin;
 extern QStackedWidget* mainstack;
 //构造对象时，必须要给参数：ID 和 Pwd
 //此处传入的Pwd是经过MD5转换后的密码，与数据库中所存储的密码对应
 extern account_and_orders * acct;
+extern QSettings settings;
 
 account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) : QWidget(parent), ui(new Ui::account_and_orders) {
     ui->setupUi(this);
@@ -92,12 +94,20 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     ui->MessageBox_pushButton->setMaximumWidth(ui->MessageBox_pushButton->height());
     ui->MessageBox_pushButton->setIconSize(ui->MessageBox_pushButton->rect().size());
     this->on_Refresh_pushButton_clicked();
-
+    connect(&timer, SIGNAL(timeout()), this, SLOT(checkNewMsg()));
+    timer.start(1000);
+    qDebug()<<timer.isActive();
 }
 
 account_and_orders::~account_and_orders() {
     delete ui;
     acct=NULL;
+}
+void account_and_orders::checkNewMsg(){
+    QSqlQuery ck(QString("SELECT time,text FROM announcement WHERE userID = '%1' OR userID='000000000000000000'").arg(this->UserID));
+    if(ck.size()!=settings.value("User/MsgCount",0)){
+        ui->MessageBox_pushButton->setIcon(QIcon(":/png/msg_new.png"));
+    }
 }
 
 void account_and_orders::setMoney(float Money) {
@@ -572,4 +582,10 @@ void account_and_orders::on_MessageBox_pushButton_clicked()
 {
     messagebox *message_interface = new messagebox();
     message_interface->show();
+    QSqlQuery ck(QString("SELECT time,text FROM announcement WHERE userID = '%1' OR userID='000000000000000000'").arg(acct->getUserID()));
+    ck.next();
+    settings.setValue("User/MsgCount",ck.size());
+    ui->MessageBox_pushButton->setIcon(QIcon(":/png/msg.png"));
+    ui->MessageBox_pushButton->setIconSize(ui->MessageBox_pushButton->rect().size());
+
 }
