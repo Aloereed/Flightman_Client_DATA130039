@@ -3,6 +3,7 @@
 #include "account_and_orders.h"
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QScroller>
 
 extern account_and_orders * acct;
 
@@ -16,6 +17,7 @@ messagebox::messagebox(QWidget *parent) :
     ui->pushButton_refresh->setText(tr("Refresh"));
     this->on_pushButton_refresh_clicked();
     ui->tableView_messages->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    QScroller::grabGesture(ui->tableView_messages, QScroller::TouchGesture);
 }
 
 messagebox::~messagebox()
