@@ -8,12 +8,14 @@
 
 extern account_and_orders * acct;
 ticket_purchase_confirm::ticket_purchase_confirm(QWidget *parent,Ticket_Purchase *parent_ticket
-                                                 ,QString moneyStr,QString price,QString classType) :
+                                                 ,QString moneyStr,QString price,QString classType
+                                                 ,QString FromOrder) :
     QWidget(parent),
     ui(new Ui::ticket_purchase_confirm)
 {
     ui->setupUi(this);
 
+    this->FromOrder=FromOrder;
     ui->groupBox->setTitle(tr("Authentication:"));
     ui->label_UserID->setText(tr("User ID :"));
     ui->lineEdit_UserID->setPlaceholderText(tr("Please Enter Your ID."));

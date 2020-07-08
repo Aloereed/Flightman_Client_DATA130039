@@ -18,7 +18,8 @@
 extern account_and_orders * acct; //只有当用户进入到账户界面后，也即UserID!=""时，可以有效使用
 
 flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
-    QWidget *parent,QString UserID,QString Password, QString Mode,QString Name)
+    QWidget *parent,QString UserID,QString Password, QString Mode
+        ,QString Name,QString FromOrder,QString StartCity,QString EndCity)
     : QWidget(parent), ui(new Ui::flight_inquiry_citys_and_date) {
     ui->setupUi(this);
     QFile styleFile(":/style.qss");//使用qss文件
@@ -30,6 +31,7 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     this->Password = Password;
     this->Mode = Mode;
     this->Name = Name;
+    this->FromOrder = FromOrder;
 
     if (UserID == "") { //在之前的flight_inquiry已经对账户信息进行了筛选，此处不再重复
         ui->UserStatus->setText(tr("User Information: Not logged in"));
@@ -62,6 +64,16 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     ui->pushButton_4->setText(tr("Log In"));
     //layout()->setSizeConstraint(QLayout::SetFixedSize);
 
+    if(FromOrder == "1"){ //说明该页面父页面来自于订单，属于改期的任务，需要固定出发的城市
+        ui->pushButton->setText(tr("Refresh"));
+        ui->pushButton_2->hide();
+        ui->DepatureCity->setText(StartCity);
+        ui->DepatureCity->setDisabled(true);
+        ui->ArrivalCity->setText(EndCity);
+        ui->ArrivalCity->setDisabled(true);
+        this->on_pushButton_clicked();
+    }
+
 }
 
 flight_inquiry_citys_and_date::~flight_inquiry_citys_and_date() {
@@ -78,6 +90,9 @@ void flight_inquiry_citys_and_date::on_pushButton_2_clicked() {
 //Btn:Cancel
 void flight_inquiry_citys_and_date::on_pushButton_3_clicked() {
     qDebug()<<"You decide to quit."<<endl;
+    if(this->FromOrder=="1"){
+        acct->setStatus(1);
+    }
     this->close();
 }
 
@@ -242,10 +257,15 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         }
         qDebug()<<"仍有余票，允许购买"<<endl;
         //否则，还剩余有机票可以购买，则进入到购票界面。
-
-        Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,this,nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
-                arv_airportName,arv_city,arv_time,order_start,order_end);
-        purchase_interface->show();
+        if(this->FromOrder=="0"){
+            Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,this,nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
+                    arv_airportName,arv_city,arv_time,order_start,order_end);
+            purchase_interface->show();
+        }else{
+            Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,this,nullptr,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
+                    arv_airportName,arv_city,arv_time,order_start,order_end,"1");
+            purchase_interface->show();
+        }
     }
 }
 

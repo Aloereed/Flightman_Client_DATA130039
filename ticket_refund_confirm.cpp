@@ -13,7 +13,8 @@ extern QSqlDatabase db;
 ticket_refund_confirm::ticket_refund_confirm(QWidget *parent,QString UserID,float newBalance,
                                              QString ticketID,float refundMoney,
                                              QString flightID,QString dep_datetime,
-                                             QString order_start,QString order_end,QString classType):
+                                             QString order_start,QString order_end,QString classType,
+                                             QString FromOrder):
     QWidget(parent),
     ui(new Ui::ticket_refund_confirm)
 {
@@ -40,11 +41,58 @@ ticket_refund_confirm::ticket_refund_confirm(QWidget *parent,QString UserID,floa
     this->newBalance = newBalance;
     this->refundMoney = refundMoney;
     this->dep_datetime = dep_datetime;
+    this->FromOrder = FromOrder;
+
+    if(this->FromOrder=="1"){ //不需要验证
+        ui->lineEdit_UserID->setText(UserID);
+        ui->lineEdit_Pwd->setText(acct->getPassword());
+        this->AutoConfirm();
+    }
 }
 
 ticket_refund_confirm::~ticket_refund_confirm()
 {
     delete ui;
+}
+
+void ticket_refund_confirm::AutoConfirm()
+{
+    QString UserID = ui->lineEdit_UserID->text();
+    QString Pwd = ui->lineEdit_Pwd->text();
+    QByteArray bytePwd = Pwd.toLatin1(); //trasnform Password for safety.
+    QByteArray bytePwdMd5 = QCryptographicHash::hash(bytePwd, QCryptographicHash::Md5);
+    Pwd = bytePwdMd5.toHex();
+    QSqlQuery *query = new QSqlQuery();
+    if(query->exec("BEGIN;")){
+        bool sql_ok= true;
+        //                          "CALL balanceRefresh('%1',%2); "
+        //上悲观锁，避免两个事务同时修改时本应剩余票数加2，但实际上只是加1.（存储过程里）
+        QString sql = QString(
+                      "CALL TicketsRefundLeftNumRefresh('%1','%2',%3,%4,%5);"
+                      "CALL TicketsRefundInsertion('%6',%7);").arg(this->flightID).arg(this->dep_datetime)
+                .arg(this->order_start).arg(this->order_end).arg(this->classType)
+                .arg(this->ticketID)  //.arg(this->UserID).arg(this->newBalance).
+                .arg(this->refundMoney);
+        QStringList sqlList = sql.split(";",QString::SkipEmptyParts);
+        for (int i=0; i<sqlList.count() && sql_ok; i++)
+        {
+            qDebug()<<sqlList[i]<<endl;
+            sql_ok &= query->exec(sqlList[i]);
+        }
+        if(sql_ok){
+            query->exec("COMMIT;");
+//            if(FromOrder=="0")
+//                QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
+//            else
+//                QMessageBox::information(this,tr("Hint:"),tr("You have finished your rebooking."));
+//            this->close();
+        }
+        if(!sql_ok){//上述退票过程出现问题，更新撤回
+            query->exec("ROLLBACK;");
+            acct->setMoney(acct->getMoney()-refundMoney);
+            QMessageBox::critical(0, "Error", query->lastError().text());
+        }
+    }
 }
 
 void ticket_refund_confirm::on_pushButton_cancel_clicked()
@@ -91,7 +139,10 @@ void ticket_refund_confirm::on_pushButton_confirm_clicked()
             }
             if(sql_ok){
                 query->exec("COMMIT;");
-                QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
+                if(FromOrder=="0")
+                    QMessageBox::information(this,tr("Hint:"),tr("Refund successfully"));
+                else
+                    QMessageBox::information(this,tr("Hint:"),tr("You have finished your rebooking."));
                 this->close();
             }
             if(!sql_ok){//上述退票过程出现问题，更新撤回

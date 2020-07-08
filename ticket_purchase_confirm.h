@@ -13,8 +13,10 @@ class ticket_purchase_confirm : public QWidget
 
 public:
     explicit ticket_purchase_confirm(QWidget *parent = nullptr,Ticket_Purchase *parent_ticket=nullptr
-            ,QString moneyStr="",QString price="",QString classType="");
+            ,QString moneyStr="",QString price="",QString classType="",QString FromOrder="0");
     ~ticket_purchase_confirm();
+    void AutoConfirm();
+
 
 private slots:
     void on_pushButton_cancel_clicked();
@@ -27,6 +29,7 @@ private:
     QString moneyStr;
     QString price;
     QString classType;
+    QString FromOrder;
 };
 
 #endif // TICKET_PURCHASE_CONFIRM_H

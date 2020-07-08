@@ -15,7 +15,8 @@ class flight_inquiry_citys_and_date : public QWidget {
     friend class HomeQuiry;
   public:
     explicit flight_inquiry_citys_and_date(QWidget *parent = nullptr,QString UserID = "",QString Password = ""
-                                           ,QString Mode = "CD",QString Name="");
+                                           ,QString Mode = "CD",QString Name=""
+            ,QString FromOrder="0",QString StartCity="",QString EndCity = "");
     ~flight_inquiry_citys_and_date();
 
   private slots:
@@ -35,6 +36,7 @@ class flight_inquiry_citys_and_date : public QWidget {
     QString Password;
     QString Mode;
     QString Name;
+    QString FromOrder;
     void setDepartureCity(QString dep) ;
     void setArrivalCity(QString arr) ;
     void setDate(QDate dat) ;

@@ -2,6 +2,7 @@
 #include "ui_ticket_purchase.h"
 #include "account_and_orders.h"
 #include "ticket_purchase_confirm.h"
+#include "ticket_refund_confirm.h"
 #include <QDebug>
 #include <QSqlQuery>
 #include <QMessageBox>
@@ -17,7 +18,8 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent,flight_inquiry_citys_and_date *
                                  QString dep_date, QString flightID,
                                  QString schedule, QString dep_airportName,
                                  QString dep_city, QString dep_time, QString arv_airportName, QString arv_city, QString arv_time,
-                                 QString orderstart,QString orderend) :
+                                 QString orderstart,QString orderend
+                                 ,QString FromOrder) :
     QWidget(parent),
     ui(new Ui::Ticket_Purchase)
 {
@@ -44,6 +46,7 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent,flight_inquiry_citys_and_date *
     this->depature_airportName=dep_airportName;
     ui->label_arvAirport->setText(arv_airportName);
     this->arrival_airportName=arv_airportName;
+    this->FromOrder = FromOrder;
 
     this->orderstart=orderstart;
     this->orderend=orderend;
@@ -255,9 +258,14 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
         }
         if(sql_ok){
             query->exec("COMMIT");
+            if(this->FromOrder=="0")
             QMessageBox::information(this,tr("Hint:"),tr("Successful! "
                                                          "Please remember to check your orders in your account."));
+            else
+                QMessageBox::information(this,tr("Hint:"),tr("Successful! "
+                                                             "Please remember to check your orders in your account."));
             qDebug()<<"购买操作执行成功！请返回个人账户查看订单信息！"<<endl;
+
             //并且更新账户里面的余额
             acct->setMoney(newBalance);
             if(parent2 == nullptr){ //购票成功后直接返回到用户的账户界面
@@ -265,7 +273,22 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
             }else{
                 parent2->close();
             }
+            if(this->FromOrder=="1"){
+            ticket_refund_confirm *refund_interface = new ticket_refund_confirm(nullptr,acct->getUserID(),acct->getRebooking_newBalance(),acct->getRebooking_ticketID()
+                    ,acct->getRebooking_refundMoney(),acct->getRebooking_flightID(),acct->getRebooking_dep_datetime()
+                    ,acct->getRebooking_order_start(),acct->getRebooking_order_end(),acct->getRebooking_classType(),"1");
+//            refund_interface->show();
+
+            QEventLoop eventloop;
+            QTimer::singleShot(1500, &eventloop, SLOT(quit()));//暂停1.5s
+            eventloop.exec();
+            }
             this->close();
+
+
+//            ticket_refund_confirm *refund_interface = new ticket_refund_confirm(nullptr,this->UserID,newBalance,ticketID
+//                    ,refundMoney,flightID,dep_datetime
+//                    ,order_start,order_end,classType,"1");
         }
         if(!sql_ok){
             QMessageBox::critical(0, "Error", query->lastError().text());
@@ -273,7 +296,6 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
         }
     }
 }
-
 
 
 void Ticket_Purchase::on_pushButton_Refresh_clicked()
@@ -315,9 +337,15 @@ void Ticket_Purchase::on_pushButton_clicked()
 
         QString moneyStr = QString("%1").arg(acct->getMoney());
         //完成支付
-        ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceEcon->text(),"1");
-        confirm_interface->show();
-        return;
+        if(this->FromOrder=="0"){
+            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceEcon->text(),"1");
+            confirm_interface->show();
+            return;
+        }else{
+            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceEcon->text(),"1","1");
+            confirm_interface->show();
+            return;
+        }
 
     }else{//用户选择公务舱
         if(ui->label_PriceBusi->text()=="-1"){
@@ -338,9 +366,14 @@ void Ticket_Purchase::on_pushButton_clicked()
         // 购票标准成立，则接下进行具体的后续改动
         qDebug()<<"正在进行购票处理，请稍等..."<<endl;
         QString moneyStr = QString("%1").arg(acct->getMoney());
-        //完成支付
-        ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0");
-        confirm_interface->show();
+        if(this->FromOrder=="0"){
+            //完成支付
+            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0");
+            confirm_interface->show();
         return;
+        }else{
+            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0","1");
+            confirm_interface->show();
+        }
    }
 }

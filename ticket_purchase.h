@@ -18,7 +18,8 @@ public:
             ,flight_inquiry_citys_and_date *parent1=nullptr,flight_inquiry_flightID *parent2=nullptr
             ,QString dep_date="",QString flightID="",QString schedule=""
             ,QString dep_airportName="",QString dep_city="",QString dep_time="",QString arv_airportName=""
-            ,QString arv_city="",QString arv_time="",QString orderstart="",QString orderend="");
+            ,QString arv_city="",QString arv_time="",QString orderstart="",QString orderend=""
+            ,QString FromOrder="0");
     ~Ticket_Purchase();
 
     QString PrimalPriceQuery(QString flightID,QString classType, QString order_start,QString order_end);
@@ -67,6 +68,7 @@ private:
     QString arrival_time;
     QString orderstart;
     QString orderend;
+    QString FromOrder;
     flight_inquiry_citys_and_date *ptr_CD;
     flight_inquiry_flightID *ptr_flightID;
 };
