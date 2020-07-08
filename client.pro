@@ -114,6 +114,7 @@ DISTFILES += \
     png/logout.png \
     png/mine.png \
     png/msg.png \
+    png/msg_new.png \
     png/return.png \
     png/settings.png
 
