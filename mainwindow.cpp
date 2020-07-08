@@ -65,7 +65,7 @@ void MainWindow::on_commandLinkButton_clicked() {
         ui->editHostname->setText("cdb-aaxnskss.cd.tencentcdb.com");
         ui->editDatabase->setText("flight");
         ui->editPassword->setText("sqlfd4021");
-        ui->editUsername->setText("root");
+        ui->editUsername->setText("client");
         ui->portSpinBox->setValue(10095);
     }
     QString serverIp=ui->editHostname->text();
