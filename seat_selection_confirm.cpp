@@ -59,22 +59,52 @@ void seat_selection_confirm::on_pushButton_confirm_clicked()
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
     if(query->next()){//账户存在，执行购买操作
-        sql = QString("CALL SeatsSelection('%1',%2,%3,'%4','%5','%6')")
-                .arg(this->parent->getflightID()).arg(this->parent->getorder_start())
-                .arg(this->parent->getorder_end()).arg(this->parent->getdep_date())
-                .arg(this->seatID).arg(acct->getUserID());
+        query->clear();
+        //开启一个上锁的事务
+        if(query->exec("BEGIN;")){
+            bool sql_ok= true;
+            sql = QString("CALL SeatsSelection('%1',%2,%3,'%4','%5','%6')")
+                    .arg(this->parent->getflightID()).arg(this->parent->getorder_start())
+                    .arg(this->parent->getorder_end()).arg(this->parent->getdep_date())
+                    .arg(this->seatID).arg(acct->getUserID());
+            sql_ok &= query->exec(sql);
+            if(sql_ok){
+                query->exec("COMMIT");
+            }else{  //if(! sql_ok)
+                 query->exec("ROLLBACK");
+                 QMessageBox::critical(this,tr("WRONG"),tr("Something went wrong. Please try again."));
+                 this->parent->close();
+                 this->close();
+                 return;
+            }
+        }
         query->clear();
         if(query->exec(sql)){
-            QMessageBox::information(this,tr("Hint"),tr("You have selected your seat. Please check it in your order."));
+            sql = QString("SELECT passengerID FROM seat_arrangement WHERE "
+                                  "flight_id='%1' AND `order`=%2 AND departure_date='%3' AND seat_id='%4' ")
+                    .arg(this->parent->getflightID()).arg(this->parent->getorder_start())
+                    .arg(this->parent->getdep_date()).arg(this->seatID);
+            query->clear();
+            query->exec(sql);
+            query->first();
+            if(query->value(0).toString() != acct->getUserID()){ //说明位置已经被别人先选择了，提示重新值机
+                QMessageBox::information(this,tr("Hint"),tr("Someone has selected this seat ahead of you. Please redo your check in."));
+            }else{ //说明值机成功
+                QMessageBox::information(this,tr("Hint"),tr("You have selected your seat. Please check it in your order."));
+            }
             this->parent->close();
             this->close();
             return;
-        }else{
+        }else{ //说明该sql语句没执行成功，重试
             QMessageBox::critical(this,tr("WRONG"),tr("Something went wrong. Please try again."));
+            this->parent->close();
+            this->close();
             return;
         }
-    }else{
+    }else{//账户不存在
         QMessageBox::critical(this,tr("WRONG"),tr("Something went wrong. Please try again."));
+        this->parent->close();
+        this->close();
         return;
     }
 }
