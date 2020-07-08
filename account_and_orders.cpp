@@ -104,7 +104,8 @@ account_and_orders::~account_and_orders() {
     acct=NULL;
 }
 void account_and_orders::checkNewMsg(){
-    QSqlQuery ck(QString("SELECT time,text FROM announcement WHERE userID = '%1' OR userID='000000000000000000'").arg(this->UserID));
+     QSqlQuery ck(QString("SELECT time,text FROM announcement WHERE userID = '%1' OR userID='000000000000000000'").arg(this->UserID));
+
     if(ck.size()!=settings.value("User/MsgCount",0)){
         ui->MessageBox_pushButton->setIcon(QIcon(":/png/msg_new.png"));
     }
@@ -582,7 +583,9 @@ void account_and_orders::on_MessageBox_pushButton_clicked()
 {
     messagebox *message_interface = new messagebox();
     message_interface->show();
+
     QSqlQuery ck(QString("SELECT time,text FROM announcement WHERE userID = '%1' OR userID='000000000000000000'").arg(acct->getUserID()));
+
     ck.next();
     settings.setValue("User/MsgCount",ck.size());
     ui->MessageBox_pushButton->setIcon(QIcon(":/png/msg.png"));
