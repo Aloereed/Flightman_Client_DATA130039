@@ -642,6 +642,6 @@ void account_and_orders::on_MessageBox_pushButton_clicked()
     ck.next();
     settings.setValue("User/MsgCount",ck.size());
     ui->MessageBox_pushButton->setIcon(QIcon(":/png/msg.png"));
-    ui->MessageBox_pushButton->setIconSize(ui->MessageBox_pushButton->rect().size());
+    //ui->MessageBox_pushButton->setIconSize(ui->MessageBox_pushButton->rect().size());
 
 }
