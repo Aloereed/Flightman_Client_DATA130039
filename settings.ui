@@ -20,6 +20,29 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="0" colspan="2">
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="font">
+      <font>
+       <family>.PingFang SC</family>
+       <pointsize>20</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>ℹAbout</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QFontComboBox" name="fontComboBox"/>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Language:</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="1">
     <widget class="QComboBox" name="comboBox">
      <property name="currentIndex">
@@ -42,23 +65,6 @@
      </item>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>UI Font (Restart Needed):</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Language:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QFontComboBox" name="fontComboBox"/>
-   </item>
    <item row="2" column="0">
     <widget class="QPushButton" name="pushButton">
      <property name="text">
@@ -66,8 +72,40 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>UI Font (Restart Needed):</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QPushButton" name="pushButton_3">
+     <property name="font">
+      <font>
+       <family>.PingFang SC</family>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>About Qt</string>
+     </property>
+     <property name="icon">
+      <iconset resource="png.qrc">
+       <normaloff>:/png/qt.png</normaloff>:/png/qt.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>64</width>
+       <height>64</height>
+      </size>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="png.qrc"/>
+ </resources>
  <connections/>
 </ui>

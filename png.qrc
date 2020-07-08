@@ -9,5 +9,6 @@
         <file>png/airreplace.png</file>
         <file>png/settings.png</file>
         <file>png/msg_new.png</file>
+        <file>png/qt.png</file>
     </qresource>
 </RCC>

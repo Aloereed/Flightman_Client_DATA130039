@@ -21,7 +21,11 @@ class Settings : public QWidget {
 
     void on_pushButton_clicked();
 
-  private:
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_3_clicked();
+
+private:
     Ui::Settings *ui;
 };
 

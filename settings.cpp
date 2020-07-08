@@ -3,6 +3,7 @@
 #include "mainclientwindow.h"
 #include <QTranslator>
 #include <QSettings>
+#include<QMessageBox>
 extern MainClientWindow *w;
 extern QTranslator translator;
 extern QSettings settings;
@@ -69,4 +70,14 @@ void Settings::on_pushButton_clicked() {
     settings.remove("Client/Langcase");
     settings.remove("Client/UIFont");
 
+}
+
+void Settings::on_pushButton_2_clicked()
+{
+    QMessageBox::information(this,tr("About"),tr("This is our project work of Database by 4021,SDS,FDU."));
+}
+
+void Settings::on_pushButton_3_clicked()
+{
+    QMessageBox::aboutQt(this,"About Qt");
 }

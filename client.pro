@@ -108,6 +108,7 @@ ANDROID_EXTRA_LIBS +=    \ # modify the path
 DISTFILES += \
     android_sources/AndroidManifest.xml \
     android_sources/png/icon.png  \
+    icon.ico \
     png/air.png \
     png/airreplace.png \
     png/background.jpg \
@@ -115,9 +116,14 @@ DISTFILES += \
     png/mine.png \
     png/msg.png \
     png/msg_new.png \
+    png/qt.png \
     png/return.png \
     png/settings.png
-
-
-
+win32{
+RC_ICONS = icon.ico
+VERSION = 1.0.0.0
+}
+mac{
+ICON = icon.ics
+}
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android_sources
