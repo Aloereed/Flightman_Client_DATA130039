@@ -239,14 +239,13 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
         //执行一次事务，保持数据一致性
         bool sql_ok= true;
         QString sql = QString(
-                      "CALL balanceRefresh('%1',%2); "
-                      "CALL TicketsRecordInsertion('%3','%4','%5','%6',%7,%8,%9); "
-                      "CALL TicketsPurchaseRecordInsertion('%10',%11); "
-                      "CALL TicketsLeftNumRefresh('%12','%13',%14,%15,%16);"
-                      )
+                      "CALL TicketsLeftNumRefresh('%1','%2',%3,%4,%5); "
+                      "CALL balanceRefresh('%6',%7); "
+                      "CALL TicketsRecordInsertion('%8','%9','%10','%11',%12,%13,%14); "
+                      "CALL TicketsPurchaseRecordInsertion('%15',%16);"
+                      ).arg(flightID).arg(dep_date).arg(order_start).arg(order_end).arg(classType)
                 .arg(UserID).arg(newBalance).arg(ticketID).arg(UserID).arg(flightID)
-                .arg(dep_datetime).arg(order_start).arg(order_end).arg(classType).arg(ticketID)
-                .arg(price).arg(flightID).arg(dep_date).arg(order_start).arg(order_end).arg(classType);
+                .arg(dep_datetime).arg(order_start).arg(order_end).arg(classType).arg(ticketID).arg(price);
         qDebug()<<sql<<endl;
         QStringList sqlList = sql.split(";",QString::SkipEmptyParts);
         for (int i=0; i<sqlList.count() && sql_ok; i++)

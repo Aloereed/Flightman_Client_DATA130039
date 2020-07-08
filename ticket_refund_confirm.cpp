@@ -76,12 +76,13 @@ void ticket_refund_confirm::on_pushButton_confirm_clicked()
         if(query->exec("BEGIN;")){
             bool sql_ok= true;
             //                          "CALL balanceRefresh('%1',%2); "
+            //上悲观锁，避免两个事务同时修改时本应剩余票数加2，但实际上只是加1.（存储过程里）
             QString sql = QString(
-                          "CALL TicketsRefundInsertion('%1',%2); "
-                          "CALL TicketsRefundLeftNumRefresh('%3','%4',%5,%6,%7);")
+                          "CALL TicketsRefundLeftNumRefresh('%1','%2',%3,%4,%5);"
+                          "CALL TicketsRefundInsertion('%6',%7);").arg(this->flightID).arg(this->dep_datetime)
+                    .arg(this->order_start).arg(this->order_end).arg(this->classType)
                     .arg(this->ticketID)  //.arg(this->UserID).arg(this->newBalance).
-                    .arg(this->refundMoney).arg(this->flightID).arg(this->dep_datetime)
-                    .arg(this->order_start).arg(this->order_end).arg(this->classType);
+                    .arg(this->refundMoney);
             QStringList sqlList = sql.split(";",QString::SkipEmptyParts);
             for (int i=0; i<sqlList.count() && sql_ok; i++)
             {
