@@ -17,7 +17,7 @@
 #include <QSqlError>
 #include <QFile>
 #include <QAbstractItemModel>
-
+#include<QScroller>
 #include<QStackedWidget>
 #include<QSettings>
 extern login *lgin;
@@ -32,8 +32,9 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     styleFile.open(QIODevice::ReadOnly);//只读
     QString setStyleSheet(styleFile.readAll());//读取所有的
     ui->coming_tableView->setStyleSheet(setStyleSheet);//设置样式
-
-
+    QScroller::grabGesture(ui->coming_tableView, QScroller::TouchGesture);
+    QScroller::grabGesture(ui->finished_tableView, QScroller::TouchGesture);
+    QScroller::grabGesture(ui->cancelled_tableView, QScroller::TouchGesture);
     //this->layout()->setSizeConstraint(QLayout::SetFixedSize);
     //根据登录界面给定的有效用户信息初始化账户界面
     this->UserID=ID;

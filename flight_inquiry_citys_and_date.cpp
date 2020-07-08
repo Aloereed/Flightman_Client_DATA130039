@@ -14,7 +14,7 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QFile>
-
+#include <QScroller>
 extern account_and_orders * acct; //只有当用户进入到账户界面后，也即UserID!=""时，可以有效使用
 
 flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
@@ -25,7 +25,7 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     styleFile.open(QIODevice::ReadOnly);//只读
     QString setStyleSheet(styleFile.readAll());//读取所有的
     ui->Flights->setStyleSheet(setStyleSheet);//设置样式
-
+    QScroller::grabGesture(ui->Flights, QScroller::TouchGesture);
     this->UserID = UserID;
     this->Password = Password;
     this->Mode = Mode;

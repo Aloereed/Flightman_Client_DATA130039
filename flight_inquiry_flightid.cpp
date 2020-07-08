@@ -13,7 +13,7 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QFile>
-
+#include<QScroller>
 extern account_and_orders * acct; //只有当用户进入到账户界面后，也即UserID!=""时，可以有效使用
 
 flight_inquiry_flightID::flight_inquiry_flightID(QWidget *parent,QString UserID,QString Password,QString Name) :
@@ -28,7 +28,7 @@ flight_inquiry_flightID::flight_inquiry_flightID(QWidget *parent,QString UserID,
     this->UserID = UserID;
     this->Password = Password;
     this->Name = Name;
-
+    QScroller::grabGesture(ui->tableView, QScroller::TouchGesture);
     ui->hint_label->setText(tr("Flight ID"));
     ui->flighID_lineEdit->setPlaceholderText(tr("Please enter the flight ID you want to query."));
     ui->flighID_lineEdit->setEchoMode(QLineEdit::Normal);
