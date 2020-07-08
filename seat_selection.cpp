@@ -5,6 +5,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QMessageBox>
+#include<QScroller>
 
 extern account_and_orders * acct;
 
@@ -13,7 +14,9 @@ seat_selection::seat_selection(QWidget *parent,QString flightID,QString classTyp
     QWidget(parent),
     ui(new Ui::seat_selection)
 {
+
     ui->setupUi(this);
+    QScroller::grabGesture(ui->tableWidget_seats, QScroller::TouchGesture);
     ui->label_hint->setText(tr("Please click on the cell to select your seat."));
     ui->label_colorhint1->setText(tr("white : available"));
     ui->label_colorhint2->setText(tr("gray : NOT available"));
@@ -69,6 +72,7 @@ seat_selection::~seat_selection()
 
 QString seat_selection::flightTypeQuery(QString flightID)
 {
+
     QString flightType = "1";
     QString sql = QString("SELECT type FROM seat WHERE flight_id='%1'").arg(flightID);
     QSqlQuery *query = new QSqlQuery();

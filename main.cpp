@@ -5,6 +5,7 @@
 #include <QFile>
 #ifdef Q_OS_ANDROID
 #include <QStandardPaths>
+#include<QTimer>
 QSettings settings(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)+"/plat_settings.ini", QSettings::NativeFormat);
 #else
 QSettings settings("FDU4021","FlightManClient");
@@ -53,6 +54,9 @@ int main(int argc, char *argv[]) {
     a.setApplicationName("FlightMan Client");
     a.setApplicationDisplayName("FlightMan Client");
     a.setApplicationVersion("1.0");
+    QTimer::singleShot(3000,NULL,[=](){
+        QtAndroid::hideSplashScreen(500);
+    });
 #endif
     QApplication::addLibraryPath(QApplication::applicationDirPath());
     QApplication::addLibraryPath("./");
