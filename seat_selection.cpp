@@ -170,13 +170,13 @@ QHash<QString, QString> seat_selection::SeatsInfo(QString flightID, QString orde
     QString sql = QString("SELECT seat_id,passengerID FROM seat_arrangement WHERE flight_ID='%1' AND `order`=%2 AND "
                           "departure_date='%3'")
             .arg(flightID).arg(order_start).arg(dep_date);
+    qDebug()<<sql<<endl;
     QSqlQuery *query = new QSqlQuery();
     if(query->exec(sql)){ //成功执行
         while(query->next()){
             hash_seatidTopassengerid.insert(query->value(0).toString(),query->value(1).toString());
         }
     }
-    hash_seatidTopassengerid.insert("0","-1");//默认存量
     return hash_seatidTopassengerid;
 }
 
@@ -216,9 +216,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(j==3) continue; //位于过道
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
-                        seatUser = hash_seatidTopassengerid.find(seatID).value();
+                        if(hash_seatidTopassengerid.find(seatID)!=hash_seatidTopassengerid.end())
+                            seatUser = hash_seatidTopassengerid.find(seatID).value();
+                        else seatUser = "-1";
                         QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
-                        if(i>=business_No.toInt() || (seatUser!="" && seatUser!="-1")){
+                        if(i>=business_No.toInt() || seatUser!="" ){
                             item->setBackgroundColor(QColor(Qt::lightGray));
                         }
                         ui->tableWidget_seats->setItem(i,j,item);
@@ -230,9 +232,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                         if(j==3) continue; //位于过道
                         if(i<busiNo && (j==1 || j==5)) continue; //位于公务舱两个位置的间隔
                         seatID = this->ComputeSeatID(i,j,flightType);
-                        seatUser = hash_seatidTopassengerid.find(seatID).value();
+                        if(hash_seatidTopassengerid.find(seatID)!=hash_seatidTopassengerid.end())
+                            seatUser = hash_seatidTopassengerid.find(seatID).value();
+                        else seatUser = "-1";
                         QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
-                        if(i<business_No.toInt() || (seatUser!="" && seatUser!="-1")){
+                        if(i<business_No.toInt() || seatUser!=""){
                             item->setBackgroundColor(QColor(Qt::lightGray));
                         }
                          ui->tableWidget_seats->setItem(i,j, item);
@@ -246,9 +250,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(j==3 || j==7) continue;
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
-                    seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    if(hash_seatidTopassengerid.find(seatID)!=hash_seatidTopassengerid.end())
+                        seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    else seatUser = "-1";
                     QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
-                    if(i>=business_No.toInt() || (seatUser!="" && seatUser!="-1")){
+                    if(i>=business_No.toInt() || seatUser!=""){
                         item->setBackgroundColor(QColor(Qt::lightGray));
                     }
                     ui->tableWidget_seats->setItem(i,j, item);
@@ -260,9 +266,11 @@ void seat_selection::tableContentsSet(QString flightType, int busiNo, int econNo
                     if(j==3 || j==7) continue;
                     if(i<busiNo && (j==1 || j==5 || j==9)) continue;
                     seatID = this->ComputeSeatID(i,j,flightType);
-                    seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    if(hash_seatidTopassengerid.find(seatID)!=hash_seatidTopassengerid.end())
+                        seatUser = hash_seatidTopassengerid.find(seatID).value();
+                    else seatUser = "-1";
                     QTableWidgetItem *item = new QTableWidgetItem("💺 "+seatID);
-                    if(i<business_No.toInt() || (seatUser!="" && seatUser!="-1")){//该座位被人使用或者该座位不属于用户对应的舱位
+                    if(i<business_No.toInt() || seatUser!=""){//该座位被人使用或者该座位不属于用户对应的舱位
                         item->setBackgroundColor(QColor(Qt::lightGray));
                     }
                     ui->tableWidget_seats->setItem(i,j,item);
