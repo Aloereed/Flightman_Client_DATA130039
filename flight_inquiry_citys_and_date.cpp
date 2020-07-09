@@ -56,6 +56,7 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
 
     ui->label_3->setText(tr("Departure Date"));
     ui->dateEdit->setDate(QDate::currentDate());
+    ui->dateEdit->setMinimumDate(QDate::currentDate());
 
     ui->pushButton->setText(tr("Confirm"));
     ui->pushButton_2->setText(tr("Back"));
