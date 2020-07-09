@@ -115,7 +115,7 @@ void login::on_pushButton_clicked() {
         return;
     }
 }
-void login::hideforhome() {A
+void login::hideforhome() {
     ui->pushButton_4->hide();
     ui->pushButton_5->hide();
     ui->label_6->hide();
