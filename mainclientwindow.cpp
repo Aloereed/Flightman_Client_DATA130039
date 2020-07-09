@@ -14,6 +14,7 @@
 #include <QDebug>
 #include<QMessageBox>
 #include<QStackedWidget>
+#include <QTimer>
 QStackedWidget* mainstack;
 extern QSqlDatabase db;
 //flight_inquiry * flt_in;
@@ -47,6 +48,11 @@ MainClientWindow::MainClientWindow(QWidget *parent) : QMainWindow(parent), ui(ne
     ui->stackedWidget->setCurrentWidget(hq);
     //lgin->hide();
     //QMessageBox::information(this,db.databaseName(),"Connected.");
+
+    connect(&timer, SIGNAL(timeout()), this, SLOT(checkDataBaseConnection()));
+    timer.start(5000);
+    qDebug()<<timer.isActive();
+
 }
 
 MainClientWindow::~MainClientWindow() {
@@ -84,6 +90,13 @@ void MainClientWindow::on_pushButton_3_clicked() {
 
 void MainClientWindow::retranslateme() {
     ui->retranslateUi(this);
+}
+
+void MainClientWindow::checkDataBaseConnection()
+{
+    if(!db.isOpen()){
+        db.open();
+    }
 }
 
 void MainClientWindow::on_toolButton_4_clicked() {

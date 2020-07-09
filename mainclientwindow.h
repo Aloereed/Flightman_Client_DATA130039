@@ -2,6 +2,7 @@
 #define MAINCLIENTWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 namespace Ui {
 class MainClientWindow;
@@ -14,6 +15,11 @@ class MainClientWindow : public QMainWindow {
     explicit MainClientWindow(QWidget *parent = nullptr);
     ~MainClientWindow();
     void retranslateme();
+
+    QTimer timer;
+
+  public slots:
+    void checkDataBaseConnection();
 
   private slots:
     void on_pushButton_clicked();
