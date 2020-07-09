@@ -111,11 +111,11 @@ void login::on_pushButton_clicked() {
         this->close();
 
     } else {
-        QMessageBox::critical(this,tr("critical"),tr("The account doesn't exist."));
+        QMessageBox::critical(this,tr("critical"),tr("The account doesn't exist or your password is not correct.A"));
         return;
     }
 }
-void login::hideforhome() {
+void login::hideforhome() {A
     ui->pushButton_4->hide();
     ui->pushButton_5->hide();
     ui->label_6->hide();
