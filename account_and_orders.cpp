@@ -464,6 +464,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
     } else if (index.isValid()&&index.column()==10) { //点击改签
         //
         qDebug()<<"你刚刚点击了改签按钮"<<endl; //选择座位等()
+        acct->setStatus(0);
         int flag = 0;
         int row = index.row(); //获取点击的行数
         QAbstractItemModel *model = ui->coming_tableView->model();
@@ -489,7 +490,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
         }
         if(flag){ //有改动，允许值机
             qDebug()<<"航班有改动，可以改期"<<endl;
-        }else{
+        }//默认是没有值机的，无改动，只需看有无值机
             QString seatID = "";
             QString sql_pre = QString("SELECT seat_id FROM ticketVSseatid_view WHERE ticket_id='%1'").arg(ticketID);
             QSqlQuery *query_pre = new QSqlQuery();
@@ -497,12 +498,12 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
             if(query_pre->next()){
                 seatID = query_pre->value(0).toString();
             }
-            if(seatID != "") { //如果完成了值机，则不允许改期
+            if(seatID != "" && flag==0) { //如果完成了值机，且又无航班变动，则不允许改期
                 QMessageBox::information(this,tr("Hint:"),tr("You have checked in. So you can't change you order."));
                 return;
             }
             //没有改航班但是也没值机，可以改期
-            qDebug()<<"航班未值机，可以改期"<<endl;
+            qDebug()<<"可以改期"<<endl;
             flight_inquiry_citys_and_date *new_interface = new flight_inquiry_citys_and_date(nullptr,this->UserID,this->Password,"C",this->Name
                                                                 ,"1",depAirport,arvAirport);
             new_interface->show();
@@ -519,7 +520,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
             float actualPay = this->ticketActualPayQuery(ticketID).toFloat();
             float refundMoney = this->ticketActualRefundQuery(actualPay,dep_datetime);
             float newBalance = this->Money + refundMoney;
-            acct->setMoney(newBalance);
+            //acct->setMoney(newBalance);
 
             acct->setRebooking_flightID(flightID);
             acct->setRebooking_ticketID(ticketID);
@@ -529,7 +530,12 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
             acct->setRebooking_newBalance(newBalance);
             acct->setRebooking_refundMoney(refundMoney);
             acct->setRebooking_dep_datetime(dep_datetime);
-        }
+
+            if(flag==1 && seatID!=""){//说明有航班改动，这种情况需要在退票前将座位取消掉
+                acct->setStatus(1);
+                acct->setRebooking_seatID(seatID);
+            }
+
         return;
     }else if(index.isValid()&&index.column()==7){ //点击查看个人的座位信息
         qDebug()<<"你刚刚点击了座位信息按钮"<<endl; //选择座位等()

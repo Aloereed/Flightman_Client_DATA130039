@@ -274,7 +274,17 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
                 parent2->close();
             }
             if(this->FromOrder=="1"){
-            ticket_refund_confirm *refund_interface = new ticket_refund_confirm(nullptr,acct->getUserID(),acct->getRebooking_newBalance(),acct->getRebooking_ticketID()
+                if(acct->getStatus()==1){ //说明有航班变动，且已经选位，则此时需要消除编号
+                    sql = QString("CALL SeatCancel('flightID','dep_date',orders,ordere,seatid)")
+                            .arg(acct->getUserID()).arg(acct->getRebooking_dep_datetime().mid(0,10))
+                            .arg(acct->getRebooking_order_start()).arg(acct->getRebooking_order_end())
+                            .arg(acct->getRebooking_seatID());
+                    query->clear();
+                    query->exec(sql);
+                }
+
+
+            ticket_refund_confirm *refund_interface = new ticket_refund_confirm(nullptr,acct->getUserID(),acct->getRebooking_newBalance()-price.toFloat(),acct->getRebooking_ticketID()
                     ,acct->getRebooking_refundMoney(),acct->getRebooking_flightID(),acct->getRebooking_dep_datetime()
                     ,acct->getRebooking_order_start(),acct->getRebooking_order_end(),acct->getRebooking_classType(),"1");
 //            refund_interface->show();
@@ -282,6 +292,8 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
             QEventLoop eventloop;
             QTimer::singleShot(1500, &eventloop, SLOT(quit()));//暂停1.5s
             eventloop.exec();
+            acct->setMoney(newBalance + acct->getRebooking_refundMoney());
+
             }
             this->close();
 

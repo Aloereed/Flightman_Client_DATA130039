@@ -36,6 +36,7 @@ class account_and_orders : public QWidget {
     void setRebooking_order_start(QString orderS){this->Rebooking_order_start=orderS;}
     void setRebooking_order_end(QString orderE){this->Rebooking_order_end=orderE;}
     void setRebooking_classType(QString classType){this->Rebooking_classType=classType;}
+    void setRebooking_seatID(QString seatID){this->Rebooking_seatID=seatID;}
 
     float getMoney();
     float ticketActualRefundQuery(float actualPay,QString dep_datetime);
@@ -63,6 +64,7 @@ class account_and_orders : public QWidget {
     QString getRebooking_order_start(){return this->Rebooking_order_start;}
     QString getRebooking_order_end(){return this->Rebooking_order_end;}
     QString getRebooking_classType(){return this->Rebooking_classType;}
+    QString getRebooking_seatID(){return this->Rebooking_seatID;}
 
   public slots:
     void on_buyticket_pushButton_clicked();
@@ -105,6 +107,7 @@ private:
     QString Rebooking_order_start;
     QString Rebooking_order_end;
     QString Rebooking_classType;
+    QString Rebooking_seatID;
 
 //    ticket_refund_confirm *refund_interface = new ticket_refund_confirm(nullptr,this->UserID,newBalance,ticketID
 //            ,refundMoney,flightID,dep_datetime
