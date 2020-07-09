@@ -55,7 +55,6 @@ void login::on_pushButton_2_clicked() {
     QApplication::processEvents();
     regis->show();
     QApplication::processEvents();
-    this->close();
 }
 //Btn: Back
 void login::on_pushButton_4_clicked() {

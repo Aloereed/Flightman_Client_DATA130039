@@ -1192,38 +1192,70 @@
         <translation>窗体</translation>
     </message>
     <message>
-        <location filename="messagebox.ui" line="20"/>
+        <location filename="messagebox.ui" line="26"/>
+        <source>Tab 1</source>
+        <translation>选项卡 1</translation>
+    </message>
+    <message>
+        <location filename="messagebox.ui" line="32"/>
+        <location filename="messagebox.ui" line="51"/>
         <source>GroupBox</source>
         <translation>组框</translation>
     </message>
     <message>
-        <location filename="messagebox.ui" line="46"/>
-        <location filename="messagebox.ui" line="53"/>
+        <location filename="messagebox.ui" line="45"/>
+        <source>Tab 2</source>
+        <translation>选项卡 2</translation>
+    </message>
+    <message>
+        <location filename="messagebox.ui" line="82"/>
+        <location filename="messagebox.ui" line="89"/>
         <source>PushButton</source>
         <translation>按钮</translation>
     </message>
     <message>
-        <location filename="messagebox.cpp" line="14"/>
         <source>Some information you need to notice:</source>
         <translation>您需要注意的一些信息:</translation>
     </message>
     <message>
         <location filename="messagebox.cpp" line="15"/>
+        <source>Personal Information:</source>
+        <translation>个人消息:</translation>
+    </message>
+    <message>
+        <location filename="messagebox.cpp" line="16"/>
+        <source>Collective Information:</source>
+        <translation>集体消息:</translation>
+    </message>
+    <message>
+        <location filename="messagebox.cpp" line="17"/>
         <source>Close</source>
         <translation>关闭</translation>
     </message>
     <message>
-        <location filename="messagebox.cpp" line="16"/>
+        <location filename="messagebox.cpp" line="18"/>
         <source>Refresh</source>
         <translation>刷新</translation>
     </message>
     <message>
-        <location filename="messagebox.cpp" line="36"/>
+        <location filename="messagebox.cpp" line="24"/>
+        <source>Collective</source>
+        <translation>集体</translation>
+    </message>
+    <message>
+        <location filename="messagebox.cpp" line="25"/>
+        <source>Personal</source>
+        <translation>个人</translation>
+    </message>
+    <message>
+        <location filename="messagebox.cpp" line="43"/>
+        <location filename="messagebox.cpp" line="51"/>
         <source>Release Time</source>
         <translation>发布时间</translation>
     </message>
     <message>
-        <location filename="messagebox.cpp" line="37"/>
+        <location filename="messagebox.cpp" line="44"/>
+        <location filename="messagebox.cpp" line="52"/>
         <source>Announcement</source>
         <translation>公告</translation>
     </message>
@@ -1252,7 +1284,7 @@
     <message>
         <location filename="recharge.cpp" line="20"/>
         <source>ID:</source>
-        <translation>ID:</translation>
+        <translation>身份证号:</translation>
     </message>
     <message>
         <location filename="recharge.cpp" line="21"/>

@@ -37,8 +37,7 @@ registration::~registration()
 //Btn: Back
 void registration::on_pushButton_clicked()
 {
-    login * lgin = new login();
-    lgin->show();
+
     this->hide();
 }
 
@@ -96,8 +95,6 @@ void registration::on_buttonBox_clicked(QAbstractButton *button)
         else{
             QMessageBox::information(this,tr("hint:"),tr("failure"));
         }
-        login * lgin = new login();
-        lgin->show();
         this->close();
     }
     else if(ui->buttonBox->button(QDialogButtonBox::Cancel) == button)
