@@ -122,8 +122,8 @@
     </message>
     <message>
         <location filename="mainclientwindow.ui" line="69"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="center"&gt;&lt;span style=" font-size:14pt;"&gt;Flightman&lt;br/&gt;&lt;/span&gt;A Query and Ticketing System of Flights&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="center"&gt;&lt;span style=" font-size:14pt;"&gt;Flightman&lt;br/&gt;&lt;/span&gt;一个航班查询和票务系统&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Flightman&lt;br/&gt;&lt;/span&gt;A Query and Ticketing System of Flights&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Flightman&lt;br/&gt;&lt;/span&gt;一个航班查询和票务系统&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="mainclientwindow.ui" line="124"/>
@@ -150,11 +150,11 @@
     </message>
     <message>
         <source>Connect</source>
-        <translation>连接</translation>
+        <translation type="vanished">连接</translation>
     </message>
     <message>
         <source>Connection settings</source>
-        <translation>连接设置</translation>
+        <translation type="vanished">连接设置</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="87"/>
@@ -560,8 +560,8 @@
     </message>
     <message>
         <location filename="account_and_orders.cpp" line="93"/>
-        <source>click 'Messages' to check NEW information.</source>
-        <translation>单击"消息"以检查新信息.</translation>
+        <source>click &apos;Messages&apos; to check NEW information.</source>
+        <translation>单击&quot;消息&quot;以检查新信息.</translation>
     </message>
     <message>
         <location filename="account_and_orders.cpp" line="272"/>
@@ -685,7 +685,7 @@
     </message>
     <message>
         <location filename="account_and_orders.cpp" line="501"/>
-        <source>You have checked in. So you can't change you order.</source>
+        <source>You have checked in. So you can&apos;t change you order.</source>
         <translation>您已办理值机手续。所以你不能改变你的订单.</translation>
     </message>
 </context>
@@ -1168,20 +1168,24 @@
         <translation>回到主窗口？?</translation>
     </message>
     <message>
-        <location filename="login.cpp" line="80"/>
-        <location filename="login.cpp" line="115"/>
+        <location filename="login.cpp" line="79"/>
+        <location filename="login.cpp" line="114"/>
         <source>critical</source>
         <translation>关键</translation>
     </message>
     <message>
-        <location filename="login.cpp" line="80"/>
+        <location filename="login.cpp" line="79"/>
         <source>incomplete input.</source>
         <translation>输入不完整.</translation>
     </message>
     <message>
-        <location filename="login.cpp" line="115"/>
-        <source>The account doesn't exist.</source>
-        <translation>该帐户不存在.</translation>
+        <location filename="login.cpp" line="114"/>
+        <source>The account doesn&apos;t exist or your password is not correct.A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The account doesn&apos;t exist.</source>
+        <translation type="vanished">该帐户不存在.</translation>
     </message>
 </context>
 <context>
@@ -1215,7 +1219,7 @@
     </message>
     <message>
         <source>Some information you need to notice:</source>
-        <translation>您需要注意的一些信息:</translation>
+        <translation type="vanished">您需要注意的一些信息:</translation>
     </message>
     <message>
         <location filename="messagebox.cpp" line="15"/>
@@ -1370,48 +1374,48 @@
         <translation>请输入您的密码.</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="50"/>
-        <location filename="registration.cpp" line="67"/>
-        <location filename="registration.cpp" line="94"/>
-        <location filename="registration.cpp" line="97"/>
+        <location filename="registration.cpp" line="49"/>
+        <location filename="registration.cpp" line="66"/>
+        <location filename="registration.cpp" line="93"/>
+        <location filename="registration.cpp" line="96"/>
         <source>hint:</source>
         <translation>提示:</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="50"/>
-        <location filename="registration.cpp" line="97"/>
+        <location filename="registration.cpp" line="49"/>
+        <location filename="registration.cpp" line="96"/>
         <source>failure</source>
         <translation>失败</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="67"/>
+        <location filename="registration.cpp" line="66"/>
         <source>ID existed.</source>
         <translation>身份证已存在.</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="72"/>
+        <location filename="registration.cpp" line="71"/>
         <source>Adding</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="72"/>
-        <location filename="registration.cpp" line="106"/>
+        <location filename="registration.cpp" line="71"/>
+        <location filename="registration.cpp" line="103"/>
         <source>cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="73"/>
-        <location filename="registration.cpp" line="107"/>
+        <location filename="registration.cpp" line="72"/>
+        <location filename="registration.cpp" line="104"/>
         <source>process</source>
         <translation>处理中</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="94"/>
+        <location filename="registration.cpp" line="93"/>
         <source>account created successfully</source>
         <translation>已成功创建帐户</translation>
     </message>
     <message>
-        <location filename="registration.cpp" line="106"/>
+        <location filename="registration.cpp" line="103"/>
         <source>Returning to the mainwindow</source>
         <translation>返回主窗口</translation>
     </message>
@@ -1632,7 +1636,7 @@
     </message>
     <message>
         <source>Ticket Information:</source>
-        <translation>票务信息:</translation>
+        <translation type="vanished">票务信息:</translation>
     </message>
     <message>
         <location filename="ticketandseat_info_interface.cpp" line="12"/>
@@ -1667,19 +1671,19 @@
     </message>
     <message>
         <source>Price:</source>
-        <translation>价格:</translation>
+        <translation type="vanished">价格:</translation>
     </message>
     <message>
         <source>Departure Time:</source>
-        <translation>出发时间:</translation>
+        <translation type="vanished">出发时间:</translation>
     </message>
     <message>
         <source>Class Type:</source>
-        <translation>舱位类型:</translation>
+        <translation type="vanished">舱位类型:</translation>
     </message>
     <message>
         <source>Seat ID:</source>
-        <translation>座位号:</translation>
+        <translation type="vanished">座位号:</translation>
     </message>
     <message>
         <location filename="ticketandseat_info_interface.cpp" line="21"/>

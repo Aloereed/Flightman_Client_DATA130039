@@ -112,16 +112,19 @@ private:
 };
 
 class FinishedOrderModel:public QSqlQueryModel {
+    Q_OBJECT
   public:
     QVariant data(const QModelIndex &item, int role=Qt::DisplayRole) const;
 };
 
 class ComingOrderModel:public QSqlQueryModel {
+    Q_OBJECT
   public:
     QVariant data(const QModelIndex &item, int role=Qt::DisplayRole) const;
 };
 
 class CancelledOrderModel:public QSqlQueryModel {
+    Q_OBJECT
   public:
     QVariant data(const QModelIndex &item, int role=Qt::DisplayRole) const;
 };

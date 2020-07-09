@@ -43,6 +43,7 @@ class flight_inquiry_citys_and_date : public QWidget {
 };
 
 class MyQueryMode:public QSqlQueryModel {
+    Q_OBJECT
   public:
     QVariant data(const QModelIndex &item, int role=Qt::DisplayRole) const;
 };
