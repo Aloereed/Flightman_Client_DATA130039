@@ -36,7 +36,7 @@ flight_inquiry_citys_and_date::flight_inquiry_citys_and_date(
     if (UserID == "") { //在之前的flight_inquiry已经对账户信息进行了筛选，此处不再重复
         ui->UserStatus->setText(tr("User Information: Not logged in"));
     } else {
-        ui->UserStatus->setText("User Information: "+this->Name);
+        ui->UserStatus->setText(tr("User Information: ")+this->Name);
         ui->pushButton_4->hide();
     }
 
@@ -160,12 +160,12 @@ QVariant MyQueryMode::data(const QModelIndex &item, int role) const {
     if (role == Qt::DisplayRole) {
         if(item.column()==7 || item.column()==12) {
             if(QSqlQueryModel::data(item).toInt()==0)
-                return QVariant::fromValue(QString(tr("始发站")));
+                return QVariant::fromValue(QString(tr("Of Departure")));
             else if(QSqlQueryModel::data(item).toInt()==-1)
-                return QVariant::fromValue(QString(tr("终点站")));
+                return QVariant::fromValue(QString(tr("Of Arrival")));
             else {
                 QString order = QSqlQueryModel::data(item).toString();
-                QString info = "第" + order + "中转站";
+                QString info = tr("No.") + order + tr(" Transfer");
                 return QVariant::fromValue(info);
             }
         }
@@ -202,12 +202,12 @@ void flight_inquiry_citys_and_date::on_Flights_clicked(const QModelIndex &index)
         QString order_end = model->data(model->index(row,12)).toString();
 
 
-        if(order_start=="始发站") order_start="0";
-        else if(order_start=="终点站") order_start="-1";
+        if(order_start==tr("Of Departure")) order_start="0";
+        else if(order_start==tr("Of Arrival")) order_start="-1";
         else order_start=order_start.mid(1,1);
 
-        if(order_end=="始发站") order_end="0";
-        else if(order_end=="终点站") order_end="-1";
+        if(order_end==tr("Of Departure")) order_end="0";
+        else if(order_end==tr("Of Arrival")) order_end="-1";
         else order_end=order_end.mid(1,1);
 
         //检查该用户是否已经购买过同一趟航班。如果是，则提示用户不能重复购买，并取消预定操作

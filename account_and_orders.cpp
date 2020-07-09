@@ -64,7 +64,7 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     this->ChangeFlightDate = 0;
     this->hash_seatsInfoOfUser = this->HashSeatsOfUser(this->UserID);
 
-    QString greeting = QString("Hello, %1").arg(this->Name);
+    QString greeting = QString(tr("Hello, %1")).arg(this->Name);
     ui->User_label->setText(greeting);
     ui->account_label->setText(tr("Account Balance: ") + money_string + tr("￥"));
 

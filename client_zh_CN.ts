@@ -122,8 +122,8 @@
     </message>
     <message>
         <location filename="mainclientwindow.ui" line="69"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Flightman&lt;br/&gt;&lt;/span&gt;A Query and Ticketing System of Flights&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Flightman&lt;br/&gt;&lt;/span&gt;一个航班查询和票务系统&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="center"&gt;&lt;span style=" font-size:14pt;"&gt;Flightman&lt;br/&gt;&lt;/span&gt;A Query and Ticketing System of Flights&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align="center"&gt;&lt;span style=" font-size:14pt;"&gt;Flightman&lt;br/&gt;&lt;/span&gt;一个航班查询和票务系统&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="mainclientwindow.ui" line="124"/>
@@ -150,11 +150,11 @@
     </message>
     <message>
         <source>Connect</source>
-        <translation type="vanished">连接</translation>
+        <translation>连接</translation>
     </message>
     <message>
         <source>Connection settings</source>
-        <translation type="vanished">连接设置</translation>
+        <translation>连接设置</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="87"/>
@@ -200,14 +200,32 @@
 <context>
     <name>MyQueryMode</name>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="163"/>
         <source>始发站</source>
         <translation>Of departure</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="165"/>
         <source>终点站</source>
         <translation>The terminal</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="163"/>
+        <source>Of Departure</source>
+        <translation>始发站</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="165"/>
+        <source>Of Arrival</source>
+        <translation>终点站</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="168"/>
+        <source>No.</source>
+        <translation>第</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="168"/>
+        <source> Transfer</source>
+        <translation> 中转站</translation>
     </message>
     <message>
         <location filename="flight_inquiry_citys_and_date.cpp" line="173"/>
@@ -218,14 +236,32 @@
 <context>
     <name>MyQueryMode_fid</name>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="112"/>
         <source>始发站</source>
         <translation>始发站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="114"/>
         <source>终点站</source>
         <translation>终点站</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_flightid.cpp" line="112"/>
+        <source>Of Daparture</source>
+        <translation>始发站</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_flightid.cpp" line="114"/>
+        <source>Of Arrival</source>
+        <translation>终点站</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_flightid.cpp" line="117"/>
+        <source>No.</source>
+        <translation>第.</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_flightid.cpp" line="117"/>
+        <source> Transfer</source>
+        <translation> 中转站</translation>
     </message>
     <message>
         <location filename="flight_inquiry_flightid.cpp" line="122"/>
@@ -510,6 +546,11 @@
         <translation>买票</translation>
     </message>
     <message>
+        <location filename="account_and_orders.cpp" line="67"/>
+        <source>Hello, %1</source>
+        <translation>你好， %1</translation>
+    </message>
+    <message>
         <location filename="account_and_orders.cpp" line="69"/>
         <location filename="account_and_orders.cpp" line="245"/>
         <source>Account Balance: </source>
@@ -560,8 +601,8 @@
     </message>
     <message>
         <location filename="account_and_orders.cpp" line="93"/>
-        <source>click &apos;Messages&apos; to check NEW information.</source>
-        <translation>单击&quot;消息&quot;以检查新信息.</translation>
+        <source>click 'Messages' to check NEW information.</source>
+        <translation>单击"消息"以检查新信息.</translation>
     </message>
     <message>
         <location filename="account_and_orders.cpp" line="272"/>
@@ -685,7 +726,7 @@
     </message>
     <message>
         <location filename="account_and_orders.cpp" line="501"/>
-        <source>You have checked in. So you can&apos;t change you order.</source>
+        <source>You have checked in. So you can't change you order.</source>
         <translation>您已办理值机手续。所以你不能改变你的订单.</translation>
     </message>
 </context>
@@ -803,6 +844,11 @@
         <translation>用户信息：未登录</translation>
     </message>
     <message>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="39"/>
+        <source>User Information: </source>
+        <translation>用户信息: </translation>
+    </message>
+    <message>
         <location filename="flight_inquiry_citys_and_date.cpp" line="51"/>
         <source>Please Enter Your Departure City.</source>
         <translation>请输入您的出发城市.</translation>
@@ -907,6 +953,18 @@
         <translation>在预订前，您需要先登录.</translation>
     </message>
     <message>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="205"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="209"/>
+        <source>Of Departure</source>
+        <translation>始发站</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="206"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="210"/>
+        <source>Of Arrival</source>
+        <translation>终点站</translation>
+    </message>
+    <message>
         <location filename="flight_inquiry_citys_and_date.cpp" line="224"/>
         <source>You have already booked this flight. Please choose another flight.</source>
         <translation>你已经订了这个航班。请选择其他航班.</translation>
@@ -979,6 +1037,11 @@
         <location filename="flight_inquiry_flightid.cpp" line="42"/>
         <source>User Information: Not logged in</source>
         <translation>用户信息：未登录</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_flightid.cpp" line="45"/>
+        <source>User Information: </source>
+        <translation>用户信息: </translation>
     </message>
     <message>
         <location filename="flight_inquiry_flightid.cpp" line="74"/>
@@ -1066,6 +1129,18 @@
         <location filename="flight_inquiry_flightid.cpp" line="138"/>
         <source>Before booking, You need to log in first.</source>
         <translation>在预订前，您需要先登录.</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_flightid.cpp" line="156"/>
+        <location filename="flight_inquiry_flightid.cpp" line="160"/>
+        <source>Of Daparture</source>
+        <translation>始发站</translation>
+    </message>
+    <message>
+        <location filename="flight_inquiry_flightid.cpp" line="157"/>
+        <location filename="flight_inquiry_flightid.cpp" line="161"/>
+        <source>Of Arrival</source>
+        <translation>终点站</translation>
     </message>
     <message>
         <location filename="flight_inquiry_flightid.cpp" line="177"/>
@@ -1180,12 +1255,12 @@
     </message>
     <message>
         <location filename="login.cpp" line="114"/>
-        <source>The account doesn&apos;t exist or your password is not correct.A</source>
-        <translation type="unfinished"></translation>
+        <source>The account doesn't exist or your password is not correct.A</source>
+        <translation>该帐户不存在或密码不正确.</translation>
     </message>
     <message>
-        <source>The account doesn&apos;t exist.</source>
-        <translation type="vanished">该帐户不存在.</translation>
+        <source>The account doesn't exist.</source>
+        <translation>账户不存在。</translation>
     </message>
 </context>
 <context>
@@ -1219,7 +1294,7 @@
     </message>
     <message>
         <source>Some information you need to notice:</source>
-        <translation type="vanished">您需要注意的一些信息:</translation>
+        <translation>您需要注意的一些信息:</translation>
     </message>
     <message>
         <location filename="messagebox.cpp" line="15"/>
@@ -1636,7 +1711,7 @@
     </message>
     <message>
         <source>Ticket Information:</source>
-        <translation type="vanished">票务信息:</translation>
+        <translation>票务信息:</translation>
     </message>
     <message>
         <location filename="ticketandseat_info_interface.cpp" line="12"/>
@@ -1671,19 +1746,19 @@
     </message>
     <message>
         <source>Price:</source>
-        <translation type="vanished">价格:</translation>
+        <translation>价格:</translation>
     </message>
     <message>
         <source>Departure Time:</source>
-        <translation type="vanished">出发时间:</translation>
+        <translation>出发时间:</translation>
     </message>
     <message>
         <source>Class Type:</source>
-        <translation type="vanished">舱位类型:</translation>
+        <translation>舱位类型:</translation>
     </message>
     <message>
         <source>Seat ID:</source>
-        <translation type="vanished">座位号:</translation>
+        <translation>座位号:</translation>
     </message>
     <message>
         <location filename="ticketandseat_info_interface.cpp" line="21"/>
