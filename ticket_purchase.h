@@ -19,7 +19,7 @@ public:
             ,QString dep_date="",QString flightID="",QString schedule=""
             ,QString dep_airportName="",QString dep_city="",QString dep_time="",QString arv_airportName=""
             ,QString arv_city="",QString arv_time="",QString orderstart="",QString orderend=""
-            ,QString FromOrder="0");
+            ,QString FromOrder="0",int offset=0);
     ~Ticket_Purchase();
 
     QString PrimalPriceQuery(QString flightID,QString classType, QString order_start,QString order_end);
@@ -36,7 +36,7 @@ public:
     void Payment(flight_inquiry_citys_and_date *parent1,flight_inquiry_flightID *parent2,
                  QString UserID,QString balance,QString price,
                  QString flightID,QString dep_date,QString dep_time,QString order_start,QString order_end,
-                 QString classType,QString companyID); //支付机票价格，余额更新
+                 QString classType,QString companyID,int offset=0); //支付机票价格，余额更新
 //    void TicketsRecordInsertion();
 //    void TicketsPurchaseRecordInsertion();
 //    void TicketsLeftNumRefresh();
@@ -74,6 +74,7 @@ private:
 
     int depTimeOverDay;
     int arvTimeOverDay;
+    int offset;
 };
 
 #endif // TICKET_PURCHASE_H

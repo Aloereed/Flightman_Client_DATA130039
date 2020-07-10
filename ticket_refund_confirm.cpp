@@ -14,12 +14,12 @@ ticket_refund_confirm::ticket_refund_confirm(QWidget *parent,QString UserID,floa
                                              QString ticketID,float refundMoney,
                                              QString flightID,QString dep_datetime,
                                              QString order_start,QString order_end,QString classType,
-                                             QString FromOrder):
+                                             QString FromOrder,int offset):
     QWidget(parent),
     ui(new Ui::ticket_refund_confirm)
 {
     ui->setupUi(this);
-
+    this->offset=offset;
     ui->groupBox->setTitle(tr("Authentication:"));
     ui->label_UserID->setText(tr("User ID :"));
     ui->lineEdit_UserID->setPlaceholderText(tr("Please Enter Your ID."));

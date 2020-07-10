@@ -231,12 +231,19 @@ void flight_inquiry_flightID::on_tableView_clicked(const QModelIndex &index)
             return;
         }
 
+        QVariant dep_date_correct_qvar(dep_date);
+        QDate dep_date_correct_qdate = dep_date_correct_qvar.toDate();
+        if(dep_time.mid(0,1)=="*"){ //说明实际用于余票查询的日期应该为当前日期-1
+            dep_date_correct_qdate = dep_date_correct_qdate.addDays(-1);
+        }
+        QString dep_date_correct_str = dep_date_correct_qdate.toString("yyyy-MM-dd");
+
 
         //根据所截取的信息来查询该趟航班是否有余票（在确认购买时仍需要查询是否有余票，以保持数据的一致性）
         QString sql_remaining_tickets_business = QString("CALL remaining_tickets_num("
-                                                "'%1','%2',%3,%4,0)").arg(fligh_id).arg(dep_date).arg(order_start).arg(order_end);
+                                                "'%1','%2',%3,%4,0)").arg(fligh_id).arg(dep_date_correct_str).arg(order_start).arg(order_end);
         QString sql_remaining_tickets_economy = QString("CALL remaining_tickets_num("
-                                                "'%1','%2',%3,%4,1)").arg(fligh_id).arg(dep_date).arg(order_start).arg(order_end);
+                                                "'%1','%2',%3,%4,1)").arg(fligh_id).arg(dep_date_correct_str).arg(order_start).arg(order_end);
         qDebug()<<sql_remaining_tickets_business<<endl;
         qDebug()<<sql_remaining_tickets_economy<<endl;
 
@@ -262,9 +269,11 @@ void flight_inquiry_flightID::on_tableView_clicked(const QModelIndex &index)
         }
         qDebug()<<"仍有余票，允许购买"<<endl;
         //否则，还剩余有机票可以购买，则进入到购票界面。
-
-        Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,nullptr,this,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
-                                                                  arv_airportName,arv_city,arv_time,order_start,order_end);
+        //设置一个偏移量
+        int offset=0;
+        if(dep_date_correct_str!=dep_date) offset=1;
+            Ticket_Purchase *purchase_interface = new Ticket_Purchase(nullptr,nullptr,this,dep_date,fligh_id,schedule,dep_airportName,dep_city,dep_time,
+                                                                  arv_airportName,arv_city,arv_time,order_start,order_end,"0",offset);
         purchase_interface->show();
 
     }

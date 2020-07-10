@@ -13,7 +13,7 @@ class ticket_purchase_confirm : public QWidget
 
 public:
     explicit ticket_purchase_confirm(QWidget *parent = nullptr,Ticket_Purchase *parent_ticket=nullptr
-            ,QString moneyStr="",QString price="",QString classType="",QString FromOrder="0");
+            ,QString moneyStr="",QString price="",QString classType="",QString FromOrder="0",int offset=0);
     ~ticket_purchase_confirm();
     void AutoConfirm();
 
@@ -30,6 +30,7 @@ private:
     QString price;
     QString classType;
     QString FromOrder;
+    int offset;
 };
 
 #endif // TICKET_PURCHASE_CONFIRM_H

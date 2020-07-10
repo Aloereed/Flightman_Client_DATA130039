@@ -19,13 +19,20 @@ Ticket_Purchase::Ticket_Purchase(QWidget *parent,flight_inquiry_citys_and_date *
                                  QString schedule, QString dep_airportName,
                                  QString dep_city, QString dep_time, QString arv_airportName, QString arv_city, QString arv_time,
                                  QString orderstart,QString orderend
-                                 ,QString FromOrder) :
+                                 ,QString FromOrder,int offset) :
     QWidget(parent),
     ui(new Ui::Ticket_Purchase)
 {
     ui->setupUi(this);
+    this->offset=offset;
     ui->Info_groupBox->setTitle(tr("Flights Information:"));
     ui->label_date->setText(dep_date);
+    if(offset==1){
+        QVariant dep_date_correct_qvar(dep_date);
+        QDate dep_date_correct_qdate = dep_date_correct_qvar.toDate();
+        dep_date_correct_qdate = dep_date_correct_qdate.addDays(-1);
+        dep_date = dep_date_correct_qdate.toString("yyyy-MM-dd"); //在购票的时候进行修正
+    }
     this->depature_date=dep_date;
     ui->label_schedule->setText(schedule);
     this->schedule=schedule;
@@ -204,7 +211,7 @@ void Ticket_Purchase::BalanceRefresh()
 void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inquiry_flightID *parent2,
                               QString UserID, QString balance, QString price, QString flightID,
                               QString dep_date, QString dep_time,
-                              QString order_start, QString order_end, QString classType,QString companyID)
+                              QString order_start, QString order_end, QString classType,QString companyID,int offset)
 {
     //能进入则说明机票价一定小于等于用户账户余额
     float newBalance = balance.toFloat()-price.toFloat(); //计算支付票价后的账户余额
@@ -380,11 +387,11 @@ void Ticket_Purchase::on_pushButton_clicked()
         QString moneyStr = QString("%1").arg(acct->getMoney());
         if(this->FromOrder=="0"){
             //完成支付
-            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0");
+            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0","0",this->offset);
             confirm_interface->show();
         return;
         }else{
-            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0","1");
+            ticket_purchase_confirm *confirm_interface = new ticket_purchase_confirm(nullptr,this,moneyStr,ui->label_PriceBusi->text(),"0","1",this->offset);
             confirm_interface->show();
         }
    }

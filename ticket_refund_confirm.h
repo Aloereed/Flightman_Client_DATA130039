@@ -14,7 +14,8 @@ class ticket_refund_confirm : public QWidget
 public:
     explicit ticket_refund_confirm(QWidget *parent = nullptr,QString UserID="",float newBalance=0
             ,QString ticketID="",float refundMoney=0,QString flightID="",QString dep_datetime=""
-            ,QString order_start="",QString order_end="",QString classType="",QString FromOrder="0");
+            ,QString order_start="",QString order_end="",QString classType="",QString FromOrder="0"
+            ,int offset=0);
     ~ticket_refund_confirm();
 
     void AutoConfirm();
@@ -37,6 +38,7 @@ private:
     QString order_end;
     QString classType;
     QString FromOrder;
+    int offset;
 };
 
 #endif // TICKET_REFUND_CONFIRM_H

@@ -9,12 +9,12 @@
 extern account_and_orders * acct;
 ticket_purchase_confirm::ticket_purchase_confirm(QWidget *parent,Ticket_Purchase *parent_ticket
                                                  ,QString moneyStr,QString price,QString classType
-                                                 ,QString FromOrder) :
+                                                 ,QString FromOrder,int offset) :
     QWidget(parent),
     ui(new Ui::ticket_purchase_confirm)
 {
     ui->setupUi(this);
-
+    this->offset = offset;
     this->FromOrder=FromOrder;
     ui->groupBox->setTitle(tr("Authentication:"));
     ui->label_UserID->setText(tr("User ID :"));
@@ -69,7 +69,7 @@ void ticket_purchase_confirm::on_pushButton_confirm_clicked()
         this->parent_ticket->Payment(this->parent_ticket->get_ptr_CD(),this->parent_ticket->get_ptr_flightID(),acct->getUserID(),moneyStr,this->price
                                      ,this->parent_ticket->get_flightID(),this->parent_ticket->get_depDate()
                                      ,this->parent_ticket->get_depTime(),this->parent_ticket->get_orderStart(),
-                                     this->parent_ticket->get_orderEnd(),this->classType,companyID);
+                                     this->parent_ticket->get_orderEnd(),this->classType,companyID,this->offset);
     qDebug()<<"完成支付！"<<endl;
     this->close();
 
