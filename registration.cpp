@@ -27,6 +27,8 @@ registration::registration(QWidget *parent) :
     ui->lineEdit_3->setEchoMode(QLineEdit::PasswordEchoOnEdit);//Password line
     ui->lineEdit_3->setPlaceholderText(tr("Please Enter Your Password."));
 
+    ui->label_Hint->setText(tr("Hint: Your ID needs to be an 18 digits number."));
+
 }
 
 registration::~registration()
