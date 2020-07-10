@@ -216,7 +216,16 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
     //能进入则说明机票价一定小于等于用户账户余额
     float newBalance = balance.toFloat()-price.toFloat(); //计算支付票价后的账户余额
     QString ticketID = companyID+this->getRandomString(11); //生成合法的 ticket_id
-    QString dep_datetime = dep_date+" "+dep_time;
+    QString dep_dateForTicket = dep_date;
+    if(offset==1){ //把日期再改回实际日期(而不是系统日期)，以正确显示票的时间
+        QVariant dep_date_correct_qvar(dep_date);
+        QDate dep_date_correct_qdate = dep_date_correct_qvar.toDate();
+        dep_date_correct_qdate = dep_date_correct_qdate.addDays(1);
+        dep_dateForTicket = dep_date_correct_qdate.toString("yyyy-MM-dd"); //在购票的时候进行修正
+    }
+    QString dep_datetime = dep_dateForTicket+" "+dep_time;
+
+
     QString sql = QString("SELECT ticket_id FROM ticket WHERE ticket_id='%1'").arg(ticketID);
     QSqlQuery *query = new QSqlQuery();
     query->exec(sql);
@@ -245,6 +254,7 @@ void Ticket_Purchase::Payment(flight_inquiry_citys_and_date *parent1,flight_inqu
     //qDebug()<<db.driver()->hasFeature(QSqlDriver::Transactions)<<endl;
     //qDebug()<<db.transaction()<<endl;
     query->clear();
+
     if(query->exec("BEGIN;")){
         //执行一次事务，保持数据一致性
         bool sql_ok= true;
