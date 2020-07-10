@@ -471,7 +471,7 @@ void account_and_orders::on_coming_tableView_clicked(const QModelIndex &index) {
         QString ticketID = model->data(model->index(row,0)).toString();
         QString flightID = model->data(model->index(row,1)).toString();
         QString dep_datetime = model->data(model->index(row,2)).toString();
-        QString dep_date = dep_datetime.mid(0,10);
+        QString dep_date = dep_datetime.mid(0,10);//实际的起飞日期
         QString depAirport = model->data(model->index(row,3)).toString();
         depAirport = this->airportCityQuery(depAirport);
         QString arvAirport = model->data(model->index(row,4)).toString();
