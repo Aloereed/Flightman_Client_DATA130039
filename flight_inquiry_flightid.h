@@ -17,6 +17,12 @@ public:
     explicit flight_inquiry_flightID(QWidget *parent = nullptr,QString UserID="",QString Password="",QString Name = "");
     ~flight_inquiry_flightID();
 
+    void setdepTimeChange(int status){this->depTimeChange=status;}
+    void setarvTimeChange(int status){this->arvTimeChange=status;}
+
+    int getdepTimeChange(){ return this->depTimeChange; }
+    int getarvTimeChange(){ return this->arvTimeChange; }
+
 private slots:
     void on_Cancel_pushButton_clicked();
 
@@ -33,6 +39,8 @@ private:
     QString UserID;
     QString Password;
     QString Name;
+    int depTimeChange;
+    int arvTimeChange;
 };
 
 class MyQueryMode_fid:public QSqlQueryModel{

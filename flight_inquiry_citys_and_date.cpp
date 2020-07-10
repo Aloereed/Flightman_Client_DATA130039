@@ -172,6 +172,49 @@ QVariant MyQueryMode::data(const QModelIndex &item, int role) const {
         }
         if(item.column()==13)
             return QVariant::fromValue(tr("Booking"));
+
+        if(item.column()==6 || item.column()==11){
+            QString timeDisplay =  QSqlQueryModel::data(item).toString();
+            int start = timeDisplay.mid(0,2).toInt();
+            int flag = 0;
+            if(start>=24){
+                start -= 24;
+                flag = 1;
+            }
+            if(flag){
+                QString startStr;
+                if(start>=10){
+                    startStr = QString("%1").arg(start);
+                }else{
+                    startStr = QString("0%1").arg(start);
+                }
+                if(item.column()==6){
+                    timeDisplay = "* "+startStr+timeDisplay.mid(2);
+                }else{//item.column()==12
+                    QModelIndex index_depTime = this->index(item.row(),6);
+                    QString str_depTime = index_depTime.data().toString();
+                    if(str_depTime.mid(0,1)=="*")
+                        timeDisplay = startStr+timeDisplay.mid(2);
+                    else
+                        timeDisplay = "(+1)"+startStr+timeDisplay.mid(2);
+                }
+            }
+
+            return QVariant::fromValue(timeDisplay);
+        }
+        if(item.column()==0){
+            QDate dateDisplay = QSqlQueryModel::data(item).toDate();
+            QModelIndex index_depTime = this->index(item.row(),6);
+            QString str_depTime = index_depTime.data().toString();
+            if(str_depTime.mid(0,2).toInt()>=24){ //说明日期要做改变
+                dateDisplay = dateDisplay.addDays(1);
+            }
+            QString str_dateDisplay = dateDisplay.toString("yyyy-MM-dd");
+            QVariant var_dateDisplay(str_dateDisplay);
+            return QVariant::fromValue(var_dateDisplay);
+            qDebug()<<value.toString()<<endl;
+        }
+
     }
     return value;
 }

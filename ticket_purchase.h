@@ -71,6 +71,9 @@ private:
     QString FromOrder;
     flight_inquiry_citys_and_date *ptr_CD;
     flight_inquiry_flightID *ptr_flightID;
+
+    int depTimeOverDay;
+    int arvTimeOverDay;
 };
 
 #endif // TICKET_PURCHASE_H
