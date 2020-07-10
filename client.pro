@@ -124,6 +124,6 @@ RC_ICONS = icon.ico
 VERSION = 1.0.0.0
 }
 mac{
-ICON = icon.ics
+ICON = icon.icns
 }
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android_sources
