@@ -52,7 +52,7 @@ account_and_orders::account_and_orders(QWidget *parent,QString ID,QString Pwd) :
     QString name = QString("");
     if(query_user->next()) {
         money_string = query_user->value(3).toString();
-        money = query_user->value(3).toInt();
+        money = query_user->value(3).toFloat();
         membership = query_user->value(2).toInt();
         name = query_user->value(1).toString();
     }
