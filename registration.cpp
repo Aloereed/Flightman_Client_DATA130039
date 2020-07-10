@@ -95,7 +95,7 @@ void registration::on_buttonBox_clicked(QAbstractButton *button)
             QMessageBox::information(this,tr("hint:"),tr("account created successfully"));
         }
         else{
-            QMessageBox::information(this,tr("hint:"),tr("failure"));
+            QMessageBox::critical(0, "Error", query.lastError().text().mid(7,39));;
         }
         this->close();
     }
