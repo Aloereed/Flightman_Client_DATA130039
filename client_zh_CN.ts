@@ -244,27 +244,29 @@
         <translation type="vanished">终点站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="112"/>
+        <location filename="flight_inquiry_flightid.cpp" line="117"/>
         <source>Of Daparture</source>
         <translation>始发站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="114"/>
+        <location filename="flight_inquiry_flightid.cpp" line="126"/>
         <source>Of Arrival</source>
         <translation>终点站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="117"/>
+        <location filename="flight_inquiry_flightid.cpp" line="120"/>
+        <location filename="flight_inquiry_flightid.cpp" line="129"/>
         <source>No.</source>
         <translation>第.</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="117"/>
+        <location filename="flight_inquiry_flightid.cpp" line="120"/>
+        <location filename="flight_inquiry_flightid.cpp" line="129"/>
         <source> Transfer</source>
         <translation> 中转站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="122"/>
+        <location filename="flight_inquiry_flightid.cpp" line="134"/>
         <source>Booking</source>
         <translation>预订</translation>
     </message>
@@ -379,106 +381,106 @@
         <translation>按钮</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="27"/>
+        <location filename="ticket_purchase.cpp" line="28"/>
         <source>Flights Information:</source>
         <translation>航班信息:</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="56"/>
+        <location filename="ticket_purchase.cpp" line="63"/>
         <source>Flights Price</source>
         <translation>航班价格</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="57"/>
+        <location filename="ticket_purchase.cpp" line="64"/>
         <source>Economy Class</source>
         <translation>经济舱</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="58"/>
+        <location filename="ticket_purchase.cpp" line="65"/>
         <source>Business Class</source>
         <translation>商务舱</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="60"/>
+        <location filename="ticket_purchase.cpp" line="67"/>
         <source>Class Type</source>
         <translation>舱位类型</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="62"/>
+        <location filename="ticket_purchase.cpp" line="69"/>
         <source>Tickets Left</source>
         <translation>剩余票数</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="68"/>
+        <location filename="ticket_purchase.cpp" line="75"/>
         <source>Price</source>
         <translation>价格</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="69"/>
+        <location filename="ticket_purchase.cpp" line="76"/>
         <source>Discount</source>
         <translation>折扣</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="86"/>
+        <location filename="ticket_purchase.cpp" line="93"/>
         <source>Purchase</source>
         <translation>购买</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="87"/>
+        <location filename="ticket_purchase.cpp" line="94"/>
         <source>Refresh</source>
         <translation>刷新</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="144"/>
+        <location filename="ticket_purchase.cpp" line="151"/>
         <source>国内航空</source>
         <translation>国内航空</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="200"/>
+        <location filename="ticket_purchase.cpp" line="207"/>
         <source>Balance:</source>
         <translation>余额:</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="228"/>
-        <location filename="ticket_purchase.cpp" line="233"/>
-        <location filename="ticket_purchase.cpp" line="262"/>
-        <location filename="ticket_purchase.cpp" line="265"/>
-        <location filename="ticket_purchase.cpp" line="333"/>
-        <location filename="ticket_purchase.cpp" line="338"/>
-        <location filename="ticket_purchase.cpp" line="344"/>
-        <location filename="ticket_purchase.cpp" line="364"/>
-        <location filename="ticket_purchase.cpp" line="369"/>
-        <location filename="ticket_purchase.cpp" line="375"/>
+        <location filename="ticket_purchase.cpp" line="244"/>
+        <location filename="ticket_purchase.cpp" line="249"/>
+        <location filename="ticket_purchase.cpp" line="279"/>
+        <location filename="ticket_purchase.cpp" line="282"/>
+        <location filename="ticket_purchase.cpp" line="350"/>
+        <location filename="ticket_purchase.cpp" line="355"/>
+        <location filename="ticket_purchase.cpp" line="361"/>
+        <location filename="ticket_purchase.cpp" line="381"/>
+        <location filename="ticket_purchase.cpp" line="386"/>
+        <location filename="ticket_purchase.cpp" line="392"/>
         <source>Hint:</source>
         <translation>提示:</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="228"/>
-        <location filename="ticket_purchase.cpp" line="338"/>
+        <location filename="ticket_purchase.cpp" line="244"/>
+        <location filename="ticket_purchase.cpp" line="355"/>
         <source>There are no tickets LEFT for economy class!</source>
         <translation>经济舱没有票了！!</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="233"/>
-        <location filename="ticket_purchase.cpp" line="369"/>
+        <location filename="ticket_purchase.cpp" line="249"/>
+        <location filename="ticket_purchase.cpp" line="386"/>
         <source>There are no tickets LEFT for business class!</source>
         <translation>商务舱没有票了！!</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="262"/>
-        <location filename="ticket_purchase.cpp" line="265"/>
+        <location filename="ticket_purchase.cpp" line="279"/>
+        <location filename="ticket_purchase.cpp" line="282"/>
         <source>Successful! Please remember to check your orders in your account.</source>
         <translation>成功！请记得在您的帐户中检查您的订单.</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="333"/>
-        <location filename="ticket_purchase.cpp" line="364"/>
+        <location filename="ticket_purchase.cpp" line="350"/>
+        <location filename="ticket_purchase.cpp" line="381"/>
         <source>This flight is NOT available now.</source>
         <translation>此航班现在不可用.</translation>
     </message>
     <message>
-        <location filename="ticket_purchase.cpp" line="344"/>
-        <location filename="ticket_purchase.cpp" line="375"/>
+        <location filename="ticket_purchase.cpp" line="361"/>
+        <location filename="ticket_purchase.cpp" line="392"/>
         <source>Your account balance is not enough. Please recharge your account.</source>
         <translation>您的帐户余额不足。请充值您的帐户.</translation>
     </message>
@@ -941,36 +943,36 @@
         <translation>预订</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="187"/>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="225"/>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="256"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="230"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="268"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="305"/>
         <source>Hint:</source>
         <translation>提示:</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="187"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="230"/>
         <source>Before booking, You need to log in first.</source>
         <translation>在预订前，您需要先登录.</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="206"/>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="210"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="249"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="253"/>
         <source>Of Departure</source>
         <translation>始发站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="207"/>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="211"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="250"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="254"/>
         <source>Of Arrival</source>
         <translation>终点站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="225"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="268"/>
         <source>You have already booked this flight. Please choose another flight.</source>
         <translation>你已经订了这个航班。请选择其他航班.</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_citys_and_date.cpp" line="256"/>
+        <location filename="flight_inquiry_citys_and_date.cpp" line="305"/>
         <source>There are no tickets left on this flight. Please choose another flight.</source>
         <translation>这个班机没有票了。请选择其他航班.</translation>
     </message>
@@ -998,157 +1000,157 @@
         <translation>按钮</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="32"/>
-        <location filename="flight_inquiry_flightid.cpp" line="84"/>
+        <location filename="flight_inquiry_flightid.cpp" line="33"/>
+        <location filename="flight_inquiry_flightid.cpp" line="85"/>
         <source>Flight ID</source>
         <translation>航班 ID</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="33"/>
+        <location filename="flight_inquiry_flightid.cpp" line="34"/>
         <source>Please enter the flight ID you want to query.</source>
         <translation>请输入要查询的航班 ID.</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="35"/>
+        <location filename="flight_inquiry_flightid.cpp" line="36"/>
         <source>Back</source>
         <translation>后退</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="36"/>
+        <location filename="flight_inquiry_flightid.cpp" line="37"/>
         <source>Flight Information:</source>
         <translation>航班信息:</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="37"/>
+        <location filename="flight_inquiry_flightid.cpp" line="38"/>
         <source>Confirm</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="38"/>
+        <location filename="flight_inquiry_flightid.cpp" line="39"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="39"/>
+        <location filename="flight_inquiry_flightid.cpp" line="40"/>
         <source>Log In</source>
         <translation>登录</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="42"/>
+        <location filename="flight_inquiry_flightid.cpp" line="43"/>
         <source>User Information: Not logged in</source>
         <translation>用户信息：未登录</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="45"/>
+        <location filename="flight_inquiry_flightid.cpp" line="46"/>
         <source>User Information: </source>
         <translation>用户信息: </translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="74"/>
+        <location filename="flight_inquiry_flightid.cpp" line="75"/>
         <source>Critical</source>
         <translation>关键错误</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="74"/>
+        <location filename="flight_inquiry_flightid.cpp" line="75"/>
         <source>Incomplete input.</source>
         <translation>输入不完整.</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="83"/>
+        <location filename="flight_inquiry_flightid.cpp" line="84"/>
         <source>Departure Date</source>
         <translation>出发日期</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="85"/>
+        <location filename="flight_inquiry_flightid.cpp" line="86"/>
         <source>Schedule</source>
         <translation>时间表</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="86"/>
+        <location filename="flight_inquiry_flightid.cpp" line="87"/>
         <source>Departure Airport ID</source>
         <translation>出发机场代码</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="87"/>
+        <location filename="flight_inquiry_flightid.cpp" line="88"/>
         <source>Departure Airport</source>
         <translation>出发机场</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="88"/>
+        <location filename="flight_inquiry_flightid.cpp" line="89"/>
         <source>Departure City</source>
         <translation>出发城市</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="89"/>
+        <location filename="flight_inquiry_flightid.cpp" line="90"/>
         <source>Departure Time</source>
         <translation>出发时间</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="90"/>
+        <location filename="flight_inquiry_flightid.cpp" line="91"/>
         <source>Departure Positon</source>
         <translation>出发位置</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="91"/>
+        <location filename="flight_inquiry_flightid.cpp" line="92"/>
         <source>Arrival Airport ID</source>
         <translation>抵达机场代码</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="92"/>
+        <location filename="flight_inquiry_flightid.cpp" line="93"/>
         <source>Arrival Airport</source>
         <translation>抵达机场</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="93"/>
+        <location filename="flight_inquiry_flightid.cpp" line="94"/>
         <source>Arrival City</source>
         <translation>抵达城市</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="94"/>
+        <location filename="flight_inquiry_flightid.cpp" line="95"/>
         <source>Arrival Time</source>
         <translation>到达时间</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="95"/>
+        <location filename="flight_inquiry_flightid.cpp" line="96"/>
         <source>Arrival Positon</source>
         <translation>到达位置</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="97"/>
+        <location filename="flight_inquiry_flightid.cpp" line="98"/>
         <source>Booking</source>
         <translation>预订</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="138"/>
-        <location filename="flight_inquiry_flightid.cpp" line="177"/>
-        <location filename="flight_inquiry_flightid.cpp" line="207"/>
+        <location filename="flight_inquiry_flightid.cpp" line="191"/>
+        <location filename="flight_inquiry_flightid.cpp" line="230"/>
+        <location filename="flight_inquiry_flightid.cpp" line="267"/>
         <source>Hint:</source>
         <translation>提示:</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="138"/>
+        <location filename="flight_inquiry_flightid.cpp" line="191"/>
         <source>Before booking, You need to log in first.</source>
         <translation>在预订前，您需要先登录.</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="156"/>
-        <location filename="flight_inquiry_flightid.cpp" line="160"/>
+        <location filename="flight_inquiry_flightid.cpp" line="209"/>
+        <location filename="flight_inquiry_flightid.cpp" line="213"/>
         <source>Of Daparture</source>
         <translation>始发站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="157"/>
-        <location filename="flight_inquiry_flightid.cpp" line="161"/>
+        <location filename="flight_inquiry_flightid.cpp" line="210"/>
+        <location filename="flight_inquiry_flightid.cpp" line="214"/>
         <source>Of Arrival</source>
         <translation>终点站</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="177"/>
+        <location filename="flight_inquiry_flightid.cpp" line="230"/>
         <source>You have already booked this flight. Please choose another flight.</source>
         <translation>你已经订了这个航班。请选择其他航班.</translation>
     </message>
     <message>
-        <location filename="flight_inquiry_flightid.cpp" line="207"/>
+        <location filename="flight_inquiry_flightid.cpp" line="267"/>
         <source>There are no tickets left on this flight. Please choose another flight.</source>
         <translation>这个班机没有票了。请选择其他航班.</translation>
     </message>
