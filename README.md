@@ -8,3 +8,5 @@
 [Aloereed Git](https://git.aloereed.cc/Aloereed/flightman-client)  
 [发行版下载地址](https://gitee.com/aloereed/Flightman-Client/releases/v1.2.0)  
 ![截图](https://images.gitee.com/uploads/images/2020/0712/163714_c1fd2229_7598170.png "截图")  
+[![aloereed/flightman](https://gitee.com/aloereed/flightman/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/aloereed/flightman)  
+[![aloereed/Flightman-Client](https://gitee.com/aloereed/Flightman-Client/widgets/widget_card.svg?colors=4183c4,ffffff,ffffff,e3e9ed,666666,9b9b9b)](https://gitee.com/aloereed/Flightman-Client)
