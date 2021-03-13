@@ -1,4 +1,5 @@
-本项目为数据库与实现课程的航班管理系统的客户端。  
+本项目为数据库与实现课程(DATA130039.01, SDS, Fudan University) 的航班管理系统的客户端。  
+共同作者：[@Xyzhu0616](https://github.com/Xyzhu0616),[lzqv5](https://github.com/lzqv5),[Aloereed](https://github.com/Aloereed), Kaiteng
 编程语言：C++（with Qt 5.14.2）  
 兼容的数据库环境:MySQL 5.7  
 兼容的操作系统：Windows（x64）、Android（ARM、ARM64）、macOS  
